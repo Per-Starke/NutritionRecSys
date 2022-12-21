@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %} Recipes searcher {% endblock %}
+{% block body %}
+
+<center>
+  <h2 style="padding-top: 3%;">
+      Click "search" to search for random vegan recipes <br>
+  </h2>
+  <br><br>
+  <form action="/recipes">
+      <div class="input-group mb-3" style="max-width: 50%;">
+          <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Search</button>
+      </div>
+  </form>
+</center>
+{% endblock %}

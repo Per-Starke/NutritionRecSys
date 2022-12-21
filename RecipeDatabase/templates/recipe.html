@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %} {{recipe['title']}} {% endblock %}
+{% block body %}
+
+<div style="max-width: 70%; margin: auto; padding-top:3%">
+  <div class="media">
+      <img src="{{recipe['image']}}" class="mr-3" alt="..." width="20%" height="20%">
+      <div class="media-body">
+        <h5 class="mt-0">{{recipe['title']}}</h5>
+        {{recipe['instructions']}}
+      </div>
+  </div><br>
+  {{recipe['nutritionLabel'] | safe }}<br>
+</div>
+{% endblock %}
