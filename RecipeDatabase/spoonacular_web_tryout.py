@@ -1,12 +1,15 @@
-from flask import request
-
 import requests
+import os
+from dotenv import load_dotenv, find_dotenv
+
+load_dotenv(find_dotenv())
+rapid_api_key = os.getenv("RAPID_API_KEY")
 
 url = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/"
 
 headers = {
     'x-rapidapi-host': "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
-    'x-rapidapi-key': "8ce59748eemshb5e01121999eb69p16d979jsn482d124d20a0",
+    'x-rapidapi-key': rapid_api_key,
 }
 
 randomFind = "recipes/random"
