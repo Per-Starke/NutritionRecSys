@@ -29,23 +29,24 @@ def get_recipes():
 
     nutrients = requests.request("GET", url + nutritionLabel, headers=headers).text
 
+    # Find nutrient values and store p/c/f in seperate variables
     protein_index = nutrients.find("Protein")
     protein_string = nutrients[protein_index+12:protein_index+20]
     protein_string_end = protein_string.find("g") + 1
     proteins = protein_string[:protein_string_end]
     print("Proteins:", proteins)
 
-    fats_index = nutrients.find("Total Fat")
-    fats_string = nutrients[fats_index + 14:fats_index + 20]
-    fats_index_end = fats_string.find("g") + 1
-    fats = fats_string[:fats_index_end]
-    print("Fats:", fats)
-
     carbs_index = nutrients.find("Total Carbohydrate")
     carbs_string = nutrients[carbs_index + 23:carbs_index + 30]
     carbs_index_end = carbs_string.find("g") + 1
     carbs = carbs_string[:carbs_index_end]
     print("Carbs:", carbs)
+
+    fats_index = nutrients.find("Total Fat")
+    fats_string = nutrients[fats_index + 14:fats_index + 20]
+    fats_index_end = fats_string.find("g") + 1
+    fats = fats_string[:fats_index_end]
+    print("Fats:", fats)
 
 
 if __name__ == '__main__':
