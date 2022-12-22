@@ -29,25 +29,23 @@ def get_recipes():
 
     nutrients = requests.request("GET", url + nutritionLabel, headers=headers).text
 
-    print(nutrients)
+    protein_index = nutrients.find("Protein")
+    protein_string = nutrients[protein_index+12:protein_index+20]
+    protein_string_end = protein_string.find("g") + 1
+    proteins = protein_string[:protein_string_end]
+    print("Proteins:", proteins)
 
+    fats_index = nutrients.find("Total Fat")
+    fats_string = nutrients[fats_index + 14:fats_index + 20]
+    fats_index_end = fats_string.find("g") + 1
+    fats = fats_string[:fats_index_end]
+    print("Fats:", fats)
 
-def get_recipe():
-    recipe_id = request.args['id']
-    recipe_info_endpoint = "recipes/{0}/information".format(recipe_id)
-    nutritionLabel = "recipes/{0}/nutritionLabel".format(recipe_id)
-
-    recipe_info = requests.request("GET", url + recipe_info_endpoint, headers=headers).json()
-
-    recipe_headers = {
-        'x-rapidapi-host': "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
-        'x-rapidapi-key': "8ce59748eemshb5e01121999eb69p16d979jsn482d124d20a0",
-        'accept': "text/html"
-    }
-    querystring = {"defaultCss": "true", "showBacklink": "false"}
-
-    recipe_info['nutritionLabel'] = requests.request("GET", url + nutritionLabel, headers=recipe_headers,
-                                                     params=querystring).text
+    carbs_index = nutrients.find("Total Carbohydrate")
+    carbs_string = nutrients[carbs_index + 23:carbs_index + 30]
+    carbs_index_end = carbs_string.find("g") + 1
+    carbs = carbs_string[:carbs_index_end]
+    print("Carbs:", carbs)
 
 
 if __name__ == '__main__':
