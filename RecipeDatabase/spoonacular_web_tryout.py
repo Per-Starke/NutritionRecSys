@@ -1,8 +1,6 @@
-from flask import Flask, render_template, request
+from flask import request
 
 import requests
-
-app = Flask(__name__)
 
 url = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/"
 
@@ -14,21 +12,26 @@ headers = {
 randomFind = "recipes/random"
 
 
-@app.route('/')
-def search_page():
-    return render_template('search.html')
-
-
-@app.route('/recipes')
 def get_recipes():
     # Random recipes
-    querystring = {"number": "100", "tags": "vegan"}
+    querystring = {"number": "5", "tags": "vegan"}
     response = requests.request("GET", url + randomFind, headers=headers, params=querystring).json()
-    print(response)
-    return render_template('recipes.html', recipes=response['recipes'])
+    items = response.items()
+    for keys, values in items:
+        recipe_id = None
+        for item in values[0].items():
+            print(item)
+            if item[0] == "id":
+                recipe_id = item[1]
+    print("\nid =", recipe_id, "\n")
+
+    nutritionLabel = "recipes/{0}/nutritionLabel".format(recipe_id)
+
+    nutrients = requests.request("GET", url + nutritionLabel, headers=headers).text
+
+    print(nutrients)
 
 
-@app.route('/recipe')
 def get_recipe():
     recipe_id = request.args['id']
     recipe_info_endpoint = "recipes/{0}/information".format(recipe_id)
@@ -46,8 +49,6 @@ def get_recipe():
     recipe_info['nutritionLabel'] = requests.request("GET", url + nutritionLabel, headers=recipe_headers,
                                                      params=querystring).text
 
-    return render_template('recipe.html', recipe=recipe_info)
-
 
 if __name__ == '__main__':
-    app.run()
+    get_recipes()
