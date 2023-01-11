@@ -1,3 +1,7 @@
+"""
+This file creates a recipe database csv file using the Spoonacular API
+"""
+
 import requests
 import os
 from dotenv import load_dotenv, find_dotenv
@@ -30,13 +34,13 @@ def get_nutrients(recipe_id):
 
     # Find nutrient values and store p/c/f in seperate variables
     protein_index = nutrients.find("Protein")
-    protein_string = nutrients[protein_index + 12:protein_index + 20]
+    protein_string = nutrients[protein_index + 12:protein_index + 19]
     protein_string_end = protein_string.find("g") + 1
     proteins = protein_string[:protein_string_end]
     nutrient_dict["Proteins"] = proteins
 
     carbs_index = nutrients.find("Total Carbohydrate")
-    carbs_string = nutrients[carbs_index + 23:carbs_index + 30]
+    carbs_string = nutrients[carbs_index + 23:carbs_index + 28]
     carbs_index_end = carbs_string.find("g") + 1
     carbs = carbs_string[:carbs_index_end]
     nutrient_dict["Carbs"] = carbs
@@ -52,7 +56,7 @@ def get_nutrients(recipe_id):
 
 def write_recipes_in_list(amount):
     """
-    write the title, id, dish-type and nutrients of a given amount of random vegan recipes in a list and return it
+    write the id, title, dish-type and nutrients of a given amount of random vegan recipes in a list and return it
     :param amount: the amount of recipes we want
     :return: the list of recipes
     """
@@ -63,10 +67,10 @@ def write_recipes_in_list(amount):
     querystring = {"number": amount, "tags": "vegan"}
     response = requests.request("GET", url + randomFind, headers=headers, params=querystring).json()
 
-    # create a dict for each recipe, collect all dicts in a list
+    # collect the information we are interested in for each recipe, collect in list
     recipes = response.items()
+    dish_type = None
     for keys, values in recipes:
-        recipe_id = None
         for value in values:
             for recipe in value.items():
                 if recipe[0] == "id":
@@ -76,12 +80,36 @@ def write_recipes_in_list(amount):
                 elif recipe[0] == "title":
                     recipe_title = recipe[1]
 
-            recipe_list.append((recipe_title + ",", str(recipe_id) + ",", str(dish_type) + ",", get_nutrients(recipe_id)))
+            if not dish_type:
+                dish_type = ["None given"]
+
+            recipe_list.append(list([recipe_id, recipe_title, dish_type, get_nutrients(recipe_id)]))
 
     return recipe_list
 
 
+def write_recipes_in_file(recipes):
+    """
+    write the id, title, dish-type and nutrients of given recipes in the recipe_database.csv file
+    :param recipes: The list of recipes to write into the file
+    """
+
+    with open("recipe_database.csv", "w+") as file:
+        file.write("ID, Title, Dish-Type, Proteins, Carbs, Fats \n")
+        for recipe in recipes:
+
+            dish_type_string = str(recipe[2][0])
+            if len(recipe[2]) > 1:
+                for dishtype in recipe[2][1:]:
+                    dish_type_string += " | " + str(dishtype)
+
+            string_to_append = str(recipe[0]) + ", " + str(recipe[1]).replace(",", "|") + ", " + \
+                               dish_type_string + ", " + str(recipe[3]["Proteins"]) + ", " + \
+                               str(recipe[3]["Carbs"]) + ", " + str(recipe[3]["Fats"]) + "\n"
+
+            file.write(string_to_append)
+
+
 if __name__ == '__main__':
-    cleaned_recipes_list = write_recipes_in_list(20)
-    for cleaned_recipe in cleaned_recipes_list:
-        print(cleaned_recipe)
+    cleaned_recipes_list = write_recipes_in_list(5)
+    write_recipes_in_file(cleaned_recipes_list)
