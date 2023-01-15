@@ -103,9 +103,9 @@ def write_recipes_in_file(recipes):
                 for dishtype in recipe[2][1:]:
                     dish_type_string += " | " + str(dishtype)
 
-            string_to_append = str(recipe[0]) + ", " + str(recipe[1]).replace(",", "|") + ", " + \
-                               dish_type_string + ", " + str(recipe[3]["Proteins"]) + ", " + \
-                               str(recipe[3]["Carbs"]) + ", " + str(recipe[3]["Fats"]) + "\n"
+            string_to_append = "{0}, {1}, {2}, {3}, {4}, {5}\n".format(str(recipe[0]), str(recipe[1]).replace(",", "|"),
+                                                                       dish_type_string, str(recipe[3]["Proteins"]),
+                                                                       str(recipe[3]["Carbs"]), str(recipe[3]["Fats"]))
 
             file.write(string_to_append)
 
