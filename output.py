@@ -1,9 +1,11 @@
 import pandas as pd
-from recommend import recommend as recommend
+
+import recommend_collaborative
+from recommend_collaborative import recommend
 
 ratings = pd.read_csv("ratings.csv")
 
-recommend()
+recommend_collaborative.recommend()
 recommendations = pd.read_csv("recommendations.csv")
 
 recipe_info = pd.read_csv("recipe_database.csv")
