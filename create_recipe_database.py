@@ -111,5 +111,27 @@ def write_recipes_in_file(recipes):
 
 
 if __name__ == '__main__':
-    cleaned_recipes_list = write_recipes_in_list(10)
-    write_recipes_in_file(cleaned_recipes_list)
+    # cleaned_recipes_list = write_recipes_in_list(10)
+    # write_recipes_in_file(cleaned_recipes_list)
+
+    recipe_id = 782600
+    instructions_url = "recipes/{0}/analyzedInstructions".format(recipe_id)
+    instructions = requests.request("GET", url + instructions_url, headers=headers).json()
+
+    instructions_string = ""
+
+    steps_list = instructions[0]["steps"]
+    for step_dict in steps_list:
+        instructions_string += step_dict["step"] + " "
+
+    print(instructions_string)
+
+    ingredients_string = ""
+
+    ingredients_url = "recipes/{0}/ingredientWidget.json".format(recipe_id)
+    ingredients = requests.request("GET", url + ingredients_url, headers=headers).json()
+    ingredients_dict_list = ingredients["ingredients"]
+    for ingredients_dict in ingredients_dict_list:
+        ingredients_string += ingredients_dict["name"] + " "
+
+    print(ingredients_string)
