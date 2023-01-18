@@ -1,7 +1,9 @@
 import pandas as pd
+from recommend import recommend as recommend
 
 ratings = pd.read_csv("ratings.csv")
 
+recommend()
 recommendations = pd.read_csv("recommendations.csv")
 
 recipe_info = pd.read_csv("recipe_database.csv")
@@ -47,7 +49,7 @@ def print_calculated_ratings_for_user(user_id):
                 "User {} gets a predicted rating of {} for {}".format(user, rating, get_recipe_title_by_id(recipe_id)))
 
 
-user_to_print = 3
+user_to_print = 5
 
 print_ratings_for_user(user_to_print)
 print()
