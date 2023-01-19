@@ -3,6 +3,8 @@ import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
+recipe_info = pd.read_csv("recipe_database.csv")
+
 
 def calc_text_sim(text1, text2):
     """
@@ -41,8 +43,6 @@ def calc_recipe_sim(recipe_id_1, recipe_id_2):
     :return: the similarity, between 0 and 1, as int
     """
 
-    recipe_info = pd.read_csv("recipe_database.csv")
-
     recipe_1 = recipe_info.loc[recipe_info["ID"] == recipe_id_1]
     recipe_2 = recipe_info.loc[recipe_info["ID"] == recipe_id_2]
 
@@ -60,11 +60,45 @@ def calc_recipe_sim(recipe_id_1, recipe_id_2):
     cos_text_sim = calc_text_sim(recipe_1_info_string, recipe_2_info_string)
     cos_taste_sim = calc_taste_sim(recipe_1_taste, recipe_2_taste)
 
-    print(recipe_1_taste)
-    print(recipe_2_taste)
-
     return (cos_text_sim + cos_taste_sim) / 2
 
 
-print(calc_recipe_sim(635059, 647830))
+def calc_all_recipe_sims():
+    """
+    Calculate the similarity between all recipes in the database
+    :return: a list of lists with [ID_1, ID_2, Similarity, Title_1, Title_2]
+    """
 
+    all_sims = []
+    all_ids = recipe_info["ID"]
+
+    len_all_ids = len(all_ids)
+    for current in range(0, len_all_ids):
+        for to_compare in range(current + 1, len_all_ids):
+            current_id = all_ids[current]
+            id_to_compare = all_ids[to_compare]
+            sim = calc_recipe_sim(current_id, id_to_compare)
+            current_title = recipe_info[recipe_info["ID"] == current_id][" Title"].iloc[0][1:]
+            to_compare_title = recipe_info[recipe_info["ID"] == id_to_compare][" Title"].iloc[0][1:]
+            arr = [str(current_id), str(id_to_compare), str(sim), current_title, to_compare_title]
+            all_sims.append(arr)
+
+    return all_sims
+
+
+def write_sims_in_file(sim_array):
+    """
+    Write a given similarity array into the similarities.csv file
+    :param sim_array: the similarity array to write into the file
+    """
+
+    with open("similarities.csv", "w+") as file:
+        file.write("ID_1, ID_2, Similarity, Title_1, Title_2")
+        for line in sim_array:
+            file.write("\n")
+            file.write((", ".join(line)))
+
+
+
+if __name__ == "__main__":
+    write_sims_in_file(calc_all_recipe_sims())
