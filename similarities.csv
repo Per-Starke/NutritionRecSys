@@ -1,11 +1,11 @@
 ID_1, ID_2, Similarity, Title_1, Title_2
-661188, 635059, 0.43154032590309466, Spicy Seasoned Loaded Guacamole, Black Bean and Veggie Burgers with Corn Salsa
-661188, 644218, 0.39392932586136414, Spicy Seasoned Loaded Guacamole, Garlic & Spice Plantain Chips
-661188, 640062, 0.6129138149634114, Spicy Seasoned Loaded Guacamole, Corn Avocado Salsa
-661188, 647830, 0.43020664134113284, Spicy Seasoned Loaded Guacamole, Indian Lentil Dahl
-635059, 644218, 0.41375633399233835, Black Bean and Veggie Burgers with Corn Salsa, Garlic & Spice Plantain Chips
-635059, 640062, 0.2610752807737176, Black Bean and Veggie Burgers with Corn Salsa, Corn Avocado Salsa
-635059, 647830, 0.45937322092164595, Black Bean and Veggie Burgers with Corn Salsa, Indian Lentil Dahl
-644218, 640062, 0.36778064232065455, Garlic & Spice Plantain Chips, Corn Avocado Salsa
-644218, 647830, 0.2619100835570467, Garlic & Spice Plantain Chips, Indian Lentil Dahl
-640062, 647830, 0.28311004356073843, Corn Avocado Salsa, Indian Lentil Dahl
+652332, 660146, 0.5673654508948414, Monastery soup, Simple Squash Salad
+652332, 716218, 0.6220151615431392, Monastery soup, Tomato and Eggplant Caponata
+652332, 649931, 0.5575357720739681, Monastery soup, Lentil Salad With Vegetables
+652332, 665029, 0.2967700058344168, Monastery soup, Watermelon Popsicles with Mint| Basil & Lime
+660146, 716218, 0.5995180126631376, Simple Squash Salad, Tomato and Eggplant Caponata
+660146, 649931, 0.614411892469169, Simple Squash Salad, Lentil Salad With Vegetables
+660146, 665029, 0.32862711538037875, Simple Squash Salad, Watermelon Popsicles with Mint| Basil & Lime
+716218, 649931, 0.6169742047106678, Tomato and Eggplant Caponata, Lentil Salad With Vegetables
+716218, 665029, 0.3302131953109666, Tomato and Eggplant Caponata, Watermelon Popsicles with Mint| Basil & Lime
+649931, 665029, 0.3372252357107047, Lentil Salad With Vegetables, Watermelon Popsicles with Mint| Basil & Lime

@@ -152,27 +152,11 @@ def write_recipes_in_file(recipes):
                     dish_type_string += " | " + str(dishtype)
 
             string_to_append = "{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}\n".format(str(recipe[0]),
-                                                                                                 str(recipe[1]).replace(
-                                                                                                     ",", "|"),
-                                                                                                 dish_type_string, str(
-                    recipe[3]["Proteins"]),
-                                                                                                 str(recipe[3][
-                                                                                                         "Carbs"]),
-                                                                                                 str(recipe[3]["Fats"]),
-                                                                                                 str(recipe[4]), str(
-                    recipe[5]["sweetness"]),
-                                                                                                 str(recipe[5][
-                                                                                                         "saltiness"]),
-                                                                                                 str(recipe[5][
-                                                                                                         "sourness"]),
-                                                                                                 str(recipe[5][
-                                                                                                         "bitterness"]),
-                                                                                                 str(recipe[5][
-                                                                                                         "savoriness"]),
-                                                                                                 str(recipe[5][
-                                                                                                         "fattiness"]),
-                                                                                                 str(recipe[5][
-                                                                                                         "spiciness"]))
+                                str(recipe[1]).replace(",", "|"), dish_type_string, str(recipe[3]["Proteins"]),
+                                str(recipe[3]["Carbs"]), str(recipe[3]["Fats"]), str(recipe[4]),
+                                str(recipe[5]["sweetness"]), str(recipe[5]["saltiness"]), str(recipe[5]["sourness"]),
+                                str(recipe[5]["bitterness"]), str(recipe[5]["savoriness"]), str(recipe[5]["fattiness"]),
+                                str(recipe[5]["spiciness"]))
 
             file.write(string_to_append)
 
