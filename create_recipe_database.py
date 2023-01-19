@@ -110,21 +110,19 @@ def write_recipes_in_file(recipes):
             file.write(string_to_append)
 
 
-if __name__ == '__main__':
-    # cleaned_recipes_list = write_recipes_in_list(10)
-    # write_recipes_in_file(cleaned_recipes_list)
-
-    recipe_id = 782600
+def get_recipe_information_string(recipe_id):
+    """
+    Get the ingredients and instructions for a certain recipe as a single string
+    :param recipe_id: the id of the recipe we want the information about
+    :return: the information string
+    """
     instructions_url = "recipes/{0}/analyzedInstructions".format(recipe_id)
     instructions = requests.request("GET", url + instructions_url, headers=headers).json()
 
     instructions_string = ""
-
     steps_list = instructions[0]["steps"]
     for step_dict in steps_list:
         instructions_string += step_dict["step"] + " "
-
-    print(instructions_string)
 
     ingredients_string = ""
 
@@ -134,4 +132,28 @@ if __name__ == '__main__':
     for ingredients_dict in ingredients_dict_list:
         ingredients_string += ingredients_dict["name"] + " "
 
-    print(ingredients_string)
+    recipe_information_string = ingredients_string + instructions_string
+
+    return recipe_information_string
+
+
+def get_taste(recipe_id):
+    """
+    Get the taste-scores of a certain recipe, divide spiciness by 10000 so it does not affect similarity too much
+    :param recipe_id: the id of the recipe we want the taste from
+    :return: the taste, as an array
+    """
+    taste_url = "recipes/{0}/tasteWidget.json".format(recipe_id)
+    taste = requests.request("GET", url + taste_url, headers=headers).json()
+    taste_array = []
+    for key, value in taste.items():
+        if key == "spiciness":
+            value /= 10000
+        taste_array.append(value)
+    return taste_array
+
+
+if __name__ == '__main__':
+    pass
+    # cleaned_recipes_list = write_recipes_in_list(10)
+    # write_recipes_in_file(cleaned_recipes_list)
