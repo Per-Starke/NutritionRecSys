@@ -3,6 +3,8 @@ import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
+from create_recipe_database import get_recipe_information_string
+
 recipe_info = pd.read_csv("recipe_database.csv")
 
 
@@ -48,6 +50,9 @@ def calc_recipe_sim(recipe_id_1, recipe_id_2):
 
     recipe_1_info_string = recipe_1[" Information-String"].iloc[0]
     recipe_2_info_string = recipe_2[" Information-String"].iloc[0]
+
+    recipe_1_info_string = get_recipe_information_string(recipe_id_1)
+    recipe_2_info_string = get_recipe_information_string(recipe_id_2)
 
     recipe_1_taste = [recipe_1[" Sweetness"].iloc[0], recipe_1[" Saltiness"].iloc[0], recipe_1[" Sourness"].iloc[0],
                       recipe_1[" Bitterness"].iloc[0], recipe_1[" Savoriness"].iloc[0], recipe_1[" Fattiness"].iloc[0],

@@ -22,7 +22,7 @@ randomFind = "recipes/random"
 def get_recipe_information_string(recipe_id):
     """
     Get the ingredients and instructions for a certain recipe as a single string, without commas so that we can put it
-    into a csv file
+    into a csv file. The ingredients are put in the string three times, so that they contribute more to the similarity
     :param recipe_id: the id of the recipe we want the information about
     :return: the information string
     """
@@ -43,7 +43,7 @@ def get_recipe_information_string(recipe_id):
         for ingredients_dict in ingredients_dict_list:
             ingredients_string += ingredients_dict["name"] + " "
 
-    recipe_information_string = ingredients_string + instructions_string
+    recipe_information_string = (3 * ingredients_string) + instructions_string
     recipe_information_string = recipe_information_string.replace(",", " ")
 
     return recipe_information_string
