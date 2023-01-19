@@ -3,10 +3,12 @@ import pandas as pd
 import recommend_collaborative
 from recommend_collaborative import recommend
 
-ratings = pd.read_csv("ratings.csv")
+col_names = ["User", "Item", "Feedback"]
+
+ratings = pd.read_csv("ratings.csv", names=col_names)
 
 recommend_collaborative.recommend()
-recommendations = pd.read_csv("recommendations.csv")
+recommendations = pd.read_csv("recommendations.csv", names=col_names)
 
 recipe_info = pd.read_csv("recipe_database.csv")
 
@@ -51,7 +53,7 @@ def print_calculated_ratings_for_user(user_id):
                 "User {} gets a predicted rating of {} for {}".format(user, rating, get_recipe_title_by_id(recipe_id)))
 
 
-user_to_print = 5
+user_to_print = 2
 
 print_ratings_for_user(user_to_print)
 print()

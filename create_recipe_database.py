@@ -19,6 +19,48 @@ headers = {
 randomFind = "recipes/random"
 
 
+def get_recipe_information_string(recipe_id):
+    """
+    Get the ingredients and instructions for a certain recipe as a single string, without commas so that we can put it
+    into a csv file
+    :param recipe_id: the id of the recipe we want the information about
+    :return: the information string
+    """
+    instructions_url = "recipes/{0}/analyzedInstructions".format(recipe_id)
+    instructions = requests.request("GET", url + instructions_url, headers=headers).json()
+    instructions_string = ""
+    if instructions:  # Make sure to not get an error if instructions are empty
+        steps_list = instructions[0]["steps"]
+        for step_dict in steps_list:
+            instructions_string += step_dict["step"] + " "
+
+    ingredients_string = ""
+
+    ingredients_url = "recipes/{0}/ingredientWidget.json".format(recipe_id)
+    ingredients = requests.request("GET", url + ingredients_url, headers=headers).json()
+    if ingredients:  # Make sure to not get an error if ingredients are empty
+        ingredients_dict_list = ingredients["ingredients"]
+        for ingredients_dict in ingredients_dict_list:
+            ingredients_string += ingredients_dict["name"] + " "
+
+    recipe_information_string = ingredients_string + instructions_string
+    recipe_information_string = recipe_information_string.replace(",", " ")
+
+    return recipe_information_string
+
+
+def get_taste(recipe_id):
+    """
+    Get the taste-scores of a certain recipe, divide spiciness by 10000, so it does not affect similarity too much
+    :param recipe_id: the id of the recipe we want the taste from
+    :return: the taste, as a dict
+    """
+    taste_url = "recipes/{0}/tasteWidget.json".format(recipe_id)
+    taste = requests.request("GET", url + taste_url, headers=headers).json()
+    taste["spiciness"] = taste["spiciness"] / 10000
+    return taste
+
+
 def get_nutrients(recipe_id):
     """
     Get the grams of proteins, carbs and fats for a given recipe
@@ -56,7 +98,8 @@ def get_nutrients(recipe_id):
 
 def write_recipes_in_list(amount):
     """
-    write the id, title, dish-type and nutrients of a given amount of random vegan recipes in a list and return it
+    write the id, title, dish-type, nutrients, information-string and taste of a given amount of random vegan recipes
+    in a list and return it
     :param amount: the amount of recipes we want
     :return: the list of recipes
     """
@@ -69,6 +112,8 @@ def write_recipes_in_list(amount):
 
     # collect the information we are interested in for each recipe, collect in list
     recipes = response.items()
+    recipe_id = None
+    recipe_title = None
     dish_type = None
     for keys, values in recipes:
         for value in values:
@@ -83,19 +128,22 @@ def write_recipes_in_list(amount):
             if not dish_type:
                 dish_type = ["None given"]
 
-            recipe_list.append(list([recipe_id, recipe_title, dish_type, get_nutrients(recipe_id)]))
+            recipe_list.append(list([recipe_id, recipe_title, dish_type, get_nutrients(recipe_id),
+                                     get_recipe_information_string(recipe_id), get_taste(recipe_id)]))
 
     return recipe_list
 
 
 def write_recipes_in_file(recipes):
     """
-    write the id, title, dish-type and nutrients of given recipes in the recipe_database.csv file
+    write the id, title, dish-type, nutrients, information-string and taste of given recipes in the
+    recipe_database.csv file
     :param recipes: The list of recipes to write into the file
     """
 
     with open("recipe_database.csv", "w+") as file:
-        file.write("ID, Title, Dish-Type, Proteins, Carbs, Fats \n")
+        file.write("ID, Title, Dish-Type, Proteins, Carbs, Fats, Information-String, Sweetness, "
+                   "Saltiness, Sourness, Bitterness, Savoriness, Fattiness, Spiciness \n")
         for recipe in recipes:
 
             dish_type_string = str(recipe[2][0])
@@ -103,57 +151,32 @@ def write_recipes_in_file(recipes):
                 for dishtype in recipe[2][1:]:
                     dish_type_string += " | " + str(dishtype)
 
-            string_to_append = "{0}, {1}, {2}, {3}, {4}, {5}\n".format(str(recipe[0]), str(recipe[1]).replace(",", "|"),
-                                                                       dish_type_string, str(recipe[3]["Proteins"]),
-                                                                       str(recipe[3]["Carbs"]), str(recipe[3]["Fats"]))
+            string_to_append = "{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}\n".format(str(recipe[0]),
+                                                                                                 str(recipe[1]).replace(
+                                                                                                     ",", "|"),
+                                                                                                 dish_type_string, str(
+                    recipe[3]["Proteins"]),
+                                                                                                 str(recipe[3][
+                                                                                                         "Carbs"]),
+                                                                                                 str(recipe[3]["Fats"]),
+                                                                                                 str(recipe[4]), str(
+                    recipe[5]["sweetness"]),
+                                                                                                 str(recipe[5][
+                                                                                                         "saltiness"]),
+                                                                                                 str(recipe[5][
+                                                                                                         "sourness"]),
+                                                                                                 str(recipe[5][
+                                                                                                         "bitterness"]),
+                                                                                                 str(recipe[5][
+                                                                                                         "savoriness"]),
+                                                                                                 str(recipe[5][
+                                                                                                         "fattiness"]),
+                                                                                                 str(recipe[5][
+                                                                                                         "spiciness"]))
 
             file.write(string_to_append)
 
 
-def get_recipe_information_string(recipe_id):
-    """
-    Get the ingredients and instructions for a certain recipe as a single string
-    :param recipe_id: the id of the recipe we want the information about
-    :return: the information string
-    """
-    instructions_url = "recipes/{0}/analyzedInstructions".format(recipe_id)
-    instructions = requests.request("GET", url + instructions_url, headers=headers).json()
-
-    instructions_string = ""
-    steps_list = instructions[0]["steps"]
-    for step_dict in steps_list:
-        instructions_string += step_dict["step"] + " "
-
-    ingredients_string = ""
-
-    ingredients_url = "recipes/{0}/ingredientWidget.json".format(recipe_id)
-    ingredients = requests.request("GET", url + ingredients_url, headers=headers).json()
-    ingredients_dict_list = ingredients["ingredients"]
-    for ingredients_dict in ingredients_dict_list:
-        ingredients_string += ingredients_dict["name"] + " "
-
-    recipe_information_string = ingredients_string + instructions_string
-
-    return recipe_information_string
-
-
-def get_taste(recipe_id):
-    """
-    Get the taste-scores of a certain recipe, divide spiciness by 10000 so it does not affect similarity too much
-    :param recipe_id: the id of the recipe we want the taste from
-    :return: the taste, as an array
-    """
-    taste_url = "recipes/{0}/tasteWidget.json".format(recipe_id)
-    taste = requests.request("GET", url + taste_url, headers=headers).json()
-    taste_array = []
-    for key, value in taste.items():
-        if key == "spiciness":
-            value /= 10000
-        taste_array.append(value)
-    return taste_array
-
-
 if __name__ == '__main__':
-    pass
-    # cleaned_recipes_list = write_recipes_in_list(10)
-    # write_recipes_in_file(cleaned_recipes_list)
+    cleaned_recipes_list = write_recipes_in_list(5)
+    write_recipes_in_file(cleaned_recipes_list)
