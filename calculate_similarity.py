@@ -103,7 +103,5 @@ def write_sims_in_file(sim_array):
 
 if __name__ == "__main__":
 
-    pass
-    # write_recipes_in_file(write_recipes_in_list(5))
-    # recipe_info = pd.read_csv("recipe_database.csv")
-    # write_sims_in_file(calc_all_recipe_sims())
+    recipe_info = pd.read_csv("recipe_database.csv")
+    write_sims_in_file(calc_all_recipe_sims())

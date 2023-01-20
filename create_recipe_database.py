@@ -163,6 +163,5 @@ def write_recipes_in_file(recipes):
 
 if __name__ == '__main__':
 
-    pass
-    # cleaned_recipes_list = write_recipes_in_list(5)
-    # write_recipes_in_file(cleaned_recipes_list)
+    cleaned_recipes_list = write_recipes_in_list(50)
+    write_recipes_in_file(cleaned_recipes_list)

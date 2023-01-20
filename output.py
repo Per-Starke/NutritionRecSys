@@ -67,7 +67,7 @@ def print_calculated_ratings_for_user(user_id):
                 "User {} gets a predicted rating of {} for {}".format(user, rating, get_recipe_title_by_id(recipe_id)))
 
 
-user_to_print = 3
+user_to_print = 50
 
 print_ratings_for_user(user_to_print)
 print()
