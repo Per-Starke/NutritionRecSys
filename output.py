@@ -1,14 +1,17 @@
 import pandas as pd
 
 import recommend_collaborative
-from recommend_collaborative import recommend
+import recommend_content_based
 
 col_names = ["User", "Item", "Feedback"]
 
 ratings = pd.read_csv("ratings.csv", names=col_names)
 
 recommend_collaborative.recommend()
-recommendations = pd.read_csv("recommendations.csv", names=col_names)
+recommend_content_based.recommend()
+
+recommendations_collaborative = pd.read_csv("recommendations_collaborative.csv", names=col_names)
+recommendations_content_based = pd.read_csv("recommendations_content_based.csv", names=col_names)
 
 recipe_info = pd.read_csv("recipe_database.csv")
 
@@ -43,7 +46,18 @@ def print_calculated_ratings_for_user(user_id):
     :param user_id: the id of the user, as int
     """
 
-    for line in recommendations.iterrows():
+    print("Content-based recommendations:")
+    for line in recommendations_content_based.iterrows():
+        user = str(int(line[1][0]))
+        recipe_id = int(line[1][1])
+        rating = str(line[1][2])
+
+        if user == str(user_id):
+            print(
+                "User {} gets a predicted rating of {} for {}".format(user, rating, get_recipe_title_by_id(recipe_id)))
+
+    print("\nCollaborative recommendations:")
+    for line in recommendations_collaborative.iterrows():
         user = str(int(line[1][0]))
         recipe_id = int(line[1][1])
         rating = str(line[1][2])
@@ -53,7 +67,7 @@ def print_calculated_ratings_for_user(user_id):
                 "User {} gets a predicted rating of {} for {}".format(user, rating, get_recipe_title_by_id(recipe_id)))
 
 
-user_to_print = 2
+user_to_print = 3
 
 print_ratings_for_user(user_to_print)
 print()
