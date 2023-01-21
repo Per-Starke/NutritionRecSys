@@ -1,3 +1,7 @@
+"""
+Output the given and predicted ratings for users
+"""
+
 import pandas as pd
 import os
 from Recommend import recommend
@@ -28,7 +32,7 @@ recipe_info = pd.read_csv(recipe_database_path_and_filename)
 
 def run_recommendation_algos():
     """
-    Read the rating prediction algorithms
+    Run the rating prediction algorithms
     """
 
     recommend.recommend_collaborative_itemknn()

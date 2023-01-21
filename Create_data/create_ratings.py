@@ -1,3 +1,7 @@
+"""
+Create a User-Item-Rating file with random ratings
+"""
+
 import pandas as pd
 from random import randint
 import os

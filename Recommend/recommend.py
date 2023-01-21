@@ -1,3 +1,7 @@
+"""
+Includes functions to run the CaseRec algorithms to predict ratings
+"""
+
 from caserec.recommenders.item_recommendation.itemknn import ItemKNN
 from caserec.recommenders.item_recommendation.userknn import UserKNN
 from caserec.recommenders.item_recommendation.content_based import ContentBased

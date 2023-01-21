@@ -1,3 +1,8 @@
+"""
+Create a similarity file for all recipes in the database.
+The calculation of similarity takes into account: Ingredients, preparation and taste
+"""
+
 import pandas as pd
 import numpy as np
 import os
