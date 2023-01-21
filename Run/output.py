@@ -3,31 +3,37 @@ import os
 from Recommend import recommend
 
 parent_dir = os.path.dirname(os.getcwd())
-
 col_names = ["User", "Item", "Feedback"]
 
 ratings_path_and_filename = parent_dir + "/Data/ratings.csv"
-
 ratings = pd.read_csv(ratings_path_and_filename, names=col_names)
 
-recommend.recommend_collaborative_itemknn()
-recommend.recommend_collaborative_userknn()
-recommend.recommend_content_based()
+recommend_collaborative_itemknn_path_and_filename = \
+        parent_dir + "/Predicted_ratings_data/recommendations_collaborative_itemknn.csv"
+recommendations_collaborative_itemknn = pd.read_csv(recommend_collaborative_itemknn_path_and_filename,
+                                                    names=col_names)
 
-recommend_collaborative_itemknn_path_and_filename = parent_dir + \
-                                                    "/Predicted_ratings_data/recommendations_collaborative_itemknn.csv"
-recommendations_collaborative_itemknn = pd.read_csv(recommend_collaborative_itemknn_path_and_filename, names=col_names)
+recommend_collaborative_userknn_path_and_filename = \
+    parent_dir + "/Predicted_ratings_data/recommendations_collaborative_userknn.csv"
+recommendations_collaborative_userknn = pd.read_csv(recommend_collaborative_userknn_path_and_filename,
+                                                    names=col_names)
 
-recommend_collaborative_userknn_path_and_filename = parent_dir + \
-                                                    "/Predicted_ratings_data/recommendations_collaborative_userknn.csv"
-recommendations_collaborative_userknn = pd.read_csv(recommend_collaborative_userknn_path_and_filename, names=col_names)
-
-recommend_contend_based_path_and_filename = parent_dir + \
-                                                    "/Predicted_ratings_data/recommendations_content_based.csv"
+recommend_contend_based_path_and_filename = \
+    parent_dir + "/Predicted_ratings_data/recommendations_content_based.csv"
 recommendations_content_based = pd.read_csv(recommend_contend_based_path_and_filename, names=col_names)
 
 recipe_database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
 recipe_info = pd.read_csv(recipe_database_path_and_filename)
+
+
+def run_recommendation_algos():
+    """
+    Read the rating prediction algorithms
+    """
+
+    recommend.recommend_collaborative_itemknn()
+    recommend.recommend_collaborative_userknn()
+    recommend.recommend_content_based()
 
 
 def get_recipe_title_by_id(id_to_get):
@@ -88,6 +94,8 @@ def print_calculated_ratings_for_user(user_id, algo):
 
 
 if __name__ == "__main__":
+
+    # run_recommendation_algos()
     user_to_print = 5
 
     print_ratings_for_user(user_to_print)
