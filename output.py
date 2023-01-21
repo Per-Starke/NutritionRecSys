@@ -6,9 +6,9 @@ col_names = ["User", "Item", "Feedback"]
 
 ratings = pd.read_csv("ratings.csv", names=col_names)
 
-recommend.recommend_collaborative_itemknn()
-recommend.recommend_collaborative_userknn()
-recommend.recommend_content_based()
+# recommend.recommend_collaborative_itemknn()
+# recommend.recommend_collaborative_userknn()
+# recommend.recommend_content_based()
 
 recommendations_collaborative_itemknn = pd.read_csv("recommendations_collaborative_itemknn.csv", names=col_names)
 recommendations_collaborative_userknn = pd.read_csv("recommendations_collaborative_userknn.csv", names=col_names)
@@ -28,7 +28,7 @@ def get_recipe_title_by_id(id_to_get):
 
 def print_ratings_for_user(user_id):
     """
-    print the ratings a user gave for all recipes
+    Print the ratings a user gave for all recipes
     :param user_id: the id of the user, as int
     """
 
@@ -41,34 +41,31 @@ def print_ratings_for_user(user_id):
             print("User {} rated {} with {} out of 5".format(user, get_recipe_title_by_id(recipe_id), rating))
 
 
-def print_calculated_ratings_for_user(user_id):
+def print_calculated_ratings_for_user(user_id, algo):
     """
-    print the calculated ratings a user gave for all recipes the user did not rate
+    Print the calculated ratings a user gave for recipes the user did not rate.
+    If less than 10 unrated recipes, print all. Else, print the 10 recipes with the highest predicted rating.
     :param user_id: the id of the user, as int
+    :param algo: the algorithm the predictions were made with. Can be: Content-Based, UserKNN, ItemKNN
     """
 
-    print("Content-based recommendations:")
-    for line in recommendations_content_based.iterrows():
-        user = str(int(line[1][0]))
-        recipe_id = int(line[1][1])
-        rating = str(line[1][2])
+    recommendations = None
+    title = None
 
-        if user == str(user_id):
-            print(
-                "User {} gets a predicted rating of {} for {}".format(user, rating, get_recipe_title_by_id(recipe_id)))
+    if algo == "Content-Based":
+        recommendations = recommendations_content_based
+        title = "Content-based recommendations:"
+    elif algo == "UserKNN":
+        recommendations = recommendations_collaborative_userknn
+        title = "Collaborative recommendations (UserKNN):"
+    elif algo == "ItemKNN":
+        recommendations = recommendations_collaborative_itemknn
+        title = "Collaborative recommendations (ItemKNN):"
+    else:
+        return
 
-    print("\nCollaborative recommendations (ItemKNN):")
-    for line in recommendations_collaborative_itemknn.iterrows():
-        user = str(int(line[1][0]))
-        recipe_id = int(line[1][1])
-        rating = str(line[1][2])
-
-        if user == str(user_id):
-            print(
-                "User {} gets a predicted rating of {} for {}".format(user, rating, get_recipe_title_by_id(recipe_id)))
-
-    print("\nCollaborative recommendations (UserKNN):")
-    for line in recommendations_collaborative_userknn.iterrows():
+    print(title)
+    for line in recommendations.iterrows():
         user = str(int(line[1][0]))
         recipe_id = int(line[1][1])
         rating = str(line[1][2])
@@ -82,4 +79,8 @@ user_to_print = 25
 
 print_ratings_for_user(user_to_print)
 print()
-print_calculated_ratings_for_user(user_to_print)
+print_calculated_ratings_for_user(user_to_print, "Content-Based")
+print()
+print_calculated_ratings_for_user(user_to_print, "UserKNN")
+print()
+print_calculated_ratings_for_user(user_to_print, "ItemKNN")
