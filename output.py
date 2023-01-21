@@ -6,9 +6,9 @@ col_names = ["User", "Item", "Feedback"]
 
 ratings = pd.read_csv("ratings.csv", names=col_names)
 
-# recommend.recommend_collaborative_itemknn()
-# recommend.recommend_collaborative_userknn()
-# recommend.recommend_content_based()
+recommend.recommend_collaborative_itemknn()
+recommend.recommend_collaborative_userknn()
+recommend.recommend_content_based()
 
 recommendations_collaborative_itemknn = pd.read_csv("recommendations_collaborative_itemknn.csv", names=col_names)
 recommendations_collaborative_userknn = pd.read_csv("recommendations_collaborative_userknn.csv", names=col_names)
@@ -77,9 +77,9 @@ def print_calculated_ratings_for_user(user_id, algo):
 user_to_print = 25
 
 print_ratings_for_user(user_to_print)
-# print()
-# print_calculated_ratings_for_user(user_to_print, "Content-Based")
-# print()
-# print_calculated_ratings_for_user(user_to_print, "UserKNN")
-# print()
-# print_calculated_ratings_for_user(user_to_print, "ItemKNN")
+print()
+print_calculated_ratings_for_user(user_to_print, "Content-Based")
+print()
+print_calculated_ratings_for_user(user_to_print, "UserKNN")
+print()
+print_calculated_ratings_for_user(user_to_print, "ItemKNN")
