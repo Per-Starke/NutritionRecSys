@@ -24,10 +24,10 @@ def create_ratings(amount_of_users):
 
     ratings_path_and_filename = parent_dir + "/Data/ratings.csv"
     with open(ratings_path_and_filename, "w+") as file:
-        for i in range(1, amount_of_users+1):
-            j = 0
-            while j < i:
-                str_to_write = str(i) + ", " + str(ids[randint(0, len(recipe_info)-1)]) + ", " + str(randint(1, 5)) \
-                               + "\n"
+        for users_number in range(1, amount_of_users+1):
+            ratings_number = 0
+            while ratings_number < users_number:
+                str_to_write = str(users_number) + ", " + str(ids[randint(0, len(recipe_info)-1)]) + ", " + \
+                               str(randint(1, 5)) + "\n"
                 file.write(str_to_write)
-                j += 1
+                ratings_number += 1

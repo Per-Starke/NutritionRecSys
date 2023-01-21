@@ -113,7 +113,7 @@ def write_recipes_in_list(amount):
     querystring = {"number": amount, "tags": "vegan"}
     response = requests.request("GET", url + randomFind, headers=headers, params=querystring).json()
 
-    # collect the information we are interested in for each recipe, collect in list
+    # collect only the information we are interested in for each recipe, collect in list
     recipes = response.items()
     recipe_id = None
     recipe_title = None
