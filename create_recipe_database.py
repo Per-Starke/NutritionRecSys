@@ -45,6 +45,7 @@ def get_recipe_information_string(recipe_id):
 
     recipe_information_string = (3 * ingredients_string) + instructions_string
     recipe_information_string = recipe_information_string.replace(",", " ")
+    recipe_information_string = recipe_information_string.replace("\"", " ")
 
     return recipe_information_string
 
@@ -163,5 +164,6 @@ def write_recipes_in_file(recipes):
 
 if __name__ == '__main__':
 
-    cleaned_recipes_list = write_recipes_in_list(50)
-    write_recipes_in_file(cleaned_recipes_list)
+    pass
+    # cleaned_recipes_list = write_recipes_in_list(50)
+    # write_recipes_in_file(cleaned_recipes_list)
