@@ -1,8 +1,6 @@
-import pandas as pd
-import os
-from create_recipe_database import create_recipe_database
-from create_ratings import create_ratings
-from calculate_similarity import calculate_similarities
+from Create_data.calculate_similarity import calculate_similarities
+from Create_data.create_ratings import create_ratings
+from Create_data.create_recipe_database import create_recipe_database
 
 
 def create_data(recipe_db="Create", recipe_amount=50, user_amount=50):
@@ -25,4 +23,4 @@ def create_data(recipe_db="Create", recipe_amount=50, user_amount=50):
 
 
 if __name__ == "__main__":
-    create_data(recipe_amount=10, user_amount=10)
+    create_data("Use", 50, 100)

@@ -87,12 +87,13 @@ def print_calculated_ratings_for_user(user_id, algo):
                 "User {} gets a predicted rating of {} for {}".format(user, rating, get_recipe_title_by_id(recipe_id)))
 
 
-user_to_print = 1
+if __name__ == "__main__":
+    user_to_print = 5
 
-print_ratings_for_user(user_to_print)
-print()
-print_calculated_ratings_for_user(user_to_print, "Content-Based")
-print()
-print_calculated_ratings_for_user(user_to_print, "UserKNN")
-print()
-print_calculated_ratings_for_user(user_to_print, "ItemKNN")
+    print_ratings_for_user(user_to_print)
+    print()
+    print_calculated_ratings_for_user(user_to_print, "Content-Based")
+    print()
+    print_calculated_ratings_for_user(user_to_print, "UserKNN")
+    print()
+    print_calculated_ratings_for_user(user_to_print, "ItemKNN")
