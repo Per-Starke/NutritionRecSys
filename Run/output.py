@@ -39,6 +39,17 @@ def run_recommendation_algos():
     recommend.recommend_collaborative_userknn()
     recommend.recommend_content_based()
 
+    global recommendations_collaborative_itemknn
+    recommendations_collaborative_itemknn = pd.read_csv(recommend_collaborative_itemknn_path_and_filename,
+                                                        names=col_names)
+
+    global recommendations_collaborative_userknn
+    recommendations_collaborative_userknn = pd.read_csv(recommend_collaborative_userknn_path_and_filename,
+                                                        names=col_names)
+
+    global recommendations_content_based
+    recommendations_content_based = pd.read_csv(recommend_contend_based_path_and_filename, names=col_names)
+
 
 def get_recipe_title_by_id(id_to_get):
     """
@@ -99,7 +110,7 @@ def print_calculated_ratings_for_user(user_id, algo):
 
 if __name__ == "__main__":
 
-    # run_recommendation_algos()
+    run_recommendation_algos()
     user_to_print = 5
 
     print_ratings_for_user(user_to_print)
