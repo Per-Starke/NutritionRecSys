@@ -1,11 +1,12 @@
 import pandas as pd
 import numpy as np
+import os
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-from create_recipe_database import write_recipes_in_file, write_recipes_in_list
-
 global recipe_info
+
+parent_dir = os.path.dirname(os.getcwd())
 
 
 def calc_text_sim(text1, text2):
@@ -94,8 +95,8 @@ def write_sims_in_file(sim_array):
     :param sim_array: the similarity array to write into the file
     """
 
-    with open("similarities.csv", "w+") as file:
-        file.write("ID_1, ID_2, Similarity, Title_1, Title_2")
+    similarities_path_and_filename = parent_dir + "/Data/similarities.csv"
+    with open(similarities_path_and_filename, "w+") as file:
         for line in sim_array:
             file.write("\n")
             file.write((", ".join(line)))
@@ -103,5 +104,6 @@ def write_sims_in_file(sim_array):
 
 if __name__ == "__main__":
 
-    recipe_info = pd.read_csv("recipe_database.csv")
+    recipe_database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
+    recipe_info = pd.read_csv(recipe_database_path_and_filename)
     write_sims_in_file(calc_all_recipe_sims())

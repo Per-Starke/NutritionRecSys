@@ -6,6 +6,8 @@ import requests
 import os
 from dotenv import load_dotenv, find_dotenv
 
+parent_dir = os.path.dirname(os.getcwd())
+
 load_dotenv(find_dotenv())
 rapid_api_key = os.getenv("RAPID_API_KEY")
 
@@ -142,7 +144,8 @@ def write_recipes_in_file(recipes):
     :param recipes: The list of recipes to write into the file
     """
 
-    with open("recipe_database.csv", "w+") as file:
+    database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
+    with open(database_path_and_filename, "w+") as file:
         file.write("ID, Title, Dish-Type, Proteins, Carbs, Fats, Information-String, Sweetness, "
                    "Saltiness, Sourness, Bitterness, Savoriness, Fattiness, Spiciness \n")
         for recipe in recipes:
@@ -160,10 +163,3 @@ def write_recipes_in_file(recipes):
                                 str(recipe[5]["spiciness"]))
 
             file.write(string_to_append)
-
-
-if __name__ == '__main__':
-
-    pass
-    # cleaned_recipes_list = write_recipes_in_list(50)
-    # write_recipes_in_file(cleaned_recipes_list)

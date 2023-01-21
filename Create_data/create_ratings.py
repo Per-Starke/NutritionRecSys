@@ -1,10 +1,17 @@
 import pandas as pd
 from random import randint
+import os
 
-recipe_info = pd.read_csv("recipe_database.csv")
+parent_dir = os.path.dirname(os.getcwd())
+
+recipe_database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
+
+recipe_info = pd.read_csv(recipe_database_path_and_filename)
 ids = recipe_info["ID"]
 
-with open("ratings.csv", "w+") as file:
+ratings_path_and_filename = parent_dir + "/Data/ratings.csv"
+
+with open(ratings_path_and_filename, "w+") as file:
     for i in range(1, 100):
         j = 0
         while j < i:

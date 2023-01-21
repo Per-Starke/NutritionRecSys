@@ -1,20 +1,33 @@
 import pandas as pd
-import recommend
+import os
+from Recommend import recommend
 
+parent_dir = os.path.dirname(os.getcwd())
 
 col_names = ["User", "Item", "Feedback"]
 
-ratings = pd.read_csv("ratings.csv", names=col_names)
+ratings_path_and_filename = parent_dir + "/Data/ratings.csv"
+
+ratings = pd.read_csv(ratings_path_and_filename, names=col_names)
 
 recommend.recommend_collaborative_itemknn()
 recommend.recommend_collaborative_userknn()
 recommend.recommend_content_based()
 
-recommendations_collaborative_itemknn = pd.read_csv("recommendations_collaborative_itemknn.csv", names=col_names)
-recommendations_collaborative_userknn = pd.read_csv("recommendations_collaborative_userknn.csv", names=col_names)
-recommendations_content_based = pd.read_csv("recommendations_content_based.csv", names=col_names)
+recommend_collaborative_itemknn_path_and_filename = parent_dir + \
+                                                    "/Predicted_ratings_data/recommendations_collaborative_itemknn.csv"
+recommendations_collaborative_itemknn = pd.read_csv(recommend_collaborative_itemknn_path_and_filename, names=col_names)
 
-recipe_info = pd.read_csv("recipe_database.csv")
+recommend_collaborative_userknn_path_and_filename = parent_dir + \
+                                                    "/Predicted_ratings_data/recommendations_collaborative_userknn.csv"
+recommendations_collaborative_userknn = pd.read_csv(recommend_collaborative_userknn_path_and_filename, names=col_names)
+
+recommend_contend_based_path_and_filename = parent_dir + \
+                                                    "/Predicted_ratings_data/recommendations_content_based.csv"
+recommendations_content_based = pd.read_csv(recommend_contend_based_path_and_filename, names=col_names)
+
+recipe_database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
+recipe_info = pd.read_csv(recipe_database_path_and_filename)
 
 
 def get_recipe_title_by_id(id_to_get):
@@ -74,7 +87,7 @@ def print_calculated_ratings_for_user(user_id, algo):
                 "User {} gets a predicted rating of {} for {}".format(user, rating, get_recipe_title_by_id(recipe_id)))
 
 
-user_to_print = 25
+user_to_print = 1
 
 print_ratings_for_user(user_to_print)
 print()
