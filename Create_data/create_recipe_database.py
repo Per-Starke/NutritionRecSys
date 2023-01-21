@@ -163,3 +163,13 @@ def write_recipes_in_file(recipes):
                                 str(recipe[5]["spiciness"]))
 
             file.write(string_to_append)
+
+
+def create_recipe_database(recipe_amount):
+    """
+    Create a recipe database at /Data/recipe_database.csv with a given amount of random vegan recipes.
+    Currently, amount has to be <=100.
+    :param recipe_amount:
+    """
+
+    write_recipes_in_file(write_recipes_in_list(recipe_amount))

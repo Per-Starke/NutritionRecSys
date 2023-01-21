@@ -4,8 +4,6 @@ import os
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-global recipe_info
-
 parent_dir = os.path.dirname(os.getcwd())
 
 
@@ -37,12 +35,13 @@ def calc_taste_sim(taste1, taste2):
     return cosine_similarity([taste1], [taste2])[0][0]
 
 
-def calc_recipe_sim(recipe_id_1, recipe_id_2):
+def calc_recipe_sim(recipe_id_1, recipe_id_2, recipe_info):
     """
     Calculate the similarity between two given recipes, using the text-similarity of their information-strings
     as well as the taste-similarity, adding them together and dividing by 2 for normalization
     :param recipe_id_1: the id of the first recipe
     :param recipe_id_2: the id of the second recipe
+    :param recipe_info: The dataframe of the recipe database
     :return: the similarity, between 0 and 1, as int
     """
 
@@ -66,9 +65,10 @@ def calc_recipe_sim(recipe_id_1, recipe_id_2):
     return (cos_text_sim + cos_taste_sim) / 2
 
 
-def calc_all_recipe_sims():
+def calc_all_recipe_sims(recipe_info):
     """
     Calculate the similarity between all recipes in the database
+    :param recipe_info: The dataframe of the recipe database
     :return: a list of lists with [ID_1, ID_2, Similarity, Title_1, Title_2]
     """
 
@@ -80,7 +80,7 @@ def calc_all_recipe_sims():
         for to_compare in range(current + 1, len_all_ids):
             current_id = all_ids[current]
             id_to_compare = all_ids[to_compare]
-            sim = calc_recipe_sim(current_id, id_to_compare)
+            sim = calc_recipe_sim(current_id, id_to_compare, recipe_info)
             current_title = recipe_info[recipe_info["ID"] == current_id][" Title"].iloc[0][1:]
             to_compare_title = recipe_info[recipe_info["ID"] == id_to_compare][" Title"].iloc[0][1:]
             arr = [str(current_id), str(id_to_compare), str(sim), current_title, to_compare_title]
@@ -98,12 +98,18 @@ def write_sims_in_file(sim_array):
     similarities_path_and_filename = parent_dir + "/Data/similarities.csv"
     with open(similarities_path_and_filename, "w+") as file:
         for line in sim_array:
-            file.write("\n")
             file.write((", ".join(line)))
+            file.write("\n")
 
 
-if __name__ == "__main__":
+def calculate_similarities():
+    """
+    Calculate the similarities between all recipes in the database.
+    Write into /Data/similarities.csv
+    """
 
     recipe_database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
     recipe_info = pd.read_csv(recipe_database_path_and_filename)
-    write_sims_in_file(calc_all_recipe_sims())
+
+    write_sims_in_file(calc_all_recipe_sims(recipe_info))
+
