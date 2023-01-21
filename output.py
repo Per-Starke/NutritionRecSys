@@ -32,6 +32,8 @@ def print_ratings_for_user(user_id):
     :param user_id: the id of the user, as int
     """
 
+    ratings.sort_values(by="Item", inplace=True)
+
     for line in ratings.iterrows():
         user = str(line[1][0])
         recipe_id = line[1][1]
@@ -48,9 +50,6 @@ def print_calculated_ratings_for_user(user_id, algo):
     :param user_id: the id of the user, as int
     :param algo: the algorithm the predictions were made with. Can be: Content-Based, UserKNN, ItemKNN
     """
-
-    recommendations = None
-    title = None
 
     if algo == "Content-Based":
         recommendations = recommendations_content_based
@@ -78,9 +77,9 @@ def print_calculated_ratings_for_user(user_id, algo):
 user_to_print = 25
 
 print_ratings_for_user(user_to_print)
-print()
-print_calculated_ratings_for_user(user_to_print, "Content-Based")
-print()
-print_calculated_ratings_for_user(user_to_print, "UserKNN")
-print()
-print_calculated_ratings_for_user(user_to_print, "ItemKNN")
+# print()
+# print_calculated_ratings_for_user(user_to_print, "Content-Based")
+# print()
+# print_calculated_ratings_for_user(user_to_print, "UserKNN")
+# print()
+# print_calculated_ratings_for_user(user_to_print, "ItemKNN")
