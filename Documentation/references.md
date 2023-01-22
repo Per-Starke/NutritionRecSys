@@ -17,3 +17,5 @@ https://pandas.pydata.org/docs/user_guide/index.html#user-guide
 https://numpy.org/doc/stable/user/
 
 https://scikit-learn.org/stable/user_guide.html
+
+https://creativecommons.org/licenses/by/4.0/legalcode
