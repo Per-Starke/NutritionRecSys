@@ -4,7 +4,7 @@ Get ratings for recipes from active user, write them in the ratings-database, th
 
 import os
 import pandas as pd
-from output import print_output
+import output
 
 current = 1
 user_id = 0
@@ -62,4 +62,4 @@ def get_user_ratings():
 
 if __name__ == "__main__":
     get_user_ratings()
-    print_output(user_id=user_id, ratings_to_print=3)
+    output.print_output(user_id=user_id, ratings_to_print=3)

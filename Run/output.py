@@ -6,6 +6,15 @@ import pandas as pd
 import os
 from Recommend import recommend
 
+
+class Color:
+    DARKCYAN = '\033[36m'
+    YELLOW = '\033[93m'
+    PURPLE = '\033[95m'
+    BOLD = '\033[1m'
+    END = '\033[0m'
+
+
 parent_dir = os.path.dirname(os.getcwd())
 col_names = ["User", "Item", "Feedback"]
 
@@ -73,7 +82,8 @@ def print_ratings_for_user(user_id):
         rating = str(line[1][2])
 
         if user == str(user_id):
-            print("User {} rated {} with {} out of 5".format(user, get_recipe_title_by_id(recipe_id), rating))
+            print("User {} rated {}{}{} with {} out of 5".format(user, Color.YELLOW, get_recipe_title_by_id(recipe_id),
+                                                                 Color.END, rating))
 
 
 def print_single_algo_ratings(recommendations, user_id, title, ratings_to_print=10):
@@ -96,8 +106,8 @@ def print_single_algo_ratings(recommendations, user_id, title, ratings_to_print=
 
         if user == str(user_id):
             printed_counter += 1
-            print("User {} gets a predicted rating of {} for {}".format(
-                user, rating, get_recipe_title_by_id(recipe_id)))
+            print("{}Recommendation {}: {}{}   |   predicted rating: {}".format(
+                Color.PURPLE, printed_counter, get_recipe_title_by_id(recipe_id), Color.END, rating))
 
         if printed_counter >= ratings_to_print:
             break
@@ -120,15 +130,27 @@ def print_calculated_ratings_for_user(user_id, recommendations_list, cb=True, it
 
     if cb:
         recommendations = recommendations_list[0]
-        title = "Content-based recommendations:"
+        title = Color.BOLD + Color.DARKCYAN + "Here are your top " + str(
+            ratings_to_print) + " recommendations, using a " \
+                                "content-based " \
+                                "recommendation algorithm:" \
+                                + Color.END
         print_single_algo_ratings(recommendations, user_id, title, ratings_to_print)
     if itemknn:
         recommendations = recommendations_list[1]
-        title = "Collaborative recommendations (ItemKNN):"
+        title = Color.BOLD + Color.DARKCYAN + "Here are your top " + str(
+            ratings_to_print) + " recommendations, using the " \
+                                "collaborative filtering " \
+                                "ItemKNN recommendation " \
+                                "algorithm:" + Color.END
         print_single_algo_ratings(recommendations, user_id, title, ratings_to_print)
     if userknn:
         recommendations = recommendations_list[2]
-        title = "Collaborative recommendations (UserKNN):"
+        title = Color.BOLD + Color.DARKCYAN + "Here are your top " + str(
+            ratings_to_print) + " recommendations, using the " \
+                                "collaborative filtering " \
+                                "UserKNN recommendation " \
+                                "algorithm:" + Color.END
         print_single_algo_ratings(recommendations, user_id, title, ratings_to_print)
 
 
