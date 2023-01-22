@@ -20,3 +20,6 @@ In the if-statement at the end, you can choose if you want to create a new recip
 
 #### If you choose to create a new recipe database:
 You need a [Spoonacular API](https://spoonacular.com/) Key for that. Get one at their website or at [Rapidapi](https://rapidapi.com/spoonacular/api/recipe-food-nutrition). Put the key in the [template.env](/Envs/template.env) file (rename if you want to), and depending on your development environment, specify which file to use as env file for the files [create_recipe_database.py](/Create_data/create_recipe_database.py) and [create_data.py](/Run/create_data.py). You might need a plugin for your development environment for that. 
+
+## License
+This work is licensed under the [Creative Commons Attribution 4.0 International Public License](/LICENSE)
