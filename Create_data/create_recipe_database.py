@@ -28,26 +28,28 @@ def get_recipe_information_string(recipe_id):
     :param recipe_id: the id of the recipe we want the information about
     :return: the information string
     """
+
     instructions_url = "recipes/{0}/analyzedInstructions".format(recipe_id)
     instructions = requests.request("GET", url + instructions_url, headers=headers).json()
-    instructions_string = ""
+    instructions_string_list = []
     if instructions:  # Make sure to not get an error if instructions are empty
         steps_list = instructions[0]["steps"]
         for step_dict in steps_list:
-            instructions_string += step_dict["step"] + " "
+            instructions_string_list.append(step_dict["step"])
+    instructions_string = " ".join(instructions_string_list)
 
-    ingredients_string = ""
+    ingredients_string_list = []
 
     ingredients_url = "recipes/{0}/ingredientWidget.json".format(recipe_id)
     ingredients = requests.request("GET", url + ingredients_url, headers=headers).json()
     if ingredients:  # Make sure to not get an error if ingredients are empty
         ingredients_dict_list = ingredients["ingredients"]
         for ingredients_dict in ingredients_dict_list:
-            ingredients_string += ingredients_dict["name"] + " "
+            ingredients_string_list.append(ingredients_dict["name"])
+    ingredients_string = " ".join(ingredients_string_list)
 
     recipe_information_string = (3 * ingredients_string) + instructions_string
-    recipe_information_string = recipe_information_string.replace(",", " ")
-    recipe_information_string = recipe_information_string.replace("\"", " ")
+    recipe_information_string = recipe_information_string.replace(",", " ").replace("\"", " ")
 
     return recipe_information_string
 
@@ -58,6 +60,7 @@ def get_taste(recipe_id):
     :param recipe_id: the id of the recipe we want the taste from
     :return: the taste, as a dict
     """
+
     taste_url = "recipes/{0}/tasteWidget.json".format(recipe_id)
     taste = requests.request("GET", url + taste_url, headers=headers).json()
     taste["spiciness"] = taste["spiciness"] / 10000
