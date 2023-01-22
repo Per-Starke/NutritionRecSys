@@ -7,10 +7,11 @@ from Create_data.create_ratings import create_ratings
 from Create_data.create_recipe_database import create_recipe_database
 
 
-def create_data(create_recipe_db=True, recipe_amount=50, user_amount=100):
+def create_data(create_recipe_db=True, calc_sims=True, recipe_amount=50, user_amount=100):
     """
     Create / get the data for recommending recipes
     :param create_recipe_db: False if recipe database shall not be newly created, True (default) if it should
+    :param calc_sims: False if similarities shall not be newly calculated, True (default) if they should
     :param recipe_amount: the amount of recipes to get. Only relevant if create_recipe_db is True
     :param user_amount: the amount of users to create random ratings for
     """
@@ -18,7 +19,9 @@ def create_data(create_recipe_db=True, recipe_amount=50, user_amount=100):
     if create_recipe_db:
         create_recipe_database(recipe_amount)
 
-    calculate_similarities()
+    if calc_sims:
+        calculate_similarities()
+
     create_ratings(user_amount)
 
 
