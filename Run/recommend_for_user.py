@@ -6,12 +6,22 @@ import os
 import pandas as pd
 from output import print_output
 
+current = 1
+user_id = 0
 
-def get_and_write_input(position_in_database):
+parent_dir = os.path.dirname(os.getcwd())
+
+ratings_path_and_filename = parent_dir + "/Data/ratings.csv"
+
+recipe_database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
+recipe_info = pd.read_csv(recipe_database_path_and_filename)
+all_ids = recipe_info["ID"]
+
+
+def get_and_write_input():
     """
-    Ask user for rating about a recipe at a given position in the database.
+    Ask user for rating about a recipe at the current position in the database.
     @todo: Ask again if input is invalid.
-    :param position_in_database: The position of the recipe in the database, from the ending, as int
     :return: True when rating was written to file, False if "Stop" was entered
     """
 
@@ -26,27 +36,26 @@ def get_and_write_input(position_in_database):
 
     elif current_rating.isnumeric():
         with open(ratings_path_and_filename, "a") as file:
-            rating_string = "91, " + str(all_ids[len(all_ids) - current]) + ", " + str(current_rating) + "\n"
+            rating_string = str(user_id) + ", " + str(all_ids[len(all_ids) - current]) + ", " + str(current_rating) + "\n"
             file.write(rating_string)
 
     return True
 
 
-parent_dir = os.path.dirname(os.getcwd())
+def get_user_ratings():
+    """
+    Ask for ratings of recipes until "stop" is entered, then write them into ratings.csv
+    """
 
-ratings_path_and_filename = parent_dir + "/Data/ratings.csv"
+    global current
 
-recipe_database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
-recipe_info = pd.read_csv(recipe_database_path_and_filename)
+    ask_for_next_rating = get_and_write_input()
 
-all_ids = recipe_info["ID"]
+    while ask_for_next_rating:
+        current += 1
+        ask_for_next_rating = get_and_write_input()
 
-current = 1
 
-ask_for_next_rating = get_and_write_input(current)
-
-while ask_for_next_rating:
-    current += 1
-    ask_for_next_rating = get_and_write_input(current)
-
-print_output(user_id=91)
+if __name__ == "__main__":
+    get_user_ratings()
+    print_output(user_id=user_id)
