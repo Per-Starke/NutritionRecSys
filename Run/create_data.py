@@ -26,4 +26,5 @@ def create_data(create_recipe_db=True, calc_sims=True, recipe_amount=50, user_am
 
 
 if __name__ == "__main__":
-    create_data()
+    pass
+    # create_data()
