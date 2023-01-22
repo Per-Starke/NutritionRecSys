@@ -17,6 +17,9 @@ recipe_database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
 recipe_info = pd.read_csv(recipe_database_path_and_filename)
 all_ids = recipe_info["ID"]
 
+# Shuffle, so not always the same recipes are asked to be rated
+all_ids = all_ids.sample(frac=1).reset_index(drop=True)
+
 
 def get_and_write_input():
     """
@@ -26,7 +29,7 @@ def get_and_write_input():
     """
 
     recipe_string = "Recipe " + str(current) + ": " + \
-                    recipe_info[recipe_info["ID"] == all_ids[len(all_ids) - current]][" Title"].iloc[0][1:]
+                    recipe_info[recipe_info["ID"] == all_ids[current]][" Title"].iloc[0][1:]
     print(recipe_string)
 
     current_rating = input("How good does that sound to you, on a scale from 1 to 5? ")
@@ -36,7 +39,8 @@ def get_and_write_input():
 
     elif current_rating.isnumeric():
         with open(ratings_path_and_filename, "a") as file:
-            rating_string = str(user_id) + ", " + str(all_ids[len(all_ids) - current]) + ", " + str(current_rating) + "\n"
+            rating_string = str(user_id) + ", " + str(all_ids[current]) + ", " + str(current_rating) + \
+                            "\n"
             file.write(rating_string)
 
     return True
