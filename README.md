@@ -16,7 +16,7 @@ Making use of [CaseRecommender](https://github.com/caserec/CaseRecommender) for 
 
 ### Create new data (recipes, ratings, similarities):
 To create new data, run [create_data.py](/Run/create_data.py).
-In the if-statement at the end, you can choose if you want to create a new recipe database or not, if yes then also the amount of recipes it should include (currently only <= 100 allowed), and you can specify the amount of users you want to create (random) ratings for the recipes for. A similarity file for the recipes will also be created.
+In the if-statement at the end, you can choose if you want to create a new recipe database or not, if yes then also the amount of recipes it should include (currently only <= 100 allowed), and you can specify the amount of users you want to create (random) ratings for the recipes for. The similarity file for the recipes will optionally also be updated.
 
 #### If you choose to create a new recipe database:
 You need a [Spoonacular API](https://spoonacular.com/) Key for that. Get one at their website or at [Rapidapi](https://rapidapi.com/spoonacular/api/recipe-food-nutrition). Put the key in the [template.env](/Envs/template.env) file (rename if you want to), and depending on your development environment, specify which file to use as env file for the files [create_recipe_database.py](/Create_data/create_recipe_database.py) and [create_data.py](/Run/create_data.py). You might need a plugin for your development environment for that. 
