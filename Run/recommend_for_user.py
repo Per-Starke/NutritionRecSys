@@ -58,4 +58,4 @@ def get_user_ratings():
 
 if __name__ == "__main__":
     get_user_ratings()
-    print_output(user_id=user_id)
+    print_output(user_id=user_id, ratings_to_print=3)

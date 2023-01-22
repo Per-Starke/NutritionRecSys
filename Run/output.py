@@ -76,13 +76,16 @@ def print_ratings_for_user(user_id):
             print("User {} rated {} with {} out of 5".format(user, get_recipe_title_by_id(recipe_id), rating))
 
 
-def print_single_algo_ratings(recommendations, user_id, title):
+def print_single_algo_ratings(recommendations, user_id, title, ratings_to_print=10):
     """
     Prints the predicted ratings of a single algorithm
     :param recommendations: the dataframe of predicted ratings
     :param user_id: the id of the user the ratings shall be printed for
     :param title: The title to print before printing recommendations
+    :param ratings_to_print: The number of ratings to print, default 10
     """
+
+    printed_counter = 0
 
     print(title)
 
@@ -92,13 +95,18 @@ def print_single_algo_ratings(recommendations, user_id, title):
         rating = str(line[1][2])
 
         if user == str(user_id):
-            print(
-                "User {} gets a predicted rating of {} for {}".format(user, rating, get_recipe_title_by_id(recipe_id)))
+            printed_counter += 1
+            print("User {} gets a predicted rating of {} for {}".format(
+                user, rating, get_recipe_title_by_id(recipe_id)))
+
+        if printed_counter >= ratings_to_print:
+            break
 
     print()
 
 
-def print_calculated_ratings_for_user(user_id, recommendations_list, cb=True, itemknn=True, userknn=True):
+def print_calculated_ratings_for_user(user_id, recommendations_list, cb=True, itemknn=True, userknn=True,
+                                      ratings_to_print=10):
     """
     Print the calculated ratings a user gave for recipes the user did not rate.
     If less than 10 unrated recipes, print all. Else, print the 10 recipes with the highest predicted rating.
@@ -107,23 +115,24 @@ def print_calculated_ratings_for_user(user_id, recommendations_list, cb=True, it
     :param cb: True (default) if Content-Based recommendations shall be printed
     :param itemknn: True (default) if Collaborative ItemKNN recommendations shall be printed
     :param userknn: True (default) if Collaborative UserKNN recommendations shall be printed
+    :param ratings_to_print: The number of ratings to print, default 10
     """
 
     if cb:
         recommendations = recommendations_list[0]
         title = "Content-based recommendations:"
-        print_single_algo_ratings(recommendations, user_id, title)
+        print_single_algo_ratings(recommendations, user_id, title, ratings_to_print)
     if itemknn:
         recommendations = recommendations_list[1]
         title = "Collaborative recommendations (ItemKNN):"
-        print_single_algo_ratings(recommendations, user_id, title)
+        print_single_algo_ratings(recommendations, user_id, title, ratings_to_print)
     if userknn:
         recommendations = recommendations_list[2]
         title = "Collaborative recommendations (UserKNN):"
-        print_single_algo_ratings(recommendations, user_id, title)
+        print_single_algo_ratings(recommendations, user_id, title, ratings_to_print)
 
 
-def print_output(user_id, run_rec_algos=True, cb=True, itemknn=True, userknn=True):
+def print_output(user_id, run_rec_algos=True, cb=True, itemknn=True, userknn=True, ratings_to_print=10):
     """
     Print given and predicted ratings (from given algorithms) for a single user
     :param user_id: the id of the user to print the output for
@@ -132,6 +141,7 @@ def print_output(user_id, run_rec_algos=True, cb=True, itemknn=True, userknn=Tru
     :param itemknn: True (default) if Collaborative ItemKNN recommendations shall be printed
     :param userknn: True (default) if Collaborative UserKNN recommendations shall be printed
     otherwise use existing predicted-rating files
+    :param ratings_to_print: The number of ratings to print, default 10
     """
 
     if run_rec_algos:
@@ -139,7 +149,7 @@ def print_output(user_id, run_rec_algos=True, cb=True, itemknn=True, userknn=Tru
 
     print_ratings_for_user(user_id)
     print()
-    print_calculated_ratings_for_user(user_id, write_recommendations(), cb, itemknn, userknn)
+    print_calculated_ratings_for_user(user_id, write_recommendations(), cb, itemknn, userknn, ratings_to_print)
 
 
 if __name__ == "__main__":
