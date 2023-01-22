@@ -9,6 +9,9 @@ from Recommend import recommend
 parent_dir = os.path.dirname(os.getcwd())
 col_names = ["User", "Item", "Feedback"]
 
+recipe_database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
+recipe_info = pd.read_csv(recipe_database_path_and_filename)
+
 
 def run_recommendation_algos():
     """
@@ -49,9 +52,6 @@ def get_recipe_title_by_id(id_to_get):
     :param id_to_get: the ID of the recipe where we want to get the title from, as int
     :return: the title of the recipe, as str
     """
-
-    recipe_database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
-    recipe_info = pd.read_csv(recipe_database_path_and_filename)
 
     return recipe_info[recipe_info["ID"] == id_to_get][" Title"].iloc[0][1:]
 
@@ -125,7 +125,7 @@ def print_calculated_ratings_for_user(user_id, recommendations_list, cb=True, it
 
 def print_output(user_id, run_rec_algos=True, cb=True, itemknn=True, userknn=True):
     """
-    Print giv
+    Print given and predicted ratings (from given algorithms) for a single user
     :param user_id: the id of the user to print the output for
     :param run_rec_algos: If True (default), run the recommendation algorithms,
     :param cb: True (default) if Content-Based recommendations shall be printed
@@ -143,4 +143,4 @@ def print_output(user_id, run_rec_algos=True, cb=True, itemknn=True, userknn=Tru
 
 
 if __name__ == "__main__":
-    print_output(user_id=5, run_rec_algos=False)
+    print_output(user_id=2, run_rec_algos=True)
