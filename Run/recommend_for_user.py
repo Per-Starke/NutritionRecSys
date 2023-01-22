@@ -21,10 +21,22 @@ all_ids = recipe_info["ID"]
 all_ids = all_ids.sample(frac=1).reset_index(drop=True)
 
 
+def check_input(input_to_check):
+    """
+    Check if input is rating from 1-5, or "stop"
+    :param input_to_check: The input to check, as str
+    :return: True if input is valid, False otherwise
+    """
+    if input_to_check in ["1", "2", "3", "4", "5", "stop"]:
+        return True
+
+    return False
+
+
 def get_and_write_input():
     """
     Ask user for rating about a recipe at the current position in the database.
-    @todo: Ask again if input is invalid.
+    Ask again if input is invalid.
     :return: True when rating was written to file, False if "Stop" was entered
     """
 
@@ -34,14 +46,16 @@ def get_and_write_input():
 
     current_rating = input("How good does that sound to you, on a scale from 1 to 5? ")
 
+    while not check_input(current_rating):
+        current_rating = input("Enter a full number between 1 and 5 or 'stop'! Enter again: ")
+
     if current_rating == "stop":
         return False
 
-    elif current_rating.isnumeric():
-        with open(ratings_path_and_filename, "a") as file:
-            rating_string = str(user_id) + ", " + str(all_ids[current]) + ", " + str(current_rating) + \
-                            "\n"
-            file.write(rating_string)
+    with open(ratings_path_and_filename, "a") as file:
+        rating_string = str(user_id) + ", " + str(all_ids[current]) + ", " + str(current_rating) + \
+                        "\n"
+        file.write(rating_string)
 
     return True
 
