@@ -1,3 +1,6 @@
 Envs/key.env
 __pycache__
 .idea
+Envs
+Envs/template.env
+Envs
