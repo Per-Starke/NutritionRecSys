@@ -5,6 +5,7 @@ This file creates a recipe database csv file using the Spoonacular API
 import requests
 import os
 from dotenv import load_dotenv, find_dotenv
+import pandas as pd
 
 parent_dir = os.path.dirname(os.getcwd())
 
@@ -140,17 +141,21 @@ def write_recipes_in_list(amount):
     return recipe_list
 
 
-def write_recipes_in_file(recipes):
+def write_recipes_in_file(recipes, mode="w+"):
     """
     write the id, title, dish-type, nutrients, information-string and taste of given recipes in the
     recipe_database.csv file
     :param recipes: The list of recipes to write into the file
+    :param mode: the write-mode for the file, default w+
     """
 
     database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
-    with open(database_path_and_filename, "w+") as file:
-        file.write("ID, Title, Dish-Type, Proteins, Carbs, Fats, Information-String, Sweetness, "
-                   "Saltiness, Sourness, Bitterness, Savoriness, Fattiness, Spiciness \n")
+    with open(database_path_and_filename, mode) as file:
+        if mode == "w+":
+            file.write("ID, Title, Dis"
+                       "h-Type, Proteins, Carbs, Fats, Information-String, Sweetness, "
+                       "Saltiness, Sourness, Bitterness, Savoriness, Fattiness, Spiciness \n")
+
         for recipe in recipes:
 
             dish_type_string = str(recipe[2][0])
@@ -168,11 +173,51 @@ def write_recipes_in_file(recipes):
             file.write(string_to_append)
 
 
+def write_recipes_in_file_from_df(recipe_df):
+    """
+    write the id, title, dish-type, nutrients, information-string and taste of given recipes in the
+    recipe_database.csv file, append at the end of the file
+    :param recipe_df: The pandas dataframe of recipes to write into the file
+    """
+
+    database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
+    with open(database_path_and_filename, "w+") as file:
+        file.write("ID, Title, Dis"
+                   "h-Type, Proteins, Carbs, Fats, Information-String, Sweetness, "
+                   "Saltiness, Sourness, Bitterness, Savoriness, Fattiness, Spiciness \n")
+        for index, recipe in recipe_df.iterrows():
+            string_to_append = ""
+            for i in range(0, 14):
+                string_to_append = string_to_append + str(recipe[i]) + ","
+            string_to_append = string_to_append + "\n"
+            file.write(string_to_append)
+
+
 def create_recipe_database(recipe_amount):
     """
     Create a recipe database at /Data/recipe_database.csv with a given amount of random vegan recipes.
     Currently, amount has to be <=100.
-    :param recipe_amount:
+    :param recipe_amount: the amount of recipes to write in the database, limit 100
     """
 
     write_recipes_in_file(write_recipes_in_list(recipe_amount))
+
+
+def create_final_recipe_database():
+    """
+    Creates the final recipe database, appending new recipes to the database and checking for duplicates.
+    Needs to be done several times, spread over days, in order to not pay too much for spoonacular api
+    """
+
+    # add new recipes
+    write_recipes_in_file(write_recipes_in_list(100), mode="a+")
+
+    # read database, remove duplicates, write to file without duplicates
+    recipe_database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
+    recipe_database = pd.read_csv(recipe_database_path_and_filename, index_col=False)
+    recipe_database.drop_duplicates(inplace=True)
+    write_recipes_in_file_from_df(recipe_database)
+
+
+if __name__ == "__main__":
+    create_final_recipe_database()
