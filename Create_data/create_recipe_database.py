@@ -19,8 +19,6 @@ headers = {
     'x-rapidapi-key': rapid_api_key,
 }
 
-randomFind = "recipes/random"
-
 
 def get_recipe_information_string(recipe_id):
     """
@@ -77,9 +75,9 @@ def get_nutrients(recipe_id):
 
     nutrient_dict = {}
 
-    nutritionLabel = "recipes/{0}/nutritionLabel".format(recipe_id)
+    nutrition_label = "recipes/{0}/nutritionLabel".format(recipe_id)
 
-    nutrients = requests.request("GET", url + nutritionLabel, headers=headers).text
+    nutrients = requests.request("GET", url + nutrition_label, headers=headers).text
 
     # Find nutrient values and store p/c/f in seperate variables
     protein_index = nutrients.find("Protein")
@@ -103,19 +101,27 @@ def get_nutrients(recipe_id):
     return nutrient_dict
 
 
-def write_recipes_in_list(amount):
+def write_recipes_in_list(amount, query="random"):
     """
-    write the id, title, dish-type, nutrients, information-string and taste of a given amount of random vegan recipes
-    in a list and return it
+    write the id, title, dish-type, nutrients, information-string and taste of a given amount of vegan recipes
+    following a given query in a list and return it
     :param amount: the amount of recipes we want
+    :param query: the query to search for, default "random"
     :return: the list of recipes
     """
 
     recipe_list = []
 
-    # Get random recipes
-    querystring = {"number": amount, "tags": "vegan"}
-    response = requests.request("GET", url + randomFind, headers=headers, params=querystring).json()
+    if query == "random":
+        querystring = {"number": amount, "tags": "vegan"}
+        response = requests.request("GET", url + "recipes/random", headers=headers, params=querystring).json()
+
+    elif type(query) is dict:
+        query["diet"] = "vegan"
+        response = requests.request("GET", url + "recipes/complexSearch", headers=headers, params=query).json()
+
+    else:
+        raise ValueError("This is not a valid query!")
 
     # collect only the information we are interested in for each recipe, collect in list
     recipes = response.items()
@@ -164,11 +170,28 @@ def write_recipes_in_file(recipes, mode="w+"):
                     dish_type_string += " | " + str(dishtype)
 
             string_to_append = "{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}\n".format(str(recipe[0]),
-                                str(recipe[1]).replace(",", "|"), dish_type_string, str(recipe[3]["Proteins"]),
-                                str(recipe[3]["Carbs"]), str(recipe[3]["Fats"]), str(recipe[4]),
-                                str(recipe[5]["sweetness"]), str(recipe[5]["saltiness"]), str(recipe[5]["sourness"]),
-                                str(recipe[5]["bitterness"]), str(recipe[5]["savoriness"]), str(recipe[5]["fattiness"]),
-                                str(recipe[5]["spiciness"]))
+                                                                                                 str(recipe[1]).replace(
+                                                                                                     ",", "|"),
+                                                                                                 dish_type_string, str(
+                    recipe[3]["Proteins"]),
+                                                                                                 str(recipe[3][
+                                                                                                         "Carbs"]),
+                                                                                                 str(recipe[3]["Fats"]),
+                                                                                                 str(recipe[4]),
+                                                                                                 str(recipe[5][
+                                                                                                         "sweetness"]),
+                                                                                                 str(recipe[5][
+                                                                                                         "saltiness"]),
+                                                                                                 str(recipe[5][
+                                                                                                         "sourness"]),
+                                                                                                 str(recipe[5][
+                                                                                                         "bitterness"]),
+                                                                                                 str(recipe[5][
+                                                                                                         "savoriness"]),
+                                                                                                 str(recipe[5][
+                                                                                                         "fattiness"]),
+                                                                                                 str(recipe[5][
+                                                                                                         "spiciness"]))
 
             file.write(string_to_append)
 
@@ -193,6 +216,7 @@ def write_recipes_in_file_from_df(recipe_df):
             file.write(string_to_append)
 
 
+# @todo unnecessry for final version
 def create_recipe_database(recipe_amount):
     """
     Create a recipe database at /Data/recipe_database.csv with a given amount of random vegan recipes.
@@ -206,11 +230,12 @@ def create_recipe_database(recipe_amount):
 def create_final_recipe_database():
     """
     Creates the final recipe database, appending new recipes to the database and checking for duplicates.
-    Needs to be done several times, spread over days, in order to not pay too much for spoonacular api
+    Needs to be done several times, spread over days, in order to not pay too much for spoonacular api due to
+    too many requests / day.
     """
 
     # add new recipes
-    write_recipes_in_file(write_recipes_in_list(100), mode="a+")
+    write_recipes_in_file(write_recipes_in_list(5), mode="a+")
 
     # read database, remove duplicates, write to file without duplicates
     recipe_database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
