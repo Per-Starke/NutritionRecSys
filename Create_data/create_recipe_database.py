@@ -19,8 +19,6 @@ headers = {
     'x-rapidapi-key': rapid_api_key,
 }
 
-randomFind = "recipes/random"
-
 
 def get_recipe_information_string(recipe_id):
     """
@@ -48,7 +46,6 @@ def get_recipe_information_string(recipe_id):
         for ingredients_dict in ingredients_dict_list:
             ingredients_string_list.append(ingredients_dict["name"])
     ingredients_string = " ".join(ingredients_string_list)
-    ingredients_string = ingredients_string + " "
 
     recipe_information_string = (3 * ingredients_string) + instructions_string
     recipe_information_string = recipe_information_string.replace(",", " ").replace("\"", " ")
@@ -82,7 +79,7 @@ def get_nutrients(recipe_id):
 
     nutrients = requests.request("GET", url + nutrition_label, headers=headers).text
 
-    # Find nutrient values and store p/c/f in separate variables
+    # Find nutrient values and store p/c/f in seperate variables
     protein_index = nutrients.find("Protein")
     protein_string = nutrients[protein_index + 12:protein_index + 19]
     protein_string_end = protein_string.find("g") + 1
@@ -104,18 +101,27 @@ def get_nutrients(recipe_id):
     return nutrient_dict
 
 
-def write_recipes_in_list(amount):
+def write_recipes_in_list(amount, query="random"):
     """
-    write the id, title, dish-type, nutrients, information-string and taste of a given amount of vegan recipes that full
-    the given query in a list and return it
+    write the id, title, dish-type, nutrients, information-string and taste of a given amount of vegan recipes
+    following a given query in a list and return it
     :param amount: the amount of recipes we want
+    :param query: the query to search for, default "random"
     :return: the list of recipes
     """
 
     recipe_list = []
 
-    querystring = {"number": amount, "tags": "vegan"}
-    response = requests.request("GET", url + randomFind, headers=headers, params=querystring).json()
+    if query == "random":
+        querystring = {"number": amount, "tags": "vegan"}
+        response = requests.request("GET", url + "recipes/random", headers=headers, params=querystring).json()
+
+    elif type(query) is dict:
+        query["diet"] = "vegan"
+        response = requests.request("GET", url + "recipes/complexSearch", headers=headers, params=query).json()
+
+    else:
+        raise ValueError("This is not a valid query!")
 
     # collect only the information we are interested in for each recipe, collect in list
     recipes = response.items()
@@ -164,11 +170,28 @@ def write_recipes_in_file(recipes, mode="w+"):
                     dish_type_string += " | " + str(dishtype)
 
             string_to_append = "{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}\n".format(str(recipe[0]),
-                                str(recipe[1]).replace(",", "|"), dish_type_string, str(recipe[3]["Proteins"]),
-                                str(recipe[3]["Carbs"]), str(recipe[3]["Fats"]), str(recipe[4]),
-                                str(recipe[5]["sweetness"]), str(recipe[5]["saltiness"]), str(recipe[5]["sourness"]),
-                                str(recipe[5]["bitterness"]), str(recipe[5]["savoriness"]), str(recipe[5]["fattiness"]),
-                                str(recipe[5]["spiciness"]))
+                                                                                                 str(recipe[1]).replace(
+                                                                                                     ",", "|"),
+                                                                                                 dish_type_string, str(
+                    recipe[3]["Proteins"]),
+                                                                                                 str(recipe[3][
+                                                                                                         "Carbs"]),
+                                                                                                 str(recipe[3]["Fats"]),
+                                                                                                 str(recipe[4]),
+                                                                                                 str(recipe[5][
+                                                                                                         "sweetness"]),
+                                                                                                 str(recipe[5][
+                                                                                                         "saltiness"]),
+                                                                                                 str(recipe[5][
+                                                                                                         "sourness"]),
+                                                                                                 str(recipe[5][
+                                                                                                         "bitterness"]),
+                                                                                                 str(recipe[5][
+                                                                                                         "savoriness"]),
+                                                                                                 str(recipe[5][
+                                                                                                         "fattiness"]),
+                                                                                                 str(recipe[5][
+                                                                                                         "spiciness"]))
 
             file.write(string_to_append)
 
@@ -193,6 +216,7 @@ def write_recipes_in_file_from_df(recipe_df):
             file.write(string_to_append)
 
 
+# @todo unnecessry for final version
 def create_recipe_database(recipe_amount):
     """
     Create a recipe database at /Data/recipe_database.csv with a given amount of random vegan recipes.
@@ -206,7 +230,8 @@ def create_recipe_database(recipe_amount):
 def create_final_recipe_database():
     """
     Creates the final recipe database, appending new recipes to the database and checking for duplicates.
-    Needs to be done several times, spread over days, in order to not pay too much for spoonacular api
+    Needs to be done several times, spread over days, in order to not pay too much for spoonacular api due to
+    too many requests / day.
     """
 
     # add new recipes
@@ -220,5 +245,4 @@ def create_final_recipe_database():
 
 
 if __name__ == "__main__":
-    # create_final_recipe_database()
-    pass
+    create_final_recipe_database()
