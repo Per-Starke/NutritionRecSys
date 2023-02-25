@@ -48,6 +48,7 @@ def get_recipe_information_string(recipe_id):
         for ingredients_dict in ingredients_dict_list:
             ingredients_string_list.append(ingredients_dict["name"])
     ingredients_string = " ".join(ingredients_string_list)
+    ingredients_string = ingredients_string + " "
 
     recipe_information_string = (3 * ingredients_string) + instructions_string
     recipe_information_string = recipe_information_string.replace(",", " ").replace("\"", " ")
@@ -77,11 +78,11 @@ def get_nutrients(recipe_id):
 
     nutrient_dict = {}
 
-    nutritionLabel = "recipes/{0}/nutritionLabel".format(recipe_id)
+    nutrition_label = "recipes/{0}/nutritionLabel".format(recipe_id)
 
-    nutrients = requests.request("GET", url + nutritionLabel, headers=headers).text
+    nutrients = requests.request("GET", url + nutrition_label, headers=headers).text
 
-    # Find nutrient values and store p/c/f in seperate variables
+    # Find nutrient values and store p/c/f in separate variables
     protein_index = nutrients.find("Protein")
     protein_string = nutrients[protein_index + 12:protein_index + 19]
     protein_string_end = protein_string.find("g") + 1
@@ -105,15 +106,14 @@ def get_nutrients(recipe_id):
 
 def write_recipes_in_list(amount):
     """
-    write the id, title, dish-type, nutrients, information-string and taste of a given amount of random vegan recipes
-    in a list and return it
+    write the id, title, dish-type, nutrients, information-string and taste of a given amount of vegan recipes that full
+    the given query in a list and return it
     :param amount: the amount of recipes we want
     :return: the list of recipes
     """
 
     recipe_list = []
 
-    # Get random recipes
     querystring = {"number": amount, "tags": "vegan"}
     response = requests.request("GET", url + randomFind, headers=headers, params=querystring).json()
 
@@ -210,7 +210,7 @@ def create_final_recipe_database():
     """
 
     # add new recipes
-    write_recipes_in_file(write_recipes_in_list(100), mode="a+")
+    write_recipes_in_file(write_recipes_in_list(5), mode="a+")
 
     # read database, remove duplicates, write to file without duplicates
     recipe_database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
@@ -220,4 +220,5 @@ def create_final_recipe_database():
 
 
 if __name__ == "__main__":
-    create_final_recipe_database()
+    # create_final_recipe_database()
+    pass

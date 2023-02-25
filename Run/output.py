@@ -175,4 +175,4 @@ def print_output(user_id, run_rec_algos=True, cb=True, itemknn=True, userknn=Tru
 
 
 if __name__ == "__main__":
-    print_output(user_id=0, run_rec_algos=True)
+    print_output(user_id=5, run_rec_algos=False)
