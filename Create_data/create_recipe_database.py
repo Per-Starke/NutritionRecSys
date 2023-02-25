@@ -110,6 +110,8 @@ def write_recipes_in_list(amount, query="random"):
     :return: the list of recipes
     """
 
+    remove_last = False
+
     recipe_list = []
 
     if query == "random":
@@ -117,21 +119,24 @@ def write_recipes_in_list(amount, query="random"):
         response = requests.request("GET", url + "recipes/random", headers=headers, params=querystring).json()
 
     elif type(query) is dict:
+        remove_last = True
         query["diet"] = "vegan"
+        query["number"] = amount
         response = requests.request("GET", url + "recipes/complexSearch", headers=headers, params=query).json()
 
     else:
         raise ValueError("This is not a valid query!")
 
-    print(response)
-
     # collect only the information we are interested in for each recipe, collect in list
+    if remove_last:
+        del response["offset"]
+        del response["number"]
+        del response["totalResults"]
     recipes = response.items()
     recipe_id = None
     recipe_title = None
     dish_type = None
     for keys, values in recipes:
-        print(values[0])
         for value in values:
             for recipe in value.items():
                 if recipe[0] == "id":
@@ -243,10 +248,10 @@ def create_final_recipe_database(mode="a+", query="random"):
     write_recipes_in_file(write_recipes_in_list(2, query), mode=mode)
 
     # read database, remove duplicates, write to file without duplicates
-    # recipe_database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
-    # recipe_database = pd.read_csv(recipe_database_path_and_filename, index_col=False)
-    # recipe_database.drop_duplicates(inplace=True)
-    # write_recipes_in_file_from_df(recipe_database)
+    recipe_database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
+    recipe_database = pd.read_csv(recipe_database_path_and_filename, index_col=False)
+    recipe_database.drop_duplicates(inplace=True)
+    write_recipes_in_file_from_df(recipe_database)
 
 
 if __name__ == "__main__":
