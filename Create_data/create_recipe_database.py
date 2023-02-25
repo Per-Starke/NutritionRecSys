@@ -123,12 +123,15 @@ def write_recipes_in_list(amount, query="random"):
     else:
         raise ValueError("This is not a valid query!")
 
+    print(response)
+
     # collect only the information we are interested in for each recipe, collect in list
     recipes = response.items()
     recipe_id = None
     recipe_title = None
     dish_type = None
     for keys, values in recipes:
+        print(values[0])
         for value in values:
             for recipe in value.items():
                 if recipe[0] == "id":
@@ -216,7 +219,7 @@ def write_recipes_in_file_from_df(recipe_df):
             file.write(string_to_append)
 
 
-# @todo unnecessry for final version
+# @todo unnecessary for final version
 def create_recipe_database(recipe_amount):
     """
     Create a recipe database at /Data/recipe_database.csv with a given amount of random vegan recipes.
@@ -227,22 +230,26 @@ def create_recipe_database(recipe_amount):
     write_recipes_in_file(write_recipes_in_list(recipe_amount))
 
 
-def create_final_recipe_database():
+def create_final_recipe_database(mode="a+", query="random"):
     """
     Creates the final recipe database, appending new recipes to the database and checking for duplicates.
     Needs to be done several times, spread over days, in order to not pay too much for spoonacular api due to
     too many requests / day.
+    :param mode: the write-mode for the file, default a+
+    :param query: the query to give to write_recipes_in_list
     """
 
     # add new recipes
-    write_recipes_in_file(write_recipes_in_list(5), mode="a+")
+    write_recipes_in_file(write_recipes_in_list(2, query), mode=mode)
 
     # read database, remove duplicates, write to file without duplicates
-    recipe_database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
-    recipe_database = pd.read_csv(recipe_database_path_and_filename, index_col=False)
-    recipe_database.drop_duplicates(inplace=True)
-    write_recipes_in_file_from_df(recipe_database)
+    # recipe_database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
+    # recipe_database = pd.read_csv(recipe_database_path_and_filename, index_col=False)
+    # recipe_database.drop_duplicates(inplace=True)
+    # write_recipes_in_file_from_df(recipe_database)
 
 
 if __name__ == "__main__":
-    create_final_recipe_database()
+    # Query 1 to search for: High protein pasta recipes
+    query1 = {"query": "pasta", "minProtein": "20"}
+    create_final_recipe_database(query=query1)
