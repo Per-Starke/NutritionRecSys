@@ -4,7 +4,7 @@ Create all needed data to make recommendations: a recipe database, a similarity 
 
 from Create_data.calculate_similarity import calculate_similarities
 from Create_data.create_ratings import create_ratings
-from Create_data.create_recipe_database import create_recipe_database
+from Create_data.create_recipe_database import create_recipe_database, create_final_recipe_database
 
 
 def create_data(create_recipe_db=True, calc_sims=True, recipe_amount=50, user_amount=100):
@@ -26,5 +26,6 @@ def create_data(create_recipe_db=True, calc_sims=True, recipe_amount=50, user_am
 
 
 if __name__ == "__main__":
-    pass
     # create_data()
+    pass
+

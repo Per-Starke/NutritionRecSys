@@ -158,7 +158,7 @@ def print_output(user_id, run_rec_algos=True, cb=True, itemknn=True, userknn=Tru
     """
     Print given and predicted ratings (from given algorithms) for a single user
     :param user_id: the id of the user to print the output for
-    :param run_rec_algos: If True (default), run the recommendation algorithms,
+    :param run_rec_algos: If True (default), run the recommendation algorithms
     :param cb: True (default) if Content-Based recommendations shall be printed
     :param itemknn: True (default) if Collaborative ItemKNN recommendations shall be printed
     :param userknn: True (default) if Collaborative UserKNN recommendations shall be printed
@@ -175,4 +175,4 @@ def print_output(user_id, run_rec_algos=True, cb=True, itemknn=True, userknn=Tru
 
 
 if __name__ == "__main__":
-    print_output(user_id=2, run_rec_algos=True)
+    print_output(user_id=5, run_rec_algos=False)
