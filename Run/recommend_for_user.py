@@ -14,7 +14,7 @@ parent_dir = os.path.dirname(os.getcwd())
 ratings_path_and_filename = parent_dir + "/Data/ratings.csv"
 
 recipe_database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
-recipe_info = pd.read_csv(recipe_database_path_and_filename)
+recipe_info = pd.read_csv(recipe_database_path_and_filename, index_col=False)
 all_ids = recipe_info["ID"]
 
 # Shuffle, so not always the same recipes are asked to be rated
