@@ -7,7 +7,7 @@ from Create_data.create_ratings import create_ratings
 from Create_data.create_recipe_database import create_recipe_database, create_final_recipe_database
 
 
-def create_data(create_recipe_db=True, calc_sims=True, recipe_amount=50, user_amount=100):
+def create_data(create_recipe_db=False, calc_sims=True, recipe_amount=50, user_amount=10):
     """
     Create / get the data for recommending recipes
     :param create_recipe_db: False if recipe database shall not be newly created, True (default) if it should
@@ -26,4 +26,4 @@ def create_data(create_recipe_db=True, calc_sims=True, recipe_amount=50, user_am
 
 
 if __name__ == "__main__":
-    create_data()
+    create_data(calc_sims=False)
