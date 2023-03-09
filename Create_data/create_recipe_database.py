@@ -47,7 +47,7 @@ def get_recipe_information_string(recipe_id):
             ingredients_string_list.append(ingredients_dict["name"])
     ingredients_string = " ".join(ingredients_string_list)
 
-    recipe_information_string = (3 * ingredients_string) + instructions_string
+    recipe_information_string = (3 * (ingredients_string + " ")) + instructions_string
     recipe_information_string = recipe_information_string.replace(",", " ").replace("\"", " ")
 
     return recipe_information_string
@@ -245,7 +245,7 @@ def create_final_recipe_database(mode="a+", query="random"):
     """
 
     # add new recipes
-    write_recipes_in_file(write_recipes_in_list(100, query), mode=mode)
+    write_recipes_in_file(write_recipes_in_list(1, query), mode=mode)
 
     # read database, remove duplicates, write to file without duplicates
     recipe_database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
@@ -279,5 +279,5 @@ if __name__ == "__main__":
 
     # Query 5 to search for: high(er) protein salad recipes
     query5 = {"query": "salad", "minProtein": "20"}
-    # create_final_recipe_database(query=query5)
+    create_final_recipe_database(query=query5)
 
