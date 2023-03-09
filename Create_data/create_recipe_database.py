@@ -20,6 +20,19 @@ headers = {
 }
 
 
+def get_dishtype(recipe_id):
+    """
+    Get the dish-type of a certain recipe
+    :param recipe_id: the id of the recipe
+    :return: the dish-type, as an array
+    """
+
+    info_url = "recipes/{0}/information".format(recipe_id)
+    info = requests.request("GET", url + info_url, headers=headers).json()
+
+    return info["dishTypes"]
+
+
 def get_recipe_information_string(recipe_id):
     """
     Get the ingredients and instructions for a certain recipe as a single string, without commas so that we can put it
@@ -168,9 +181,11 @@ def write_recipes_in_file(recipes, mode="w+"):
         if mode == "w+":
             file.write("ID, Title, Dis"
                        "h-Type, Proteins, Carbs, Fats, Information-String, Sweetness, "
-                       "Saltiness, Sourness, Bitterness, Savoriness, Fattiness, Spiciness \n")
+                       "Saltiness, Sourness, Bitterness, Savoriness, Fattiness, Spiciness\n")
 
         for recipe in recipes:
+            if recipe[2] == ["None given"]:
+                recipe[2] = get_dishtype(recipe[0])
 
             dish_type_string = str(recipe[2][0])
             if len(recipe[2]) > 1:
@@ -245,7 +260,7 @@ def create_final_recipe_database(mode="a+", query="random"):
     """
 
     # add new recipes
-    write_recipes_in_file(write_recipes_in_list(10, query), mode=mode)
+    write_recipes_in_file(write_recipes_in_list(1, query), mode=mode)
 
     # read database, remove duplicates, write to file without duplicates
     recipe_database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
@@ -256,7 +271,7 @@ def create_final_recipe_database(mode="a+", query="random"):
 
 if __name__ == "__main__":
     # Initialize DB with search for 100 random recipes
-    create_final_recipe_database(mode="w+")
+    # create_final_recipe_database(mode="w+")
 
     # Search for more random recipes to append
     # create_final_recipe_database()
@@ -279,5 +294,5 @@ if __name__ == "__main__":
 
     # Query 5 to search for: high(er) protein salad recipes
     query5 = {"query": "salad", "minProtein": "20"}
-    # create_final_recipe_database(query=query5)
+    create_final_recipe_database(query=query5)
 
