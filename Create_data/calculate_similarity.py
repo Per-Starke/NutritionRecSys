@@ -53,18 +53,30 @@ def calc_recipe_sim(recipe_id_1, recipe_id_2, recipe_info):
     recipe_1 = recipe_info.loc[recipe_info["ID"] == recipe_id_1]
     recipe_2 = recipe_info.loc[recipe_info["ID"] == recipe_id_2]
 
-    recipe_1_info_string = recipe_1[" Information-String"].iloc[0]
-    recipe_2_info_string = recipe_2[" Information-String"].iloc[0]
+    recipe_1_info = recipe_1[" Information-String"].iloc[0].split(" <<instructions>> ")
+    recipe_2_info = recipe_2[" Information-String"].iloc[0].split(" <<instructions>> ")
+
+    recipe_1_ingredients = recipe_1_info[0]
+    recipe_2_ingrecients = recipe_2_info[0]
+
+    recipe_1_instructions = recipe_1_info[1]
+    recipe_2_instructions = recipe_2_info[1]
 
     recipe_1_taste = [recipe_1[" Sweetness"].iloc[0], recipe_1[" Saltiness"].iloc[0], recipe_1[" Sourness"].iloc[0],
                       recipe_1[" Bitterness"].iloc[0], recipe_1[" Savoriness"].iloc[0], recipe_1[" Fattiness"].iloc[0],
-                      recipe_1[" Spiciness "].iloc[0]]
+                      recipe_1[" Spiciness"].iloc[0]]
 
     recipe_2_taste = [recipe_2[" Sweetness"].iloc[0], recipe_2[" Saltiness"].iloc[0], recipe_2[" Sourness"].iloc[0],
                       recipe_2[" Bitterness"].iloc[0], recipe_2[" Savoriness"].iloc[0], recipe_2[" Fattiness"].iloc[0],
-                      recipe_2[" Spiciness "].iloc[0]]
+                      recipe_2[" Spiciness"].iloc[0]]
 
-    cos_text_sim = calc_text_sim(recipe_1_info_string, recipe_2_info_string)
+    cos_ingredient_sim = calc_text_sim(recipe_1_ingredients, recipe_2_ingrecients)
+    cos_instruction_sim = calc_text_sim(recipe_1_instructions, recipe_2_instructions)
+
+    # Give higher weight to ingredients than instructions and do NOT divide, to give higher weight to text-sim,
+    # because this is generally very low
+    cos_text_sim = (2 * cos_ingredient_sim + cos_instruction_sim)
+
     cos_taste_sim = calc_taste_sim(recipe_1_taste, recipe_2_taste)
 
     return (cos_text_sim + cos_taste_sim) / 2
@@ -114,7 +126,7 @@ def calculate_similarities():
     """
 
     recipe_database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
-    recipe_info = pd.read_csv(recipe_database_path_and_filename)
+    recipe_info = pd.read_csv(recipe_database_path_and_filename, index_col=False)
 
     write_sims_in_file(calc_all_recipe_sims(recipe_info))
 

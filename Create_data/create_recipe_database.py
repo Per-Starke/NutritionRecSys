@@ -47,7 +47,7 @@ def get_recipe_information_string(recipe_id):
             ingredients_string_list.append(ingredients_dict["name"])
     ingredients_string = " ".join(ingredients_string_list)
 
-    recipe_information_string = (3 * ingredients_string) + instructions_string
+    recipe_information_string = (ingredients_string + " <<instructions>> ") + instructions_string
     recipe_information_string = recipe_information_string.replace(",", " ").replace("\"", " ")
 
     return recipe_information_string
@@ -245,7 +245,7 @@ def create_final_recipe_database(mode="a+", query="random"):
     """
 
     # add new recipes
-    write_recipes_in_file(write_recipes_in_list(2, query), mode=mode)
+    write_recipes_in_file(write_recipes_in_list(10, query), mode=mode)
 
     # read database, remove duplicates, write to file without duplicates
     recipe_database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
@@ -255,6 +255,29 @@ def create_final_recipe_database(mode="a+", query="random"):
 
 
 if __name__ == "__main__":
-    # Query 1 to search for: High protein pasta recipes
+    # Initialize DB with search for 100 random recipes
+    create_final_recipe_database(mode="w+")
+
+    # Search for more random recipes to append
+    # create_final_recipe_database()
+
+    # Query 1 to search for: High(er) protein pasta recipes
     query1 = {"query": "pasta", "minProtein": "20"}
-    create_final_recipe_database(query=query1)
+    # create_final_recipe_database(query=query1)
+
+    # Query 2 to search for: High(er) protein rice recipes
+    query2 = {"query": "rice", "minProtein": "20"}
+    # create_final_recipe_database(query=query2)
+
+    # Query 3 to search for: High(er) protein tofu recipes
+    query3 = {"query": "tofu", "minProtein": "20"}
+    # create_final_recipe_database(query=query3)
+
+    # Query 4 to search for: very high protein tofu recipes
+    query4 = {"query": "tofu", "minProtein": "40"}
+    # create_final_recipe_database(query=query4)
+
+    # Query 5 to search for: high(er) protein salad recipes
+    query5 = {"query": "salad", "minProtein": "20"}
+    # create_final_recipe_database(query=query5)
+
