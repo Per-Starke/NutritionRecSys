@@ -19,7 +19,7 @@ parent_dir = os.path.dirname(os.getcwd())
 col_names = ["User", "Item", "Feedback"]
 
 recipe_database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
-recipe_info = pd.read_csv(recipe_database_path_and_filename)
+recipe_info = pd.read_csv(recipe_database_path_and_filename, index_col=False)
 
 
 def run_recommendation_algos():
@@ -175,4 +175,4 @@ def print_output(user_id, run_rec_algos=True, cb=True, itemknn=True, userknn=Tru
 
 
 if __name__ == "__main__":
-    print_output(user_id=4, run_rec_algos=True)
+    print_output(user_id=3, run_rec_algos=True)

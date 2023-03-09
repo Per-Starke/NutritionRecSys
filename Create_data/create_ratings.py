@@ -18,7 +18,7 @@ def create_ratings(amount_of_users):
     parent_dir = os.path.dirname(os.getcwd())
 
     recipe_database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
-    recipe_info = pd.read_csv(recipe_database_path_and_filename)
+    recipe_info = pd.read_csv(recipe_database_path_and_filename, index_col=False)
 
     ids = recipe_info["ID"]
 
