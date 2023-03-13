@@ -163,7 +163,7 @@ def write_recipes_in_list(amount, query="random"):
                 elif recipe[0] == "title":
                     recipe_title = recipe[1]
 
-            if not dish_type:
+            if not dish_type or dish_type == []:
                 dish_type = ["None given"]
 
             recipe_list.append(list([recipe_id, recipe_title, dish_type, get_nutrients(recipe_id),
@@ -191,6 +191,7 @@ def write_recipes_in_file(recipes, mode="w+"):
             if recipe[2] == ["None given"]:
                 recipe[2] = get_dishtype(recipe[0])
 
+            print(recipe[2])
             dish_type_string = str(recipe[2][0])
             if len(recipe[2]) > 1:
                 for dishtype in recipe[2][1:]:
@@ -275,10 +276,10 @@ def create_final_recipe_database(mode="a+", query="random"):
 
 if __name__ == "__main__":
     # Initialize DB with search for 100 random recipes
-    create_final_recipe_database(mode="w+")
+    # create_final_recipe_database(mode="w+")
 
     # Search for more random recipes to append
-    # create_final_recipe_database()
+    create_final_recipe_database()
 
     # Query 1 to search for: High(er) protein pasta recipes
     query1 = {"query": "pasta", "minProtein": "20"}
