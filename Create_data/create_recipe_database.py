@@ -191,7 +191,6 @@ def write_recipes_in_file(recipes, mode="w+"):
             if recipe[2] == ["None given"]:
                 recipe[2] = get_dishtype(recipe[0])
 
-            print(recipe[2])
             dish_type_string = str(recipe[2][0])
             if len(recipe[2]) > 1:
                 for dishtype in recipe[2][1:]:
