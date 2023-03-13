@@ -24,3 +24,7 @@ def delete_double_ratings():
         for index, row in ratings.iterrows():
             str_to_write = str(row[0]) + ", " + str(row[1]) + ", " + str(row[2]) + "\n"
             file.write(str_to_write)
+
+
+if __name__ == "__main__":
+    delete_double_ratings()
