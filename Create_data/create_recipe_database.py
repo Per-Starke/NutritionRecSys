@@ -30,7 +30,11 @@ def get_dishtype(recipe_id):
     info_url = "recipes/{0}/information".format(recipe_id)
     info = requests.request("GET", url + info_url, headers=headers).json()
 
-    return info["dishTypes"]
+    dishtypes =  info["dishTypes"]
+    if isinstance(dishtypes, list):
+        return dishtypes
+    else:
+        return [dishtypes]
 
 
 def get_recipe_information_string(recipe_id):
@@ -260,7 +264,7 @@ def create_final_recipe_database(mode="a+", query="random"):
     """
 
     # add new recipes
-    write_recipes_in_file(write_recipes_in_list(1, query), mode=mode)
+    write_recipes_in_file(write_recipes_in_list(100, query), mode=mode)
 
     # read database, remove duplicates, write to file without duplicates
     recipe_database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
@@ -271,7 +275,7 @@ def create_final_recipe_database(mode="a+", query="random"):
 
 if __name__ == "__main__":
     # Initialize DB with search for 100 random recipes
-    # create_final_recipe_database(mode="w+")
+    create_final_recipe_database(mode="w+")
 
     # Search for more random recipes to append
     # create_final_recipe_database()
@@ -294,5 +298,5 @@ if __name__ == "__main__":
 
     # Query 5 to search for: high(er) protein salad recipes
     query5 = {"query": "salad", "minProtein": "20"}
-    create_final_recipe_database(query=query5)
+    # create_final_recipe_database(query=query5)
 
