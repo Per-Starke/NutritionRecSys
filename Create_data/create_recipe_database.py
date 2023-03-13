@@ -30,7 +30,11 @@ def get_dishtype(recipe_id):
     info_url = "recipes/{0}/information".format(recipe_id)
     info = requests.request("GET", url + info_url, headers=headers).json()
 
-    return info["dishTypes"]
+    dishtypes =  info["dishTypes"]
+    if isinstance(dishtypes, list):
+        return dishtypes
+    else:
+        return [dishtypes]
 
 
 def get_recipe_information_string(recipe_id):
@@ -159,7 +163,7 @@ def write_recipes_in_list(amount, query="random"):
                 elif recipe[0] == "title":
                     recipe_title = recipe[1]
 
-            if not dish_type:
+            if not dish_type or dish_type == []:
                 dish_type = ["None given"]
 
             recipe_list.append(list([recipe_id, recipe_title, dish_type, get_nutrients(recipe_id),
@@ -187,6 +191,7 @@ def write_recipes_in_file(recipes, mode="w+"):
             if recipe[2] == ["None given"]:
                 recipe[2] = get_dishtype(recipe[0])
 
+            print(recipe[2])
             dish_type_string = str(recipe[2][0])
             if len(recipe[2]) > 1:
                 for dishtype in recipe[2][1:]:
@@ -260,7 +265,7 @@ def create_final_recipe_database(mode="a+", query="random"):
     """
 
     # add new recipes
-    write_recipes_in_file(write_recipes_in_list(1, query), mode=mode)
+    write_recipes_in_file(write_recipes_in_list(100, query), mode=mode)
 
     # read database, remove duplicates, write to file without duplicates
     recipe_database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
@@ -274,7 +279,7 @@ if __name__ == "__main__":
     # create_final_recipe_database(mode="w+")
 
     # Search for more random recipes to append
-    # create_final_recipe_database()
+    create_final_recipe_database()
 
     # Query 1 to search for: High(er) protein pasta recipes
     query1 = {"query": "pasta", "minProtein": "20"}
@@ -294,5 +299,5 @@ if __name__ == "__main__":
 
     # Query 5 to search for: high(er) protein salad recipes
     query5 = {"query": "salad", "minProtein": "20"}
-    create_final_recipe_database(query=query5)
+    # create_final_recipe_database(query=query5)
 
