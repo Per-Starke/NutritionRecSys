@@ -1,4 +1,50 @@
 body {
     font-family: sans-serif;
-    color: red;
+    margin: 0px;
+}
+
+.title {
+    color: rgb(165, 230, 255);
+    font-size: 400%;
+}
+
+.subtitle{
+    color: rgb(165, 230, 255);
+}
+
+div.header{
+    padding: 40px;
+    background: url('../images/home-header.jpg') rgba(0, 0, 0, 0.8);
+    background-blend-mode: multiply;
+}
+
+p.image-label {
+    position: absolute;
+    vertical-align: bottom;
+    right: 0;
+    color: rgb(50, 50, 50);
+    background-color: rgba(255, 255, 255, 0.4);
+    padding-right: 5px;
+    padding-left: 5px;
+    padding-top: 2px;
+    padding-bottom: 10px;
+}
+
+a {
+    color: rgb(0, 0, 255);
+}
+
+a:hover {
+    color: rgb(0, 100, 255);
+}
+
+.body {
+    margin-left: 100px;
+    margin-right: 100px;
+    margin-top: 50px;
+}
+
+.content {
+    line-height: 1.5;
+    font-size: 1.5em;
 }
