@@ -18,6 +18,11 @@ div.header{
     background-blend-mode: multiply;
 }
 
+img.in-title {
+    position: relative;
+    bottom: -2px;
+}
+
 p.image-label {
     position: absolute;
     vertical-align: bottom;
