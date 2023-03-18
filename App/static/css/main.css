@@ -35,17 +35,17 @@ p.image-label {
     padding-bottom: 10px;
 }
 
-a#button {
-    color: white;
-    text-decoration: none;
-}
-
 a {
     color: rgb(0, 0, 255);
 }
 
 a:hover {
     color: rgb(0, 100, 255);
+}
+
+a.button {
+    color: white;
+    text-decoration: none;
 }
 
 .body {
@@ -64,6 +64,8 @@ Taken from Bootstrap
 **/
 
 .btn {
+  margin-right: 10px;
+  margin-top: 5px;
   display: inline-block;
   font-weight: 400;
   text-align: center;
@@ -102,3 +104,9 @@ Taken from Bootstrap
 /*
 End of "taken from Bootstrap"
 **/
+
+hr.button-sep {
+    margin-left: 100px;
+    margin-right: 100px;
+    margin-top: 50px;
+}
