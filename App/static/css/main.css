@@ -57,8 +57,6 @@ a.image-label {
 
 a.image-label:hover {
     color: rgb(70, 70, 70);
-    font-weight: bold;
-    text-decoration: none;
 }
 
 .body {
@@ -73,7 +71,7 @@ a.image-label:hover {
 }
 
 /*
-Taken from Bootstrap
+Taken from Bootstrap (slight changes)
 **/
 
 .btn {
