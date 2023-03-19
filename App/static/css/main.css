@@ -27,12 +27,14 @@ p.image-label {
     position: absolute;
     vertical-align: bottom;
     right: 0;
+    margin-right: -3px;
     color: rgb(50, 50, 50);
     background-color: rgba(255, 255, 255, 0.4);
     padding-right: 5px;
     padding-left: 5px;
     padding-top: 2px;
     padding-bottom: 10px;
+    border-radius: 4px;
 }
 
 a {
@@ -45,6 +47,18 @@ a:hover {
 
 a.button {
     color: white;
+    text-decoration: none;
+}
+
+a.image-label {
+    color: rgb(50, 50, 50);
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a.image-label:hover {
+    color: rgb(70, 70, 70);
+    font-weight: bold;
     text-decoration: none;
 }
 
