@@ -1,5 +1,5 @@
 """
-Output the given and predicted ratings for users
+Functions for outputting the recommendations and ratings
 """
 
 import pandas as pd
@@ -140,27 +140,3 @@ def get_calculated_ratings_for_user(user_id, recommendations_list, cb=True, item
         return_dict["user-knn"] = get_single_algo_ratings(recommendations, user_id, ratings_to_get)
 
     return return_dict
-
-
-def print_output(user_id, run_rec_algos=True, cb=True, itemknn=True, userknn=True, ratings_to_print=10):
-    """
-    Print given and predicted ratings (from given algorithms) for a single user
-    :param user_id: the id of the user to print the output for
-    :param run_rec_algos: If True (default), run the recommendation algorithms
-    :param cb: True (default) if Content-Based recommendations shall be printed
-    :param itemknn: True (default) if Collaborative ItemKNN recommendations shall be printed
-    :param userknn: True (default) if Collaborative UserKNN recommendations shall be printed
-    otherwise use existing predicted-rating files
-    :param ratings_to_print: The number of ratings to print, default 10
-    """
-
-    if run_rec_algos:
-        run_recommendation_algos()
-
-    print(get_ratings_for_user(user_id))
-    print()
-    print(get_calculated_ratings_for_user(user_id, write_recommendations(), cb, itemknn, userknn, ratings_to_print))
-
-
-if __name__ == "__main__":
-    print_output(5)

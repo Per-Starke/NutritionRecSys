@@ -16,8 +16,10 @@ def home_page():
 @app.route("/get_rec")
 def get_rec_page():
 
-    user_id = 5
-    recipes_and_ratings = Run.output.get_calculated_ratings_for_user(user_id, Run.output.write_recommendations())
+    user_id = 6
+
+    recipes_and_ratings = Run.output.get_calculated_ratings_for_user(
+        user_id, Run.output.write_recommendations(), ratings_to_get=3)
 
     content_based = recipes_and_ratings["content-based"]
     cb_with_titles = {}
@@ -38,7 +40,7 @@ def get_rec_page():
     recipes_and_ratings["item-knn"] = itemknn_with_titles
     recipes_and_ratings["user-knn"] = userknn_with_titles
 
-    return render_template("get_rec.html", recipes_and_ratings=recipes_and_ratings)
+    return render_template("get_rec.html", user_id=user_id, recipes_and_ratings=recipes_and_ratings)
 
 
 if __name__ == "__main__":

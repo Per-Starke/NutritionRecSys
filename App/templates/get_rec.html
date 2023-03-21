@@ -18,9 +18,11 @@
         </p>
     </div>
 
-        <h1 class="body"> Here are your recommended recipes</h1>
+        <h1 class="body body-with-top-margin">
+            <span class="main-header"> Here are your recommended recipes:</span>
+        </h1>
         {% for algo_name, dict_item in recipes_and_ratings.items() %}
-            <h2 class="body"> Using a {{algo_name}} algorithm:</h2>
+            <h2 class="body body-with-top-margin"> Using the {{algo_name}} algorithm:</h2>
             <p class="body content">
                 {% for recipe_title, rating in dict_item.items() %}
                     {{recipe_title}}: {{rating}}
@@ -29,7 +31,11 @@
             </p>
         {% endfor %}
 
-    <hr class="button-sep">
+    <hr class="content-sep">
+
+    <p class="body body-with-top-margin content"> Your user-id: {{user_id}} </p>
+
+    <hr class="content-sep">
 
     <p class="body content">
         <button class="btn btn-primary">
