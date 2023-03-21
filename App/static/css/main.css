@@ -130,3 +130,7 @@ hr.content-sep {
     margin-right: 100px;
     margin-top: 50px;
 }
+
+i.rating {
+    color: rgb(184, 134, 11);
+}

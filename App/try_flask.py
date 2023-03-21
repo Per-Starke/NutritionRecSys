@@ -9,15 +9,28 @@ app = Flask(__name__)
 
 @app.route("/")
 def home_page():
+    """
+    Create the home-page
+    """
 
     return render_template("home.html")
 
 
 @app.route("/get_rec")
 def get_rec_page():
+    """
+    Create the get-recommendations-page
+    """
 
     user_id = 6
 
+    # Create data-structure for displaying given ratings
+    given_ratings = Run.output.get_ratings_for_user(user_id)
+    given_ratings_with_titles = {}
+    for recipe_id, rating in given_ratings.items():
+        given_ratings_with_titles[Run.output.get_recipe_title_by_id(recipe_id)] = rating
+
+    # Create data-structure for displaying predicted ratings
     recipes_and_ratings = Run.output.get_calculated_ratings_for_user(
         user_id, Run.output.write_recommendations(), ratings_to_get=3)
 
@@ -40,7 +53,8 @@ def get_rec_page():
     recipes_and_ratings["item-knn"] = itemknn_with_titles
     recipes_and_ratings["user-knn"] = userknn_with_titles
 
-    return render_template("get_rec.html", user_id=user_id, recipes_and_ratings=recipes_and_ratings)
+    return render_template("get_rec.html", user_id=user_id, given_ratings=given_ratings_with_titles,
+                           recipes_and_ratings=recipes_and_ratings)
 
 
 if __name__ == "__main__":

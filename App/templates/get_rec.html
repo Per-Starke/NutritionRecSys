@@ -33,7 +33,41 @@
 
     <hr class="content-sep">
 
-    <p class="body body-with-top-margin content"> Your user-id: {{user_id}} </p>
+    <h2 class="body body-with-top-margin"> Your user-id:</h2>
+    <p class="body content"> {{user_id}} </p>
+
+    <h2 class="body body-with-top-margin"> Your rated recipes: </h2>
+    <p class="body content">
+        {% for recipe_id, rating in given_ratings.items() %}
+            {{recipe_id}}:
+            {% if rating=="1" %}
+                <i class="fa-solid fa-star fa-xs rating"></i>
+            {% endif %}
+            {% if rating=="2" %}
+                <i class="fa-solid fa-star fa-xs rating"></i>
+                <i class="fa-solid fa-star fa-xs rating"></i>
+            {% endif %}
+            {% if rating=="3" %}
+                <i class="fa-solid fa-star fa-xs rating"></i>
+                <i class="fa-solid fa-star fa-xs rating"></i>
+                <i class="fa-solid fa-star fa-xs rating"></i>
+            {% endif %}
+            {% if rating=="4" %}
+                <i class="fa-solid fa-star fa-xs rating"></i>
+                <i class="fa-solid fa-star fa-xs rating"></i>
+                <i class="fa-solid fa-star fa-xs rating"></i>
+                <i class="fa-solid fa-star fa-xs rating"></i>
+            {% endif %}
+            {% if rating=="5" %}
+                <i class="fa-solid fa-star fa-xs rating"></i>
+                <i class="fa-solid fa-star fa-xs rating"></i>
+                <i class="fa-solid fa-star fa-xs rating"></i>
+                <i class="fa-solid fa-star fa-xs rating"></i>
+                <i class="fa-solid fa-star fa-xs rating"></i>
+            {% endif %}
+            <br>
+        {% endfor %}
+    </p>
 
     <hr class="content-sep">
 
