@@ -29,6 +29,8 @@ def get_rec_page():
     given_ratings_with_titles = {}
     for recipe_id, rating in given_ratings.items():
         given_ratings_with_titles[Run.output.get_recipe_title_by_id(recipe_id)] = rating
+    sorted_given_ratings_with_titles = \
+        {k: v for k, v in sorted(given_ratings_with_titles.items(), key=lambda item: item[1], reverse=True)}
 
     # Create data-structure for displaying predicted ratings
     recipes_and_ratings = Run.output.get_calculated_ratings_for_user(
@@ -53,7 +55,7 @@ def get_rec_page():
     recipes_and_ratings["item-knn"] = itemknn_with_titles
     recipes_and_ratings["user-knn"] = userknn_with_titles
 
-    return render_template("get_rec.html", user_id=user_id, given_ratings=given_ratings_with_titles,
+    return render_template("get_rec.html", user_id=user_id, given_ratings=sorted_given_ratings_with_titles,
                            recipes_and_ratings=recipes_and_ratings)
 
 
