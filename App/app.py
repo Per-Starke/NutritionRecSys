@@ -1,13 +1,11 @@
-from flask import Flask, render_template, url_for
-import pandas as pd
-import os
+from flask import Flask, render_template, url_for, request
 import Run.output
 
 
 app = Flask(__name__)
 
 
-@app.route("/")
+@app.route("/", methods=['POST', 'GET'])
 def home_page():
     """
     Create the home-page
@@ -16,13 +14,16 @@ def home_page():
     return render_template("home.html")
 
 
-@app.route("/get_rec")
+@app.route("/get_rec", methods=['POST', 'GET'])
 def get_rec_page():
     """
     Create the get-recommendations-page
     """
 
-    user_id = 6
+    user_id = 5
+
+    if request.method == 'POST':
+        user_id = request.form['update_id']
 
     # Create data-structure for displaying given ratings
     given_ratings = Run.output.get_ratings_for_user(user_id)
@@ -60,5 +61,5 @@ def get_rec_page():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(port=8000, debug=True)
 
