@@ -18,13 +18,16 @@
         </p>
     </div>
 
-    <h1 class="body"> Here are your recommended recipes:</h1>
-    <p class="body content">
-        {% for recipe_title, rating in recipes_and_ratings.items() %}
-            {{recipe_title}}: {{rating}}
-            <br>
+        <h1 class="body"> Here are your recommended recipes</h1>
+        {% for algo_name, dict_item in recipes_and_ratings.items() %}
+            <h2 class="body"> Using a {{algo_name}} algorithm:</h2>
+            <p class="body content">
+                {% for recipe_title, rating in dict_item.items() %}
+                    {{recipe_title}}: {{rating}}
+                    <br>
+                {% endfor %}
+            </p>
         {% endfor %}
-    </p>
 
     <hr class="button-sep">
 

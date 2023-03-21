@@ -21,11 +21,24 @@ def get_rec_page():
 
     content_based = recipes_and_ratings["content-based"]
     cb_with_titles = {}
-
     for recipe_id, rating in content_based.items():
         cb_with_titles[Run.output.get_recipe_title_by_id(recipe_id)] = rating
 
-    return render_template("get_rec.html", recipes_and_ratings=cb_with_titles)
+    itemknn = recipes_and_ratings["item-knn"]
+    itemknn_with_titles = {}
+    for recipe_id, rating in itemknn.items():
+        itemknn_with_titles[Run.output.get_recipe_title_by_id(recipe_id)] = rating
+
+    userknn = recipes_and_ratings["user-knn"]
+    userknn_with_titles = {}
+    for recipe_id, rating in userknn.items():
+        userknn_with_titles[Run.output.get_recipe_title_by_id(recipe_id)] = rating
+
+    recipes_and_ratings["content-based"] = cb_with_titles
+    recipes_and_ratings["item-knn"] = itemknn_with_titles
+    recipes_and_ratings["user-knn"] = userknn_with_titles
+
+    return render_template("get_rec.html", recipes_and_ratings=recipes_and_ratings)
 
 
 if __name__ == "__main__":
