@@ -4,7 +4,7 @@ Functions for getting ratings for recipes
 
 import os
 import pandas as pd
-import output
+import Run.output
 
 
 current = 1
@@ -38,7 +38,7 @@ def get_recipe_to_rate(user_id):
 
     all_ids = recipe_info["ID"].sample(frac=1).reset_index(drop=True)
 
-    rated_recipes = output.get_ratings_for_user(user_id).keys()
+    rated_recipes = Run.output.get_ratings_for_user(user_id).keys()
 
     for recipe_id in all_ids:
         if recipe_id not in rated_recipes:

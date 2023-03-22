@@ -1,6 +1,6 @@
 from flask import Flask, render_template, url_for, request
 import Run.output
-
+import Run.recommend_for_user
 
 app = Flask(__name__)
 
@@ -66,9 +66,25 @@ def rate_page():
     Create the get-recommendations-page
     """
 
-    return render_template("rate.html")
+    user_id = 0
+
+    recipe_id = Run.recommend_for_user.get_recipe_to_rate(user_id)
+    recipe_title = Run.output.get_recipe_title_by_id(recipe_id)
+
+    if request.method == 'POST':
+        try:
+            user_id = request.form['update_id']
+        except KeyError:
+            rating = request.form['get_rating']
+            if Run.recommend_for_user.check_input(rating):
+                # Write rating to file
+                pass
+            else:
+                # Show error
+                pass
+
+    return render_template("rate.html", user_id=user_id, recipe_title=recipe_title)
 
 
 if __name__ == "__main__":
     app.run(port=8000, debug=True)
-
