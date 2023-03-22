@@ -4,16 +4,17 @@ Get ratings for recipes from active user, write them in the ratings-database, th
 
 import os
 import pandas as pd
+
+import Run.output
 import output
 
 current = 1
 user_id = 0
 
 parent_dir = os.path.dirname(os.getcwd())
-
 ratings_path_and_filename = parent_dir + "/Data/ratings.csv"
-
 recipe_database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
+
 recipe_info = pd.read_csv(recipe_database_path_and_filename, index_col=False)
 all_ids = recipe_info["ID"]
 
@@ -74,6 +75,22 @@ def get_user_ratings():
         ask_for_next_rating = get_and_write_input()
 
 
-if __name__ == "__main__":
-    get_user_ratings()
-    output.print_output(user_id=user_id, ratings_to_print=3)
+def get_recipe_to_rate(user_id):
+    """
+    Get a random recipe the user has not rated yet
+    :param user_id: The id of the user
+    :return: The id of a recipe the user has not rated yet
+    """
+
+    all_ids = recipe_info["ID"].sample(frac=1).reset_index(drop=True)
+
+    rated_recipes = Run.output.get_ratings_for_user(user_id).keys()
+
+    for recipe_id in all_ids:
+        if recipe_id not in rated_recipes:
+            return recipe_id
+
+    return None
+
+
+

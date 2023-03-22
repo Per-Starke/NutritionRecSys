@@ -20,7 +20,7 @@ def get_rec_page():
     Create the get-recommendations-page
     """
 
-    user_id = 5
+    user_id = 0
 
     if request.method == 'POST':
         user_id = request.form['update_id']
