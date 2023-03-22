@@ -60,6 +60,15 @@ def get_rec_page():
                            recipes_and_ratings=recipes_and_ratings)
 
 
+@app.route("/rate", methods=['POST', 'GET'])
+def rate_page():
+    """
+    Create the get-recommendations-page
+    """
+
+    return render_template("rate.html")
+
+
 if __name__ == "__main__":
     app.run(port=8000, debug=True)
 

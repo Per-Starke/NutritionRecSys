@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title> Rate recipes - Recipe Recommender </title>
+{% endblock %}
+
+{% block body %}
+    <div class="header">
+        <h1 class="title">
+            <img class="in-title" src="{{url_for('static', filename='/images/vegan-icon.png')}}" width="50px" />
+            Recipe Recommender
+        </h1>
+        <h2 class="subtitle"> Rate new recipes here! </h2>
+        <p class="image-label"> Photo credit:
+            <a class="image-label" rel="noopener noreferrer nofollow" target="_blank" href="https://unsplash.com/de/fotos/2IxTgsgFi-s">
+                Unsplash
+            </a>
+        </p>
+    </div>
+
+    <hr class="content-sep">
+
+    <p class="body content">
+        <button class="btn btn-primary">
+            <a class="button" href="/"> Home </a>
+        </button>
+
+        <button class="btn btn-primary">
+            <a class="button" href="/get_rec"> Get recommendations </a>
+        </button>
+    </p>
+
+
+
+{% endblock %}
