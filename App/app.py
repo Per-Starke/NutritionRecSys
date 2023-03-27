@@ -6,7 +6,9 @@ app = Flask(__name__)
 
 user_id = 0
 
-prediction_needs_updating = False
+prediction_needs_updating = True
+
+recipe_id = None
 
 
 @app.route("/", methods=['POST', 'GET'])
@@ -81,7 +83,11 @@ def rate_page():
     global user_id
     global prediction_needs_updating
 
+    global recipe_id
+    old_recipe_id = recipe_id
+
     recipe_id = Run.recommend_for_user.get_recipe_to_rate(user_id)
+
     if recipe_id:
         recipe_title = Run.output.get_recipe_title_by_id(recipe_id)
     else:
@@ -101,7 +107,7 @@ def rate_page():
         except KeyError:
             rating = request.form['get_rating']
             if Run.recommend_for_user.check_input(rating):
-                Run.recommend_for_user.write_rating_to_file(user_id, recipe_id, rating)
+                Run.recommend_for_user.write_rating_to_file(user_id, old_recipe_id, rating)
                 prediction_needs_updating = True
             else:
                 if not user_id or not user_id.isdigit():
