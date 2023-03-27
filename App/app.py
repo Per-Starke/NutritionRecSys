@@ -27,7 +27,8 @@ def get_rec_page():
     if request.method == 'POST':
         user_id = request.form['update_id']
         if not user_id or not user_id.isdigit():
-            return "This is no valid user id!"
+            return render_template("error.html",
+                                   error_text="this is no valid user id!", return_link="/get_rec")
 
     # Create data-structure for displaying given ratings
     given_ratings = Run.output.get_ratings_for_user(user_id)
@@ -82,7 +83,8 @@ def rate_page():
         try:
             user_id = request.form['update_id']
             if not user_id or not user_id.isdigit():
-                return "This is no valid user id!"
+                return render_template("error.html",
+                                       error_text="this is no valid user id!", return_link="/rate")
             recipe_id = Run.recommend_for_user.get_recipe_to_rate(user_id)
             if recipe_id:
                 recipe_title = Run.output.get_recipe_title_by_id(recipe_id)
@@ -93,7 +95,9 @@ def rate_page():
             if Run.recommend_for_user.check_input(rating):
                 Run.recommend_for_user.write_rating_to_file(user_id, recipe_id, rating)
             else:
-                return "This is not a valid rating"
+                if not user_id or not user_id.isdigit():
+                    return render_template("error.html",
+                                           error_text="this is no valid rating!", return_link="/rate")
 
     return render_template("rate.html", user_id=user_id, recipe_title=recipe_title)
 
