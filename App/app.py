@@ -4,6 +4,8 @@ import Run.recommend_for_user
 
 app = Flask(__name__)
 
+user_id = 0
+
 
 @app.route("/", methods=['POST', 'GET'])
 def home_page():
@@ -20,7 +22,7 @@ def get_rec_page():
     Create the get-recommendations-page
     """
 
-    user_id = 0
+    global user_id
 
     if request.method == 'POST':
         user_id = request.form['update_id']
@@ -66,7 +68,7 @@ def rate_page():
     Create the get-recommendations-page
     """
 
-    user_id = 0
+    global user_id
 
     recipe_id = Run.recommend_for_user.get_recipe_to_rate(user_id)
     recipe_title = Run.output.get_recipe_title_by_id(recipe_id)
