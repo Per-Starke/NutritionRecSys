@@ -79,6 +79,11 @@ def rate_page():
     if request.method == 'POST':
         try:
             user_id = request.form['update_id']
+            recipe_id = Run.recommend_for_user.get_recipe_to_rate(user_id)
+            if recipe_id:
+                recipe_title = Run.output.get_recipe_title_by_id(recipe_id)
+            else:
+                recipe_title = "No unrated recipe found!"
         except KeyError:
             rating = request.form['get_rating']
             if Run.recommend_for_user.check_input(rating):
