@@ -33,11 +33,13 @@
 
     <h3 class="body body-with-top-margin"> {{recipe_title}} </h3>
 
+    {% if recipe_title != "No unrated recipe found!" %}
     <form class="body" action="/rate#get_rating" method="POST">
         <label for="get_rating"> What would you rate this recipe, from 1-5? </label><br>
         <input type="text" name="get_rating" id="get_rating">
         <input type="submit" value="submit">
     </form>
+    {% endif %}
 
     <hr class="content-sep">
 

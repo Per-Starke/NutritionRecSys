@@ -6,7 +6,6 @@ import os
 import pandas as pd
 import Run.output
 
-
 current = 1
 user_id = 0
 
@@ -38,9 +37,9 @@ def write_rating_to_file(user_id, recipe_id, rating):
     """
 
     with open(ratings_path_and_filename, "a+") as file:
-        str_to_write = str(user_id) + ", " + str(recipe_id) + ", " + str(rating) + "\n"
-        file.write(str_to_write)
-
+        if recipe_id:
+            str_to_write = str(user_id) + ", " + str(recipe_id) + ", " + str(rating) + "\n"
+            file.write(str_to_write)
 
 
 def get_recipe_to_rate(user_id):
@@ -59,6 +58,3 @@ def get_recipe_to_rate(user_id):
             return recipe_id
 
     return None
-
-
-

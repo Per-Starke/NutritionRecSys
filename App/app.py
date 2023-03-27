@@ -71,7 +71,10 @@ def rate_page():
     global user_id
 
     recipe_id = Run.recommend_for_user.get_recipe_to_rate(user_id)
-    recipe_title = Run.output.get_recipe_title_by_id(recipe_id)
+    if recipe_id:
+        recipe_title = Run.output.get_recipe_title_by_id(recipe_id)
+    else:
+        recipe_title = "No unrated recipe found!"
 
     if request.method == 'POST':
         try:
@@ -81,8 +84,7 @@ def rate_page():
             if Run.recommend_for_user.check_input(rating):
                 Run.recommend_for_user.write_rating_to_file(user_id, recipe_id, rating)
             else:
-                # @todo This needs to be done in a nicer way!
-                return ("This is not a valid rating")
+                return "This is not a valid rating"
 
     return render_template("rate.html", user_id=user_id, recipe_title=recipe_title)
 
