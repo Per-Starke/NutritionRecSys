@@ -79,11 +79,10 @@ def rate_page():
         except KeyError:
             rating = request.form['get_rating']
             if Run.recommend_for_user.check_input(rating):
-                # Write rating to file
-                pass
+                Run.recommend_for_user.write_rating_to_file(user_id, recipe_id, rating)
             else:
-                # Show error
-                pass
+                # @todo This needs to be done in a nicer way!
+                return ("This is not a valid rating")
 
     return render_template("rate.html", user_id=user_id, recipe_title=recipe_title)
 

@@ -29,6 +29,20 @@ def check_input(input_to_check):
     return False
 
 
+def write_rating_to_file(user_id, recipe_id, rating):
+    """
+    Writes the given rating into the ratings.csv file
+    :param user_id: the id of the user who rated the recipe
+    :param recipe_id: the id of the recipe that got rated
+    :param rating: the rating
+    """
+
+    with open(ratings_path_and_filename, "a+") as file:
+        str_to_write = str(user_id) + ", " + str(recipe_id) + ", " + str(rating) + "\n"
+        file.write(str_to_write)
+
+
+
 def get_recipe_to_rate(user_id):
     """
     Get a random recipe the user has not rated yet
