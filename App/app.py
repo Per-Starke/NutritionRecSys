@@ -6,6 +6,8 @@ app = Flask(__name__)
 
 user_id = 0
 
+prediction_needs_updating = False
+
 
 @app.route("/", methods=['POST', 'GET'])
 def home_page():
@@ -23,6 +25,11 @@ def get_rec_page():
     """
 
     global user_id
+    global prediction_needs_updating
+
+    if prediction_needs_updating:
+        Run.output.run_recommendation_algos()
+        prediction_needs_updating = False
 
     if request.method == 'POST':
         user_id = request.form['update_id']
@@ -72,6 +79,7 @@ def rate_page():
     """
 
     global user_id
+    global prediction_needs_updating
 
     recipe_id = Run.recommend_for_user.get_recipe_to_rate(user_id)
     if recipe_id:
@@ -94,6 +102,7 @@ def rate_page():
             rating = request.form['get_rating']
             if Run.recommend_for_user.check_input(rating):
                 Run.recommend_for_user.write_rating_to_file(user_id, recipe_id, rating)
+                prediction_needs_updating = True
             else:
                 if not user_id or not user_id.isdigit():
                     return render_template("error.html",
