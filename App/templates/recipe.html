@@ -43,10 +43,37 @@
 
     <hr class="content-sep">
 
-    <h2 class="body body-with-top-margin"> More infos / summary: </h2>
+    <h2 class="body body-with-top-margin"> More infos: </h2>
 
-    <p class="body content">
-    {{recipe['summary'] | striptags }}
-    </p>
+    <div style="overflow-x:auto;">
+        <table class="body content">
+            <tr>
+                <th>Servings</th>
+                <th>Nutritional value / serving </th>
+                <th>Preparation time</th>
+                <th>Price / serving </th>
+            </tr>
+            <tr>
+                <td>{{recipe['servings']}}</td>
+                <td style="text-align: left">
+                    <ul>
+                    {% for nutrient in recipe['nutrition']['nutrients'] %}
+                        {% set name = nutrient['name'] %}
+                        {% if name == "Calories" or name == "Fat" or name == "Carbohydrates" or name == "Protein" %}
+                            <li> {{name}}: {{nutrient['amount']}}{{nutrient['unit']}} </li>
+                        {% elif name == "Saturated Fat" or name == "Sugar" %}
+                            <ul>
+                                <li> {{name}}: {{nutrient['amount']}}{{nutrient['unit']}} </li>
+                            </ul>
+                        {% endif %}
+                    {% endfor %}
+                    </ul>
+                </td>
+                <td>{{recipe['readyInMinutes']}} min </td>
+                <td>{{recipe['pricePerServing']}} cents </td>
+            </tr>
+        </table>
+    </div>
+
 
 {% endblock %}
