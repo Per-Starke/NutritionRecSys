@@ -5,9 +5,7 @@ import Run.recommend_for_user
 app = Flask(__name__)
 
 user_id = 0
-
 prediction_needs_updating = True
-
 recipe_id = None
 
 
@@ -28,6 +26,7 @@ def get_rec_page():
 
     global user_id
     global prediction_needs_updating
+    global recipe_id
 
     if prediction_needs_updating:
         Run.output.run_recommendation_algos()
@@ -82,7 +81,6 @@ def rate_page():
 
     global user_id
     global prediction_needs_updating
-
     global recipe_id
     old_recipe_id = recipe_id
 

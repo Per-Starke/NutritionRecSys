@@ -136,7 +136,7 @@ def get_calculated_ratings_for_user(user_id, recommendations_list, cb=True, item
         return_dict["item-knn"] = get_single_algo_ratings(recommendations, user_id, ratings_to_get)
 
     if userknn:
-        recommendations = recommendations_list[0]
+        recommendations = recommendations_list[2]
         return_dict["user-knn"] = get_single_algo_ratings(recommendations, user_id, ratings_to_get)
 
     return return_dict
