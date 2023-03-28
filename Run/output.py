@@ -125,7 +125,7 @@ def get_calculated_ratings_for_user(user_id, recommendations_list, cb=True, item
     :return: a list of dicts of id:rating pairs with the calculated top-n ratings for the given user.
     """
 
-    return_dict = {"content-based": [], "item-knn": [], "user-knn": []}
+    return_dict = {}
 
     if cb:
         recommendations = recommendations_list[0]

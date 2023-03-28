@@ -48,26 +48,34 @@ def get_rec_page():
 
     # Create data-structure for displaying predicted ratings
     recipes_and_ratings = Run.output.get_calculated_ratings_for_user(
-        user_id, Run.output.write_recommendations(), ratings_to_get=3)
+        user_id, Run.output.write_recommendations(), ratings_to_get=3, userknn=False)
 
-    content_based = recipes_and_ratings["content-based"]
-    cb_with_titles = {}
-    for recipe_id, rating in content_based.items():
-        cb_with_titles[Run.output.get_recipe_title_by_id(recipe_id)] = rating
+    try:
+        content_based = recipes_and_ratings["content-based"]
+        cb_with_titles = {}
+        for recipe_id, rating in content_based.items():
+            cb_with_titles[Run.output.get_recipe_title_by_id(recipe_id)] = rating
+        recipes_and_ratings["content-based"] = cb_with_titles
+    except KeyError:
+        pass
 
-    itemknn = recipes_and_ratings["item-knn"]
-    itemknn_with_titles = {}
-    for recipe_id, rating in itemknn.items():
-        itemknn_with_titles[Run.output.get_recipe_title_by_id(recipe_id)] = rating
+    try:
+        itemknn = recipes_and_ratings["item-knn"]
+        itemknn_with_titles = {}
+        for recipe_id, rating in itemknn.items():
+            itemknn_with_titles[Run.output.get_recipe_title_by_id(recipe_id)] = rating
+        recipes_and_ratings["item-knn"] = itemknn_with_titles
+    except KeyError:
+        pass
 
-    userknn = recipes_and_ratings["user-knn"]
-    userknn_with_titles = {}
-    for recipe_id, rating in userknn.items():
-        userknn_with_titles[Run.output.get_recipe_title_by_id(recipe_id)] = rating
-
-    recipes_and_ratings["content-based"] = cb_with_titles
-    recipes_and_ratings["item-knn"] = itemknn_with_titles
-    recipes_and_ratings["user-knn"] = userknn_with_titles
+    try:
+        userknn = recipes_and_ratings["user-knn"]
+        userknn_with_titles = {}
+        for recipe_id, rating in userknn.items():
+            userknn_with_titles[Run.output.get_recipe_title_by_id(recipe_id)] = rating
+        recipes_and_ratings["user-knn"] = userknn_with_titles
+    except KeyError:
+        pass
 
     return render_template("get_rec.html", user_id=user_id, given_ratings=sorted_given_ratings_with_titles,
                            recipes_and_ratings=recipes_and_ratings)

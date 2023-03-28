@@ -24,10 +24,11 @@
         {% for algo_name, dict_item in recipes_and_ratings.items() %}
             <h2 class="body body-with-top-margin"> Using the {{algo_name}} algorithm:</h2>
             <p class="body content">
-                {% for recipe_title, rating in dict_item.items() %}
-                    {{recipe_title}}: {{rating}}
-                    <br>
-                {% endfor %}
+                <ol class="body content">
+                    {% for recipe_title, rating in dict_item.items() %}
+                        <li> {{recipe_title}} </li>
+                    {% endfor %}
+                </ol>
             </p>
         {% endfor %}
 
