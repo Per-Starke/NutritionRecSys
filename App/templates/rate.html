@@ -31,7 +31,7 @@
 
     <h2 class="body body-with-top-margin"> Here is a random recipe you haven't rated yet: </h2>
 
-    <h3 class="body body-with-top-margin"><a href="/recipe?id={{recipe_id}}"> {{recipe_title}} </a> </h3>
+    <h3 class="body body-with-top-margin"><a rel="noopener noreferrer nofollow" target="_blank" href="/recipe?id={{recipe_id}}"> {{recipe_title}} </a> </h3>
 
     {% if recipe_title != "No unrated recipe found!" %}
     <form class="body" action="/rate#get_rating" method="POST">
