@@ -1,6 +1,6 @@
 import requests
 import os
-from flask import Flask, render_template, url_for, request
+from flask import Flask, render_template, url_for, request, redirect
 import Run.output
 import Run.recommend_for_user
 
@@ -37,6 +37,7 @@ def get_rec_page():
     global user_id
     global prediction_needs_updating
     global recipe_id
+    # todo sessions
 
     if prediction_needs_updating:
         Run.output.run_recommendation_algos()
@@ -47,6 +48,7 @@ def get_rec_page():
         if not user_id or not user_id.isdigit():
             return render_template("error.html",
                                    error_text="this is no valid user id!", return_link="/get_rec")
+        return redirect("/get_rec")
 
     # Create data-structure for displaying given ratings
     given_ratings = Run.output.get_ratings_for_user(user_id)
@@ -130,6 +132,7 @@ def rate_page():
                 recipe_title = Run.output.get_recipe_title_by_id(recipe_id)
             else:
                 recipe_title = "No unrated recipe found!"
+            return redirect("/rate")
         except KeyError:
             rating = request.form['get_rating']
             if Run.recommend_for_user.check_input(rating):
@@ -139,6 +142,7 @@ def rate_page():
                 if not user_id or not user_id.isdigit():
                     return render_template("error.html",
                                            error_text="this is no valid rating!", return_link="/rate")
+            return redirect("/rate")
 
     return render_template("rate.html", user_id=user_id, recipe_title=recipe_title, recipe_id=recipe_id)
 
