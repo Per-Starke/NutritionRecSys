@@ -139,9 +139,8 @@ def rate_page():
                 Run.recommend_for_user.write_rating_to_file(user_id, old_recipe_id, rating)
                 prediction_needs_updating = True
             else:
-                if not user_id or not user_id.isdigit():
-                    return render_template("error.html",
-                                           error_text="this is no valid rating!", return_link="/rate")
+                return render_template("error.html",
+                                       error_text="this is no valid rating!", return_link="/rate")
             return redirect("/rate")
 
     return render_template("rate.html", user_id=user_id, recipe_title=recipe_title, recipe_id=recipe_id)
