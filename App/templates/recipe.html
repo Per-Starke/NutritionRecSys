@@ -1,17 +1,52 @@
 {% extends 'base.html' %}
+
 {% block head %}
-<title> {{recipe['title']}} - Recipe Recommender </title>
+    <title> {{recipe['title']}} - Recipe Recommender </title>
 {% endblock %}
+
 {% block body %}
-<div style="max-width: 70%; margin: auto; padding-top:3%">
-  <div class="media">
-      <img src="{{recipe['image']}}" class="mr-3" alt="..." width="20%" height="20%">
-      <div class="media-body">
-        <h5 class="mt-0">{{recipe['title']}}</h5>
-        {{recipe['instructions']}}
-      </div>
-  </div><br>
-  {{recipe['ingredientsWidget']}}<br>
-  {{recipe['equipmentWidget']}}
-</div>
+    <div class="header">
+        <h1 class="title">
+            <img class="in-title" src="{{url_for('static', filename='/images/vegan-icon.png')}}" width="50px" />
+            Recipe Recommender
+        </h1>
+        <h2 class="subtitle"> {{recipe['title']}} </h2>
+        <p class="image-label"> Photo credit:
+            <a class="image-label" rel="noopener noreferrer nofollow" target="_blank" href="https://unsplash.com/de/fotos/2IxTgsgFi-s">
+                Unsplash
+            </a>
+        </p>
+    </div>
+
+    <img class="body body-with-top-margin max300" src="{{recipe['image']}}">
+
+    <hr class="content-sep">
+
+    <h2 class="body body-with-top-margin"> Ingredients: </h2>
+
+    <ul class="body content">
+        {% for ingredient in recipe['extendedIngredients'] %}
+            <li> {{ingredient['original']}} </li>
+        {% endfor %}
+    </ul>
+
+    <hr class="content-sep">
+
+    <h2 class="body body-with-top-margin"> Instructions: </h2>
+
+    <ul class="body content">
+        {% set steps = recipe['analyzedInstructions'][0]['steps'] %}
+        {% for step in steps %}
+            <li> {{step['step']}} </li>
+        {% endfor %}
+    </ul>
+
+    <hr class="content-sep">
+
+    <h2 class="body body-with-top-margin"> More infos / summary: </h2>
+
+    <p class="body content">
+    {{recipe['summary'] | striptags }}
+    </p>
+
 {% endblock %}

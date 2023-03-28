@@ -3,6 +3,11 @@ body {
     margin: 0px;
 }
 
+.max300 {
+    max-height: 300px;
+    width: auto;
+}
+
 .title {
     color: rgb(165, 230, 255);
     font-size: 400%;
