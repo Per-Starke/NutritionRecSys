@@ -10,14 +10,6 @@ user_id = 0
 prediction_needs_updating = True
 recipe_id = None
 
-rapid_api_key = os.getenv("RAPID_API_KEY")
-
-url = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/"
-headers = {
-  'x-rapidapi-host': "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
-  'x-rapidapi-key': rapid_api_key,
-  }
-
 
 @app.route("/", methods=['POST', 'GET'])
 def home_page():
@@ -139,9 +131,8 @@ def rate_page():
                 Run.recommend_for_user.write_rating_to_file(user_id, old_recipe_id, rating)
                 prediction_needs_updating = True
             else:
-                if not user_id or not user_id.isdigit():
-                    return render_template("error.html",
-                                           error_text="this is no valid rating!", return_link="/rate")
+                return render_template("error.html",
+                                       error_text="this is no valid rating!", return_link="/rate")
             return redirect("/rate")
 
     return render_template("rate.html", user_id=user_id, recipe_title=recipe_title, recipe_id=recipe_id)
@@ -154,22 +145,15 @@ def get_recipe():
     mainly taken from "https://rapidapi.com/blog/build-food-website/"
     """
 
-    single_recipe_id = request.args['id']
-    recipe_info_endpoint = "recipes/{0}/information".format(single_recipe_id)
-    ingedientsWidget = "recipes/{0}/ingredientWidget".format(single_recipe_id)
-    equipmentWidget = "recipes/{0}/equipmentWidget".format(single_recipe_id)
-    recipe_info = requests.request("GET", url + recipe_info_endpoint, headers=headers).json()
-
-    recipe_headers = {
+    rapid_api_key = os.getenv("RAPID_API_KEY")
+    url = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/"
+    headers = {
         'x-rapidapi-host': "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
-        'x-rapidapi-key': "<YOUR_RAPID_API_KEY>",
-        'accept': "text/html"
-    }
-    querystring = {"defaultCss": "true", "showBacklink": "false"}
-    recipe_info['ingredientsWidget'] = requests.request("GET", url + ingedientsWidget, headers=recipe_headers,
-                                                        params=querystring).text
-    recipe_info['equipmentWidget'] = requests.request("GET", url + equipmentWidget, headers=recipe_headers,
-                                                      params=querystring).text
+        'x-rapidapi-key': rapid_api_key }
+    single_recipe_id = request.args["id"]
+    recipe_info_endpoint = "recipes/{0}/information".format(single_recipe_id)
+    recipe_info = requests.request("GET", url + recipe_info_endpoint, headers=headers,
+                                   params={'includeNutrition': 'true'}).json()
 
     return render_template('recipe.html', recipe=recipe_info)
 
