@@ -191,7 +191,11 @@ def write_recipes_in_file(recipes, mode="w+"):
             if recipe[2] == ["None given"]:
                 recipe[2] = get_dishtype(recipe[0])
 
-            dish_type_string = str(recipe[2][0])
+            try:
+                dish_type_string = str(recipe[2][0])
+            except IndexError:
+                dish_type_string = "None given"
+
             if len(recipe[2]) > 1:
                 for dishtype in recipe[2][1:]:
                     dish_type_string += " | " + str(dishtype)
@@ -278,11 +282,11 @@ if __name__ == "__main__":
     # create_final_recipe_database(mode="w+")
 
     # Search for more random recipes to append
-    create_final_recipe_database()
+    # create_final_recipe_database()
 
     # Query 1 to search for: High(er) protein pasta recipes
     query1 = {"query": "pasta", "minProtein": "20"}
-    # create_final_recipe_database(query=query1)
+    create_final_recipe_database(query=query1)
 
     # Query 2 to search for: High(er) protein rice recipes
     query2 = {"query": "rice", "minProtein": "20"}
