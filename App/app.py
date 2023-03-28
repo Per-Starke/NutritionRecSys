@@ -1,3 +1,5 @@
+import requests
+import os
 from flask import Flask, render_template, url_for, request
 import Run.output
 import Run.recommend_for_user
@@ -7,6 +9,14 @@ app = Flask(__name__)
 user_id = 0
 prediction_needs_updating = True
 recipe_id = None
+
+rapid_api_key = os.getenv("RAPID_API_KEY")
+
+url = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/"
+headers = {
+  'x-rapidapi-host': "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
+  'x-rapidapi-key': rapid_api_key,
+  }
 
 
 @app.route("/", methods=['POST', 'GET'])
@@ -121,6 +131,33 @@ def rate_page():
                                            error_text="this is no valid rating!", return_link="/rate")
 
     return render_template("rate.html", user_id=user_id, recipe_title=recipe_title)
+
+
+@app.route('/recipe')
+def get_recipe():
+    """
+    Create the page where single recipes are displayed,
+    mainly taken from "https://rapidapi.com/blog/build-food-website/"
+    """
+
+    single_recipe_id = request.args['id']
+    recipe_info_endpoint = "recipes/{0}/information".format(single_recipe_id)
+    ingedientsWidget = "recipes/{0}/ingredientWidget".format(single_recipe_id)
+    equipmentWidget = "recipes/{0}/equipmentWidget".format(single_recipe_id)
+    recipe_info = requests.request("GET", url + recipe_info_endpoint, headers=headers).json()
+
+    recipe_headers = {
+        'x-rapidapi-host': "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
+        'x-rapidapi-key': "<YOUR_RAPID_API_KEY>",
+        'accept': "text/html"
+    }
+    querystring = {"defaultCss": "true", "showBacklink": "false"}
+    recipe_info['ingredientsWidget'] = requests.request("GET", url + ingedientsWidget, headers=recipe_headers,
+                                                        params=querystring).text
+    recipe_info['equipmentWidget'] = requests.request("GET", url + equipmentWidget, headers=recipe_headers,
+                                                      params=querystring).text
+
+    return render_template('recipe.html', recipe=recipe_info)
 
 
 if __name__ == "__main__":
