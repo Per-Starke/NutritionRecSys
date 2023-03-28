@@ -4,3 +4,4 @@ __pycache__
 Envs
 Envs/template.env
 Envs
+App/static/css/.DS_Store

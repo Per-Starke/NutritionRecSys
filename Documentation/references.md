@@ -19,3 +19,13 @@ https://numpy.org/doc/stable/user/
 https://scikit-learn.org/stable/user_guide.html
 
 https://creativecommons.org/licenses/by/4.0/legalcode
+
+https://flask.palletsprojects.com/en/2.2.x/
+
+https://getbootstrap.com/docs/4.0/getting-started/introduction/
+
+
+
+### Images:
+
+https://unsplash.com/de/fotos/2IxTgsgFi-s

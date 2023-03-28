@@ -1,18 +1,10 @@
 """
-Output the given and predicted ratings for users
+Functions for outputting the recommendations and ratings
 """
 
 import pandas as pd
 import os
 from Recommend import recommend
-
-
-class Color:
-    DARKCYAN = '\033[36m'
-    YELLOW = '\033[93m'
-    PURPLE = '\033[95m'
-    BOLD = '\033[1m'
-    END = '\033[0m'
 
 
 parent_dir = os.path.dirname(os.getcwd())
@@ -65,10 +57,11 @@ def get_recipe_title_by_id(id_to_get):
     return recipe_info[recipe_info["ID"] == id_to_get][" Title"].iloc[0][1:]
 
 
-def print_ratings_for_user(user_id):
+def get_ratings_for_user(user_id):
     """
-    Print the ratings a user gave for all recipes
+    Get the ratings a user gave for all recipes
     :param user_id: the id of the user, as int
+    :return: A dict of id:rating pairs, of all ratings a user gave
     """
 
     ratings_path_and_filename = parent_dir + "/Data/ratings.csv"
@@ -76,28 +69,31 @@ def print_ratings_for_user(user_id):
 
     ratings.sort_values(by="Item", inplace=True)
 
+    return_dict = {}
+
     for line in ratings.iterrows():
         user = str(line[1][0])
         recipe_id = line[1][1]
         rating = str(line[1][2])
 
         if user == str(user_id):
-            print("User {} rated {}{}{} with {} out of 5".format(user, Color.YELLOW, get_recipe_title_by_id(recipe_id),
-                                                                 Color.END, rating))
+            return_dict[recipe_id] = rating
+
+    return return_dict
 
 
-def print_single_algo_ratings(recommendations, user_id, title, ratings_to_print=10):
+def get_single_algo_ratings(recommendations, user_id, ratings_to_get=10):
     """
-    Prints the predicted ratings of a single algorithm
+    Get the predicted ratings of a single algorithm
     :param recommendations: the dataframe of predicted ratings
-    :param user_id: the id of the user the ratings shall be printed for
-    :param title: The title to print before printing recommendations
-    :param ratings_to_print: The number of ratings to print, default 10
+    :param user_id: the id of the user the ratings shall be returned for
+    :param ratings_to_get: The number of ratings to print, default 10
+    :return: A dict of the top-n recipes with the highest predicted ratings (with id:rating pairs) for a given user
     """
 
-    printed_counter = 0
+    ratings_counter = 0
 
-    print(title)
+    return_dict = {}
 
     for line in recommendations.iterrows():
         user = str(int(line[1][0]))
@@ -105,74 +101,42 @@ def print_single_algo_ratings(recommendations, user_id, title, ratings_to_print=
         rating = str(line[1][2])
 
         if user == str(user_id):
-            printed_counter += 1
-            print("{}Recommendation {}: {}{}   |   predicted rating: {}".format(
-                Color.PURPLE, printed_counter, get_recipe_title_by_id(recipe_id), Color.END, rating))
+            ratings_counter += 1
+            return_dict[recipe_id] = rating
 
-        if printed_counter >= ratings_to_print:
+        if ratings_counter >= ratings_to_get:
             break
 
-    print()
+    return return_dict
 
 
-def print_calculated_ratings_for_user(user_id, recommendations_list, cb=True, itemknn=True, userknn=True,
-                                      ratings_to_print=10):
+def get_calculated_ratings_for_user(user_id, recommendations_list, cb=True, itemknn=True, userknn=True,
+                                    ratings_to_get=10):
     """
-    Print the calculated ratings a user gave for recipes the user did not rate.
-    If less than 10 unrated recipes, print all. Else, print the 10 recipes with the highest predicted rating.
+    Get the calculated ratings a user gave for recipes the user did not rate.
+    If less than 10 unrated recipes, get all. Else, get the 10 (or given amount) recipes with the highest
+    predicted rating.
     :param user_id: the id of the user, as int
     :param recommendations_list: List of dataframes with the predicted ratings, ordererd: cb, itemknn, userknn
     :param cb: True (default) if Content-Based recommendations shall be printed
     :param itemknn: True (default) if Collaborative ItemKNN recommendations shall be printed
     :param userknn: True (default) if Collaborative UserKNN recommendations shall be printed
-    :param ratings_to_print: The number of ratings to print, default 10
+    :param ratings_to_get: The number of ratings to get, default 10
+    :return: a list of dicts of id:rating pairs with the calculated top-n ratings for the given user.
     """
+
+    return_dict = {"content-based": [], "item-knn": [], "user-knn": []}
 
     if cb:
         recommendations = recommendations_list[0]
-        title = Color.BOLD + Color.DARKCYAN + "Here are your top " + str(
-            ratings_to_print) + " recommendations, using a " \
-                                "content-based " \
-                                "recommendation algorithm:" \
-                                + Color.END
-        print_single_algo_ratings(recommendations, user_id, title, ratings_to_print)
+        return_dict["content-based"] = get_single_algo_ratings(recommendations, user_id, ratings_to_get)
+
     if itemknn:
         recommendations = recommendations_list[1]
-        title = Color.BOLD + Color.DARKCYAN + "Here are your top " + str(
-            ratings_to_print) + " recommendations, using the " \
-                                "collaborative filtering " \
-                                "ItemKNN recommendation " \
-                                "algorithm:" + Color.END
-        print_single_algo_ratings(recommendations, user_id, title, ratings_to_print)
+        return_dict["item-knn"] = get_single_algo_ratings(recommendations, user_id, ratings_to_get)
+
     if userknn:
         recommendations = recommendations_list[2]
-        title = Color.BOLD + Color.DARKCYAN + "Here are your top " + str(
-            ratings_to_print) + " recommendations, using the " \
-                                "collaborative filtering " \
-                                "UserKNN recommendation " \
-                                "algorithm:" + Color.END
-        print_single_algo_ratings(recommendations, user_id, title, ratings_to_print)
+        return_dict["user-knn"] = get_single_algo_ratings(recommendations, user_id, ratings_to_get)
 
-
-def print_output(user_id, run_rec_algos=True, cb=True, itemknn=True, userknn=True, ratings_to_print=10):
-    """
-    Print given and predicted ratings (from given algorithms) for a single user
-    :param user_id: the id of the user to print the output for
-    :param run_rec_algos: If True (default), run the recommendation algorithms
-    :param cb: True (default) if Content-Based recommendations shall be printed
-    :param itemknn: True (default) if Collaborative ItemKNN recommendations shall be printed
-    :param userknn: True (default) if Collaborative UserKNN recommendations shall be printed
-    otherwise use existing predicted-rating files
-    :param ratings_to_print: The number of ratings to print, default 10
-    """
-
-    if run_rec_algos:
-        run_recommendation_algos()
-
-    print_ratings_for_user(user_id)
-    print()
-    print_calculated_ratings_for_user(user_id, write_recommendations(), cb, itemknn, userknn, ratings_to_print)
-
-
-if __name__ == "__main__":
-    print_output(user_id=3, run_rec_algos=True)
+    return return_dict

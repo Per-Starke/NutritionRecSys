@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title> Recipe Recommender </title>
+{% endblock %}
+
+{% block body %}
+    <div class="header">
+        <h1 class="title">
+            <img class="in-title" src="{{url_for('static', filename='/images/vegan-icon.png')}}" width="50px" />
+            Recipe Recommender
+        </h1>
+        <h2 class="subtitle"> Get recipes suitable for your taste as well as your required macronutrients </h2>
+        <p class="image-label"> Photo credit:
+            <a class="image-label" rel="noopener noreferrer nofollow" target="_blank" href="https://unsplash.com/de/fotos/2IxTgsgFi-s">
+                Unsplash
+            </a>
+        </p>
+    </div>
+
+    <p class="body content">
+        This recipe recommender gets to know your taste by analyzing ratings you provide for recipes you already know,
+        and with each recipe you rate, you'll get recommendations fitting even better to your taste! <br>
+        You can also provide macronutrient values for a meal, and we'll recommend something that suits both
+        your taste and your nutrient goals!
+        <br> <small> // @todo: Longer & better description </small>
+    </p>
+
+    <hr class="button-sep">
+
+    <p class="body content">
+        <button class="btn btn-primary">
+            <a class="button" href="/rate"> Rate recipes </a>
+        </button>
+
+        <button class="btn btn-primary">
+            <a class="button" href="/get_rec"> Get recommendations </a>
+        </button>
+    </p>
+
+
+
+{% endblock %}

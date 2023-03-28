@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title> Rate recipes - Recipe Recommender </title>
+{% endblock %}
+
+{% block body %}
+    <div class="header">
+        <h1 class="title">
+            <img class="in-title" src="{{url_for('static', filename='/images/vegan-icon.png')}}" width="50px" />
+            Recipe Recommender
+        </h1>
+        <h2 class="subtitle"> Rate new recipes here! </h2>
+        <p class="image-label"> Photo credit:
+            <a class="image-label" rel="noopener noreferrer nofollow" target="_blank" href="https://unsplash.com/de/fotos/2IxTgsgFi-s">
+                Unsplash
+            </a>
+        </p>
+    </div>
+
+    <h2 class="body body-with-top-margin"> Your user-id:</h2>
+    <p class="body content"> {{user_id}} </p>
+
+    <form class="body" action="/rate#update_id" method="POST">
+        <label for="update_id"> Update user-id: </label><br>
+        <input type="text" name="update_id" id="update_id">
+        <input type="submit" value="submit">
+    </form>
+
+    <hr class="content-sep">
+
+    <h2 class="body body-with-top-margin"> Here is a random recipe you haven't rated yet: </h2>
+
+    <h3 class="body body-with-top-margin"> {{recipe_title}} </h3>
+
+    {% if recipe_title != "No unrated recipe found!" %}
+    <form class="body" action="/rate#get_rating" method="POST">
+        <label for="get_rating"> What would you rate this recipe, from 1-5? </label><br>
+        <input type="text" name="get_rating" id="get_rating">
+        <input type="submit" value="submit">
+    </form>
+    {% endif %}
+
+    <hr class="content-sep">
+
+    <p class="body content">
+        <button class="btn btn-primary">
+            <a class="button" href="/"> Home </a>
+        </button>
+
+        <button class="btn btn-primary">
+            <a class="button" href="/get_rec"> Get recommendations </a>
+        </button>
+    </p>
+
+
+
+{% endblock %}

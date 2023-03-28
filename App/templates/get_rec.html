@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title> Get Recommendations - Recipe Recommender </title>
+{% endblock %}
+
+{% block body %}
+    <div class="header">
+        <h1 class="title">
+            <img class="in-title" src="{{url_for('static', filename='/images/vegan-icon.png')}}" width="50px" />
+            Recipe Recommender
+        </h1>
+        <h2 class="subtitle"> Get your recommendations here! </h2>
+        <p class="image-label"> Photo credit:
+            <a class="image-label" rel="noopener noreferrer nofollow" target="_blank" href="https://unsplash.com/de/fotos/2IxTgsgFi-s">
+                Unsplash
+            </a>
+        </p>
+    </div>
+
+        <h1 class="body body-with-top-margin">
+            <span class="main-header"> Here are your recommended recipes:</span>
+        </h1>
+        {% for algo_name, dict_item in recipes_and_ratings.items() %}
+            <h2 class="body body-with-top-margin"> Using the {{algo_name}} algorithm:</h2>
+            <p class="body content">
+                {% for recipe_title, rating in dict_item.items() %}
+                    {{recipe_title}}: {{rating}}
+                    <br>
+                {% endfor %}
+            </p>
+        {% endfor %}
+
+    <hr class="content-sep">
+
+    <h2 class="body body-with-top-margin"> Your user-id:</h2>
+    <p class="body content"> {{user_id}} </p>
+
+    <form class="body" action="/get_rec#update_id" method="POST">
+        <label for="update_id"> Update user-id: </label><br>
+        <input type="text" name="update_id" id="update_id">
+        <input type="submit" value="submit">
+    </form>
+
+    <h2 class="body body-with-top-margin"> Your rated recipes: </h2>
+    <p class="body content">
+        {% for recipe_id, rating in given_ratings.items() %}
+            {{recipe_id}}:
+            {% if rating=="1" %}
+                <i class="fa-solid fa-star fa-xs rating"></i>
+            {% endif %}
+            {% if rating=="2" %}
+                <i class="fa-solid fa-star fa-xs rating"></i>
+                <i class="fa-solid fa-star fa-xs rating"></i>
+            {% endif %}
+            {% if rating=="3" %}
+                <i class="fa-solid fa-star fa-xs rating"></i>
+                <i class="fa-solid fa-star fa-xs rating"></i>
+                <i class="fa-solid fa-star fa-xs rating"></i>
+            {% endif %}
+            {% if rating=="4" %}
+                <i class="fa-solid fa-star fa-xs rating"></i>
+                <i class="fa-solid fa-star fa-xs rating"></i>
+                <i class="fa-solid fa-star fa-xs rating"></i>
+                <i class="fa-solid fa-star fa-xs rating"></i>
+            {% endif %}
+            {% if rating=="5" %}
+                <i class="fa-solid fa-star fa-xs rating"></i>
+                <i class="fa-solid fa-star fa-xs rating"></i>
+                <i class="fa-solid fa-star fa-xs rating"></i>
+                <i class="fa-solid fa-star fa-xs rating"></i>
+                <i class="fa-solid fa-star fa-xs rating"></i>
+            {% endif %}
+            <br>
+        {% endfor %}
+    </p>
+
+    <hr class="content-sep">
+
+    <p class="body content">
+        <button class="btn btn-primary">
+            <a class="button" href="/"> Home </a>
+        </button>
+
+        <button class="btn btn-primary">
+            <a class="button" href="/rate"> Rate recipes </a>
+        </button>
+    </p>
+
+
+
+{% endblock %}

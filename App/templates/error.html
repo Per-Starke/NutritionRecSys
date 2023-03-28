@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title> Get Recommendations - Recipe Recommender </title>
+{% endblock %}
+
+{% block body %}
+    <div class="header">
+        <h1 class="title">
+            <img class="in-title" src="{{url_for('static', filename='/images/vegan-icon.png')}}" width="50px" />
+            Recipe Recommender
+        </h1>
+        <h2 class="subtitle" style="color: red"> An error occured! </h2>
+        <p class="image-label"> Photo credit:
+            <a class="image-label" rel="noopener noreferrer nofollow" target="_blank" href="https://unsplash.com/de/fotos/2IxTgsgFi-s">
+                Unsplash
+            </a>
+        </p>
+    </div>
+
+    <h2 style="text-align: center"> {{error_text}}</h2>
+
+    <div style="text-align: center">
+        <button class="btn btn-primary center">
+            <a class="button" href="{{return_link}}"> Go back </a>
+        </button>
+    </div>
+
+
+{% endblock %}
