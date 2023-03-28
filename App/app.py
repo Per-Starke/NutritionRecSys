@@ -59,36 +59,46 @@ def get_rec_page():
     # Create data-structure for displaying predicted ratings
     recipes_and_ratings = Run.output.get_calculated_ratings_for_user(
         user_id, Run.output.write_recommendations(), ratings_to_get=3, userknn=False)
+    ids = {}
 
     try:
         content_based = recipes_and_ratings["content-based"]
         cb_with_titles = {}
+        cb_ids = []
         for recipe_id, rating in content_based.items():
             cb_with_titles[Run.output.get_recipe_title_by_id(recipe_id)] = rating
+            cb_ids.append(recipe_id)
         recipes_and_ratings["content-based"] = cb_with_titles
+        ids["content-based"] = cb_ids
     except KeyError:
         pass
 
     try:
         itemknn = recipes_and_ratings["item-knn"]
         itemknn_with_titles = {}
+        itemknn_ids = []
         for recipe_id, rating in itemknn.items():
             itemknn_with_titles[Run.output.get_recipe_title_by_id(recipe_id)] = rating
+            itemknn_ids.append(recipe_id)
         recipes_and_ratings["item-knn"] = itemknn_with_titles
+        ids["item-knn"] = itemknn_ids
     except KeyError:
         pass
 
     try:
         userknn = recipes_and_ratings["user-knn"]
         userknn_with_titles = {}
+        userknn_ids = []
         for recipe_id, rating in userknn.items():
             userknn_with_titles[Run.output.get_recipe_title_by_id(recipe_id)] = rating
+            userknn_ids.append(recipe_id)
         recipes_and_ratings["user-knn"] = userknn_with_titles
+        ids["user-knn"] = itemknn_ids
     except KeyError:
         pass
 
     return render_template("get_rec.html", user_id=user_id, given_ratings=sorted_given_ratings_with_titles,
-                           recipes_and_ratings=recipes_and_ratings)
+                           recipes_and_ratings=recipes_and_ratings, ids=ids)
 
 
 @app.route("/rate", methods=['POST', 'GET'])
@@ -130,7 +140,7 @@ def rate_page():
                     return render_template("error.html",
                                            error_text="this is no valid rating!", return_link="/rate")
 
-    return render_template("rate.html", user_id=user_id, recipe_title=recipe_title)
+    return render_template("rate.html", user_id=user_id, recipe_title=recipe_title, recipe_id=recipe_id)
 
 
 @app.route('/recipe')
