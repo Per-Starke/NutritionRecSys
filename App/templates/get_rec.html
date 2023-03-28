@@ -26,7 +26,9 @@
             <p class="body content">
                 <ol class="body content">
                     {% for recipe_title, rating in dict_item.items() %}
-                        <li> {{recipe_title}} </li>
+                        {% set current_ids = ids[algo_name] %}
+                        {% set current_id = current_ids[loop.index-1] %}
+                        <li><a rel="noopener noreferrer nofollow" target="_blank" href="/recipe?id={{current_id}}"> {{recipe_title}} </a></li>
                     {% endfor %}
                 </ol>
             </p>
