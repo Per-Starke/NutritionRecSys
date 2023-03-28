@@ -3,6 +3,22 @@ body {
     margin: 0px;
 }
 
+tr:nth-child(even) {
+    background-color: rgba(165, 230, 255, 0.2);
+}
+
+th, td {
+    border: 1px solid;
+    text-align: center;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.max300 {
+    max-height: 300px;
+    width: auto;
+}
+
 .title {
     color: rgb(165, 230, 255);
     font-size: 400%;

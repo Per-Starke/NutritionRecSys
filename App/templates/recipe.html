@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title> {{recipe['title']}} - Recipe Recommender </title>
+{% endblock %}
+
+{% block body %}
+    <div class="header">
+        <h1 class="title">
+            <img class="in-title" src="{{url_for('static', filename='/images/vegan-icon.png')}}" width="50px" />
+            Recipe Recommender
+        </h1>
+        <h2 class="subtitle"> {{recipe['title']}} </h2>
+        <p class="image-label"> Photo credit:
+            <a class="image-label" rel="noopener noreferrer nofollow" target="_blank" href="https://unsplash.com/de/fotos/2IxTgsgFi-s">
+                Unsplash
+            </a>
+        </p>
+    </div>
+
+    <img class="body body-with-top-margin max300" src="{{recipe['image']}}">
+
+    <hr class="content-sep">
+
+    <h2 class="body body-with-top-margin"> Ingredients: </h2>
+
+    <ul class="body content">
+        {% for ingredient in recipe['extendedIngredients'] %}
+            <li> {{ingredient['original']}} </li>
+        {% endfor %}
+    </ul>
+
+    <hr class="content-sep">
+
+    <h2 class="body body-with-top-margin"> Instructions: </h2>
+
+    <ul class="body content">
+        {% set steps = recipe['analyzedInstructions'][0]['steps'] %}
+        {% for step in steps %}
+            <li> {{step['step']}} </li>
+        {% endfor %}
+    </ul>
+
+    <hr class="content-sep">
+
+    <h2 class="body body-with-top-margin"> More infos: </h2>
+
+    <div style="overflow-x:auto;">
+        <table class="body content">
+            <tr>
+                <th>Servings</th>
+                <th>Nutritional value / serving </th>
+                <th>Preparation time</th>
+                <th>Price / serving </th>
+            </tr>
+            <tr>
+                <td>{{recipe['servings']}}</td>
+                <td style="text-align: left">
+                    <ul>
+                    {% for nutrient in recipe['nutrition']['nutrients'] %}
+                        {% set name = nutrient['name'] %}
+                        {% if name == "Calories" or name == "Fat" or name == "Carbohydrates" or name == "Protein" %}
+                            <li> {{name}}: {{nutrient['amount']}}{{nutrient['unit']}} </li>
+                        {% elif name == "Saturated Fat" or name == "Sugar" %}
+                            <ul>
+                                <li> {{name}}: {{nutrient['amount']}}{{nutrient['unit']}} </li>
+                            </ul>
+                        {% endif %}
+                    {% endfor %}
+                    </ul>
+                </td>
+                <td>{{recipe['readyInMinutes']}} min </td>
+                <td>{{recipe['pricePerServing']}} cents </td>
+            </tr>
+        </table>
+    </div>
+
+
+{% endblock %}
