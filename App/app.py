@@ -95,13 +95,6 @@ def rate_page():
     Create the rate-recipes-page
     """
 
-    session['recipe_id'] = Run.recommend_for_user.get_recipe_to_rate(session['user_id'])
-
-    if session['recipe_id']:
-        session['recipe_title'] = Run.output.get_recipe_title_by_id(session['recipe_id'])
-    else:
-        session['recipe_title'] = "No unrated recipe found!"
-
     if request.method == 'POST':
         try:
             session['user_id'] = request.form['update_id']
@@ -118,6 +111,13 @@ def rate_page():
                 return render_template("error.html",
                                        error_text="this is no valid rating!", return_link="/rate")
             return redirect("/rate")
+
+    session['recipe_id'] = Run.recommend_for_user.get_recipe_to_rate(session['user_id'])
+
+    if session['recipe_id']:
+        session['recipe_title'] = Run.output.get_recipe_title_by_id(session['recipe_id'])
+    else:
+        session['recipe_title'] = "No unrated recipe found!"
 
     return render_template("rate.html", user_id=session['user_id'], recipe_title=session['recipe_title'],
                            recipe_id=session['recipe_id'])
