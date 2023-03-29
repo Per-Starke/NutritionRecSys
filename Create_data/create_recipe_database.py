@@ -286,11 +286,11 @@ if __name__ == "__main__":
 
     # Query 1 to search for: High(er) protein pasta recipes
     query1 = {"query": "pasta", "minProtein": "20"}
-    create_final_recipe_database(query=query1)
+    # create_final_recipe_database(query=query1)
 
     # Query 2 to search for: High(er) protein rice recipes
     query2 = {"query": "rice", "minProtein": "20"}
-    # create_final_recipe_database(query=query2)
+    create_final_recipe_database(query=query2)
 
     # Query 3 to search for: High(er) protein tofu recipes
     query3 = {"query": "tofu", "minProtein": "20"}
