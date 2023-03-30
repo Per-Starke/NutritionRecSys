@@ -20,8 +20,9 @@ def login():
     elif request.method == 'POST':
         session['user_id'] = request.form['set_id']
         if not session['user_id'] or not session['user_id'].isdigit():
+            session.pop('user_id', None)
             return render_template("error.html",
-                                   error_text="this is no valid user id!", return_link="/rate")
+                                   error_text="this is no valid user id!", return_link="/login")
         return redirect("/")
 
     return render_template("login.html")
