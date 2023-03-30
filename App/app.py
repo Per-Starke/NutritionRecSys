@@ -28,8 +28,19 @@ def login():
     return render_template("login.html")
 
 
+@app.route("/logout")
+def logout():
+    """
+    Not a shown page, redirect here to log out and return to login page
+    """
+
+    session.clear()
+
+    return redirect("/login")
+
+
 @app.route("/", methods=['POST', 'GET'])
-def home_page():
+def home():
     """
     Create the home-page
     """
@@ -42,7 +53,7 @@ def home_page():
 
 
 @app.route("/get_rec")
-def get_rec_page():
+def get_rec():
     """
     Create the get-recommendations-page
     """
@@ -108,7 +119,7 @@ def get_rec_page():
 
 
 @app.route("/rate", methods=['POST', 'GET'])
-def rate_page():
+def rate():
     """
     Create the rate-recipes-page
     """
@@ -138,7 +149,7 @@ def rate_page():
 
 
 @app.route('/recipe')
-def get_recipe():
+def recipe():
     """
     Create the page where single recipes are displayed,
     mainly taken from "https://rapidapi.com/blog/build-food-website/"
