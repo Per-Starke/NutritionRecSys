@@ -8,14 +8,35 @@ app = Flask(__name__)
 app.secret_key = os.urandom(12)
 
 
+@app.route("/login", methods=['POST', 'GET'])
+def login():
+    """
+    Create login page
+    """
+
+    if 'user_id' in session:
+        return redirect("/")
+
+    elif request.method == 'POST':
+        session['user_id'] = request.form['set_id']
+        if not session['user_id'] or not session['user_id'].isdigit():
+            return render_template("error.html",
+                                   error_text="this is no valid user id!", return_link="/rate")
+        return redirect("/")
+
+    return render_template("login.html")
+
+
 @app.route("/", methods=['POST', 'GET'])
 def home_page():
     """
     Create the home-page
     """
 
+    if 'user_id' not in session:
+        return redirect("/login")
+
     session['prediction_needs_updating'] = True
-    session['user_id'] = 0
     return render_template("home.html")
 
 
@@ -24,6 +45,9 @@ def get_rec_page():
     """
     Create the get-recommendations-page
     """
+
+    if 'user_id' not in session:
+        return redirect("/login")
 
     if session['prediction_needs_updating']:
         Run.output.run_recommendation_algos()
@@ -94,6 +118,9 @@ def rate_page():
     """
     Create the rate-recipes-page
     """
+
+    if 'user_id' not in session:
+        return redirect("/login")
 
     if request.method == 'POST':
         try:
