@@ -41,7 +41,7 @@ def home_page():
     return render_template("home.html")
 
 
-@app.route("/get_rec", methods=['POST', 'GET'])
+@app.route("/get_rec")
 def get_rec_page():
     """
     Create the get-recommendations-page
@@ -53,13 +53,6 @@ def get_rec_page():
     if session['prediction_needs_updating']:
         Run.output.run_recommendation_algos()
         session['prediction_needs_updating'] = False
-
-    if request.method == 'POST':
-        session['user_id'] = request.form['update_id']
-        if not session['user_id'] or not session['user_id'].isdigit():
-            return render_template("error.html",
-                                   error_text="this is no valid user id!", return_link="/get_rec")
-        return redirect("/get_rec")
 
     # Create data-structure for displaying given ratings
     given_ratings = Run.output.get_ratings_for_user(session['user_id'])
@@ -124,21 +117,14 @@ def rate_page():
         return redirect("/login")
 
     if request.method == 'POST':
-        try:
-            session['user_id'] = request.form['update_id']
-            if not session['user_id'] or not session['user_id'].isdigit():
-                return render_template("error.html",
-                                       error_text="this is no valid user id!", return_link="/rate")
-            return redirect("/rate")
-        except KeyError:
-            session['rating'] = request.form['get_rating']
-            if Run.recommend_for_user.check_input(session['rating']):
-                Run.recommend_for_user.write_rating_to_file(session['user_id'], session['recipe_id'], session['rating'])
-                session['prediction_needs_updating'] = True
-            else:
-                return render_template("error.html",
-                                       error_text="this is no valid rating!", return_link="/rate")
-            return redirect("/rate")
+        session['rating'] = request.form['get_rating']
+        if Run.recommend_for_user.check_input(session['rating']):
+            Run.recommend_for_user.write_rating_to_file(session['user_id'], session['recipe_id'], session['rating'])
+            session['prediction_needs_updating'] = True
+        else:
+            return render_template("error.html",
+                                   error_text="this is no valid rating!", return_link="/rate")
+        return redirect("/rate")
 
     session['recipe_id'] = Run.recommend_for_user.get_recipe_to_rate(session['user_id'])
 
