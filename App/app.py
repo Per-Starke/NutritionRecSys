@@ -53,7 +53,7 @@ def home():
         return redirect("/login")
 
     session['prediction_needs_updating'] = True
-    return render_template("home.html")
+    return render_template("home.html", user_id=session['user_id'])
 
 
 @app.route("/get_rec")

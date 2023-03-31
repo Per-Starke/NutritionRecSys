@@ -145,6 +145,19 @@ Taken from Bootstrap (slight changes)
 End of "taken from Bootstrap"
 **/
 
+.btn-logout {
+    color: #fff;
+    background-color: #A0A0A0;
+    border-color: #606060;
+}
+
+.btn-logout:hover {
+    color: #fff;
+    background-color: #909090;
+    border-color: #606060;
+    transform: scale(1.1);
+}
+
 hr.content-sep {
     margin-left: 100px;
     margin-right: 100px;
