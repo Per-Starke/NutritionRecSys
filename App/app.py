@@ -1,40 +1,73 @@
+import datetime
 import requests
 import os
 from flask import Flask, render_template, request, redirect, session
 import Run.output
 import Run.recommend_for_user
 
+
 app = Flask(__name__)
 app.secret_key = os.urandom(12)
+app.permanent_session_lifetime = datetime.timedelta(days=7)
+
+
+@app.route("/login", methods=['POST', 'GET'])
+def login():
+    """
+    Create login page
+    """
+
+    if 'user_id' in session:
+        return redirect("/")
+
+    elif request.method == 'POST':
+        session.permanent = True
+        session['user_id'] = request.form['set_id']
+        if not session['user_id'] or not session['user_id'].isdigit():
+            session.pop('user_id', None)
+            return render_template("error.html",
+                                   error_text="this is no valid user id!", return_link="/login")
+        return redirect("/")
+
+    return render_template("login.html")
+
+
+@app.route("/logout")
+def logout():
+    """
+    Not a shown page, redirect here to log out and return to login page
+    """
+
+    session.clear()
+
+    return redirect("/login")
 
 
 @app.route("/", methods=['POST', 'GET'])
-def home_page():
+def home():
     """
     Create the home-page
     """
 
+    if 'user_id' not in session:
+        return redirect("/login")
+
     session['prediction_needs_updating'] = True
-    session['user_id'] = 0
-    return render_template("home.html")
+    return render_template("home.html", user_id=session['user_id'])
 
 
-@app.route("/get_rec", methods=['POST', 'GET'])
-def get_rec_page():
+@app.route("/get_rec")
+def get_rec():
     """
     Create the get-recommendations-page
     """
 
+    if 'user_id' not in session:
+        return redirect("/login")
+
     if session['prediction_needs_updating']:
         Run.output.run_recommendation_algos()
         session['prediction_needs_updating'] = False
-
-    if request.method == 'POST':
-        session['user_id'] = request.form['update_id']
-        if not session['user_id'] or not session['user_id'].isdigit():
-            return render_template("error.html",
-                                   error_text="this is no valid user id!", return_link="/get_rec")
-        return redirect("/get_rec")
 
     # Create data-structure for displaying given ratings
     given_ratings = Run.output.get_ratings_for_user(session['user_id'])
@@ -90,27 +123,23 @@ def get_rec_page():
 
 
 @app.route("/rate", methods=['POST', 'GET'])
-def rate_page():
+def rate():
     """
     Create the rate-recipes-page
     """
 
+    if 'user_id' not in session:
+        return redirect("/login")
+
     if request.method == 'POST':
-        try:
-            session['user_id'] = request.form['update_id']
-            if not session['user_id'] or not session['user_id'].isdigit():
-                return render_template("error.html",
-                                       error_text="this is no valid user id!", return_link="/rate")
-            return redirect("/rate")
-        except KeyError:
-            session['rating'] = request.form['get_rating']
-            if Run.recommend_for_user.check_input(session['rating']):
-                Run.recommend_for_user.write_rating_to_file(session['user_id'], session['recipe_id'], session['rating'])
-                session['prediction_needs_updating'] = True
-            else:
-                return render_template("error.html",
-                                       error_text="this is no valid rating!", return_link="/rate")
-            return redirect("/rate")
+        session['rating'] = request.form['get_rating']
+        if Run.recommend_for_user.check_input(session['rating']):
+            Run.recommend_for_user.write_rating_to_file(session['user_id'], session['recipe_id'], session['rating'])
+            session['prediction_needs_updating'] = True
+        else:
+            return render_template("error.html",
+                                   error_text="this is no valid rating!", return_link="/rate")
+        return redirect("/rate")
 
     session['recipe_id'] = Run.recommend_for_user.get_recipe_to_rate(session['user_id'])
 
@@ -124,7 +153,7 @@ def rate_page():
 
 
 @app.route('/recipe')
-def get_recipe():
+def recipe():
     """
     Create the page where single recipes are displayed,
     mainly taken from "https://rapidapi.com/blog/build-food-website/"

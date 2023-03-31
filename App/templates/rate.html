@@ -18,17 +18,6 @@
         </p>
     </div>
 
-    <h2 class="body body-with-top-margin"> Your user-id:</h2>
-    <p class="body content"> {{user_id}} </p>
-
-    <form class="body" action="/rate#update_id" method="POST">
-        <label for="update_id"> Update user-id: </label><br>
-        <input type="text" name="update_id" id="update_id">
-        <input type="submit" value="submit">
-    </form>
-
-    <hr class="content-sep">
-
     <h2 class="body body-with-top-margin"> Here is a random recipe you haven't rated yet: </h2>
 
     {% if recipe_title != "No unrated recipe found!" %}
@@ -45,6 +34,17 @@
         <input type="submit" value="submit">
     </form>
     {% endif %}
+
+    <hr class="content-sep">
+
+    <h2 class="body body-with-top-margin"> Your user-id:</h2>
+    <p class="body content"> {{user_id}} </p>
+
+    <p class="body content">
+        <button class="btn btn-logout">
+            <a class="button" href="/logout"> Logout </a>
+        </button>
+    </p>
 
     <hr class="content-sep">
 

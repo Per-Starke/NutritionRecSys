@@ -36,15 +36,6 @@
 
     <hr class="content-sep">
 
-    <h2 class="body body-with-top-margin"> Your user-id:</h2>
-    <p class="body content"> {{user_id}} </p>
-
-    <form class="body" action="/get_rec#update_id" method="POST">
-        <label for="update_id"> Update user-id: </label><br>
-        <input type="text" name="update_id" id="update_id">
-        <input type="submit" value="submit">
-    </form>
-
     <h2 class="body body-with-top-margin"> Your rated recipes: </h2>
     <p class="body content">
         {% for recipe_id, rating in given_ratings.items() %}
@@ -76,6 +67,15 @@
             {% endif %}
             <br>
         {% endfor %}
+    </p>
+
+    <h2 class="body body-with-top-margin"> Your user-id:</h2>
+    <p class="body content"> {{user_id}} </p>
+
+    <p class="body content">
+        <button class="btn btn-logout">
+            <a class="button" href="/logout"> Logout </a>
+        </button>
     </p>
 
     <hr class="content-sep">
