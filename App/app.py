@@ -1,11 +1,14 @@
+import datetime
 import requests
 import os
 from flask import Flask, render_template, request, redirect, session
 import Run.output
 import Run.recommend_for_user
 
+
 app = Flask(__name__)
 app.secret_key = os.urandom(12)
+app.permanent_session_lifetime = datetime.timedelta(days=7)
 
 
 @app.route("/login", methods=['POST', 'GET'])
@@ -18,6 +21,7 @@ def login():
         return redirect("/")
 
     elif request.method == 'POST':
+        session.permanent = True
         session['user_id'] = request.form['set_id']
         if not session['user_id'] or not session['user_id'].isdigit():
             session.pop('user_id', None)
