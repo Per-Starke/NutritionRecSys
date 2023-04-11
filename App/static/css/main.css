@@ -148,13 +148,13 @@ End of "taken from Bootstrap"
 .btn-logout {
     color: #fff;
     background-color: #A0A0A0;
-    border-color: #606060;
+    border-color: #909090;
 }
 
 .btn-logout:hover {
     color: #fff;
     background-color: #909090;
-    border-color: #606060;
+    border-color: #808080;
     transform: scale(1.1);
 }
 
