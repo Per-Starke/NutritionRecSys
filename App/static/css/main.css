@@ -207,3 +207,11 @@ i.rating {
 }
 
 /* end of modified from: https://github.com/mukulkant/Star-rating-using-pure-css */
+
+p span {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    display: inline-block;
+    font-style: italic;
+    font-weight: bolder;
+}
