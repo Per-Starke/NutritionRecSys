@@ -26,6 +26,8 @@ https://getbootstrap.com/docs/4.0/getting-started/introduction/
 
 https://www.ra.ethz.ch/cdstore/www10/papers/pdf/p519.pdf
 
+https://github.com/mukulkant/Star-rating-using-pure-css 
+
 
 
 ### Images:

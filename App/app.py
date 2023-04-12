@@ -17,8 +17,6 @@ def login():
     Create login page
     """
 
-    session['invalid_rating'] = False
-
     if 'user_id' in session:
         return redirect("/")
 
@@ -139,20 +137,16 @@ def rate():
             Run.recommend_for_user.write_rating_to_file(session['user_id'], session['recipe_id'], session['rating'])
             session['prediction_needs_updating'] = True
         else:
-            session['invalid_rating'] = True
             return render_template("error.html",
                                    error_text="this is no valid rating!", return_link="/rate")
         return redirect("/rate")
 
     session['recipe_id'] = Run.recommend_for_user.get_recipe_to_rate(session['user_id'])
 
-    if not session['invalid_rating']:
-        if session['recipe_id']:
-            session['recipe_title'] = Run.output.get_recipe_title_by_id(session['recipe_id'])
-        else:
-            session['recipe_title'] = "No unrated recipe found!"
-
-    session['invalid_rating'] = False
+    if session['recipe_id']:
+        session['recipe_title'] = Run.output.get_recipe_title_by_id(session['recipe_id'])
+    else:
+        session['recipe_title'] = "No unrated recipe found!"
 
     return render_template("rate.html", user_id=session['user_id'], recipe_title=session['recipe_title'],
                            recipe_id=session['recipe_id'])
