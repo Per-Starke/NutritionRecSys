@@ -135,6 +135,7 @@ def rate():
     if request.method == 'POST':
         session['rating'] = request.form['get_rating']
         Run.recommend_for_user.write_rating_to_file(session['user_id'], session['recipe_id'], session['rating'])
+        Create_data.check_ratings.delete_double_ratings()
         session['prediction_needs_updating'] = True
         return redirect("/rate")
 
