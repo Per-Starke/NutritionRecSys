@@ -133,12 +133,8 @@ def rate():
 
     if request.method == 'POST':
         session['rating'] = request.form['get_rating']
-        if Run.recommend_for_user.check_input(session['rating']):
-            Run.recommend_for_user.write_rating_to_file(session['user_id'], session['recipe_id'], session['rating'])
-            session['prediction_needs_updating'] = True
-        else:
-            return render_template("error.html",
-                                   error_text="this is no valid rating!", return_link="/rate")
+        Run.recommend_for_user.write_rating_to_file(session['user_id'], session['recipe_id'], session['rating'])
+        session['prediction_needs_updating'] = True
         return redirect("/rate")
 
     session['recipe_id'] = Run.recommend_for_user.get_recipe_to_rate(session['user_id'])
