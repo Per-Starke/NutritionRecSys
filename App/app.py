@@ -4,6 +4,7 @@ import os
 from flask import Flask, render_template, request, redirect, session
 import Run.output
 import Run.recommend_for_user
+import Create_data.check_ratings
 
 
 app = Flask(__name__)
@@ -148,11 +149,10 @@ def rate():
                            recipe_id=session['recipe_id'])
 
 
-@app.route('/recipe')
+@app.route('/recipe', methods=['POST', 'GET'])
 def recipe():
     """
-    Create the page where single recipes are displayed,
-    mainly taken from "https://rapidapi.com/blog/build-food-website/"
+    Create the page where single recipes are displayed
     """
 
     rapid_api_key = os.getenv("RAPID_API_KEY")
@@ -164,6 +164,14 @@ def recipe():
     recipe_info_endpoint = "recipes/{0}/information".format(single_recipe_id)
     recipe_info = requests.request("GET", url + recipe_info_endpoint, headers=headers,
                                    params={'includeNutrition': 'true'}).json()
+
+    user_id = session['user_id']
+
+    if request.method == 'POST':
+        session['rating'] = request.form['get_rating']
+        Run.recommend_for_user.write_rating_to_file(user_id, single_recipe_id, session['rating'])
+        session['prediction_needs_updating'] = True
+        Create_data.check_ratings.delete_double_ratings()
 
     return render_template('recipe.html', recipe=recipe_info)
 
