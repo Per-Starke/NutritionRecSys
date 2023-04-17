@@ -11,6 +11,5 @@
 * run ```create_final_recipe_database``` with mode default mode 'a+' and query 3, high(er) protein tofu recipes
 * run ```create_final_recipe_database``` with mode default mode 'a+' and query 4, very high protein tofu recipes
 * run ```create_final_recipe_database``` with mode default mode 'a+' and query 5, high(er) protein salad recipes
-
-**todo:** 
-(Need to do all steps again when sim-algo works)
+* run ```create_final_recipe_database``` with mode default mode 'a+' and query 6, low fat & high(er) protein salad recipes
+* run ```create_final_recipe_database``` with mode default mode 'a+' and query 7, fruit recipes
