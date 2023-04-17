@@ -3,7 +3,7 @@
 * run ```create_final_recipe_database``` with mode 'w+' and default query 'random'
 * run ```create_final_recipe_database``` with mode default mode 'a+' and default query 'random'
   * Does not add new recipes, only duplicates, which are removed  -> we need to search with queries instead of random
-* Manually remove two non-vegan recipes 
+* Manually remove two non-vegan recipes which are wrongly labelled vegan
   * *Mussels and clams in white wine sauce, ID 652750*
   * *Creamy Curry Chicken With Yellow Rice, ID 640634*
 * run ```create_final_recipe_database``` with mode default mode 'a+' and query 1, high(er) protein pasta recipes
@@ -13,3 +13,9 @@
 * run ```create_final_recipe_database``` with mode default mode 'a+' and query 5, high(er) protein salad recipes
 * run ```create_final_recipe_database``` with mode default mode 'a+' and query 6, low fat & high(er) protein salad recipes
 * run ```create_final_recipe_database``` with mode default mode 'a+' and query 7, fruit recipes
+* run ```create_final_recipe_database``` with mode default mode 'a+' and query 8, low-carb pasta recipes
+
+
+## Todo:
+* Check for non-vegan recipes:
+  * 624873

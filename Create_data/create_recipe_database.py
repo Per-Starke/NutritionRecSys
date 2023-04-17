@@ -304,11 +304,15 @@ if __name__ == "__main__":
     query5 = {"query": "salad", "minProtein": "20"}
     # create_final_recipe_database(query=query5)
 
-    # Query 6 to search for: Low fat & high(er) protein salad recipes
+    # Query 6 to search for: low fat & high(er) protein salad recipes
     query6 = {"query": "salad", "minProtein": "20", "maxFat": "15"}
     # create_final_recipe_database(query=query6)
 
-    # Query 7 to search for: Fruit recipes
+    # Query 7 to search for: fruit recipes
     query7 = {"query": "fruit"}
-    create_final_recipe_database(query=query7)
+    # create_final_recipe_database(query=query7)
+
+    # Query 8 to search for: low-carb pasta recipes
+    query8 = {"query": "pasta", "maxCarbs": "30"}
+    create_final_recipe_database(query=query8)
 
