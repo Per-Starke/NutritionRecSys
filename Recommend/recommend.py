@@ -18,7 +18,7 @@ def recommend_collaborative_itemknn():
     """
 
     output_path_and_filename = parent_dir + "/Predicted_ratings_data/recommendations_collaborative_itemknn.csv"
-    ItemKNN(train_file=ratings_path_and_filename, output_file=output_path_and_filename, sep=", ").compute()
+    ItemKNN(train_file=ratings_path_and_filename, output_file=output_path_and_filename, sep=", ", rank_length=20).compute()
 
 
 def recommend_collaborative_userknn():
