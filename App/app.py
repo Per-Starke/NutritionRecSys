@@ -185,11 +185,9 @@ def get_rec_with_macros():
 
     if 'user_id' not in session:
         return redirect("/login")
-    else:
-        str_to_print = "Proteins: " + str(session['proteins']) + ", " + "Carbs: " + str(session['carbs']) + ", " +\
-                       "Fats: " + str(session['fats'])
 
-    return str_to_print
+    return render_template("get_rec_with_macros.html", user_id=session['user_id'], proteins=session["proteins"],
+                           carbs=session["carbs"], fats=session["fats"])
 
 
 @app.route('/recipe', methods=['POST', 'GET'])

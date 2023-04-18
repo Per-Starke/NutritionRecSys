@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title> Get Recommendations - Recipe Recommender </title>
+{% endblock %}
+
+{% block body %}
+    <div class="header">
+        <h1 class="title">
+            <img class="in-title" src="{{url_for('static', filename='/images/vegan-icon.png')}}" width="50px" />
+            Recipe Recommender
+        </h1>
+        <h2 class="subtitle"> Get your recommendations, matching your required macronutrients, here! </h2>
+        <p class="image-label"> Photo credit:
+            <a class="image-label" rel="noopener noreferrer nofollow" target="_blank" href="https://unsplash.com/de/fotos/2IxTgsgFi-s">
+                Unsplash
+            </a>
+        </p>
+    </div>
+
+    <h2 class="body body-with-top-margin"> Your required macronutrients: </h2>
+    <p class="body content">
+      Proteins: {{proteins}}g <br>
+      Carbs: {{carbs}}g <br>
+      Fats: {{fats}}g <br>
+    </p>
+
+
+    <hr class="content-sep">
+
+
+    <h2 class="body body-with-top-margin"> Your user-id:</h2>
+    <p class="body content"> {{user_id}} </p>
+
+    <p class="body content">
+        <button class="btn btn-logout">
+            <a class="button" href="/logout"> Logout </a>
+        </button>
+    </p>
+
+    <hr class="content-sep">
+
+    <p class="body content">
+        <button class="btn btn-primary">
+            <a class="button" href="/"> Home </a>
+        </button>
+
+        <button class="btn btn-primary">
+            <a class="button" href="/rate"> Rate recipes </a>
+        </button>
+    </p>
+
+
+
+{% endblock %}
