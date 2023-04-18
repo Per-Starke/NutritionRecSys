@@ -65,7 +65,7 @@ def get_rec():
     if 'user_id' not in session:
         return redirect("/login")
 
-    if session['prediction_needs_updating']:
+    elif session['prediction_needs_updating']:
         Run.output.run_recommendation_algos()
         session['prediction_needs_updating'] = False
 
@@ -134,7 +134,7 @@ def rate():
     if 'user_id' not in session:
         return redirect("/login")
 
-    if request.method == 'POST':
+    elif request.method == 'POST':
         session['rating'] = request.form['get_rating']
         Run.recommend_for_user.write_rating_to_file(session['user_id'], session['recipe_id'], session['rating'])
         Create_data.check_ratings.delete_double_ratings()
@@ -151,6 +151,45 @@ def rate():
     return render_template("rate.html", user_id=session['user_id'], recipe_title=session['recipe_title'],
                            recipe_id=session['recipe_id'])
 
+
+@app.route('/enter_macros', methods=['POST', 'GET'])
+def enter_macros():
+    """
+    Create the page to enter required macronutrients
+    """
+
+    if 'user_id' not in session:
+        return redirect("/login")
+
+    elif request.method == 'POST':
+        session['proteins'] = request.form['set_proteins']
+        session['carbs'] = request.form['set_carbs']
+        session['fats'] = request.form['set_fats']
+
+        if not session['proteins'].isdigit() or not session['carbs'].isdigit() or not session['fats'].isdigit():
+            session.pop('proteins', None)
+            session.pop('carbs', None)
+            session.pop('fats', None)
+            return render_template("error.html",
+                                   error_text="Invalid input for required macronutrients!", return_link="/enter_macros")
+        return redirect("/get_rec_with_macros")
+
+    return render_template("enter_macros.html", user_id=session['user_id'])
+
+
+@app.route('/get_rec_with_macros')
+def get_rec_with_macros():
+    """
+    Create the page to show recommendations matching the required macronutrients
+    """
+
+    if 'user_id' not in session:
+        return redirect("/login")
+    else:
+        str_to_print = "Proteins: " + str(session['proteins']) + ", " + "Carbs: " + str(session['carbs']) + ", " +\
+                       "Fats: " + str(session['fats'])
+
+    return str_to_print
 
 @app.route('/recipe', methods=['POST', 'GET'])
 def recipe():
