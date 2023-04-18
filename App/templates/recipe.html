@@ -34,12 +34,17 @@
 
     <h2 class="body body-with-top-margin"> Instructions: </h2>
 
+    {% if recipe['analyzedInstructions'][0] %}
     <ul class="body content">
         {% set steps = recipe['analyzedInstructions'][0]['steps'] %}
         {% for step in steps %}
             <li> {{step['step']}} </li>
         {% endfor %}
     </ul>
+    {% else %}
+        <p class="body content"> None given </p>
+    {% endif %}
+
 
     <hr class="content-sep">
 
