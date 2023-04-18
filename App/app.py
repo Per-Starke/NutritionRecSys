@@ -191,6 +191,7 @@ def get_rec_with_macros():
 
     return str_to_print
 
+
 @app.route('/recipe', methods=['POST', 'GET'])
 def recipe():
     """

@@ -21,12 +21,32 @@
 
     <div class="center">
         <form class="body content body-with-top-margin" action="/enter_macros" method="POST">
-            <label for="set_proteins"> Grams of proteins: </label>
-            <input type="text" name="set_proteins" id="set_proteins"><br>
-            <label for="set_carbs"> Grams of carbs: </label>
-            <input type="text" name="set_carbs" id="set_carbs"><br>
-            <label for="set_fats"> Grams of fats: </label>
-            <input type="text" name="set_fats" id="set_fats"><br>
+            <table class="body content center">
+                <tr class="macros">
+                    <td>
+                        <label for="set_proteins"> Grams of proteins: </label>
+                    </td>
+                    <td>
+                        <input type="text" name="set_proteins" id="set_proteins"><br>
+                    </td>
+                </tr>
+                <tr class="macros">
+                    <td>
+                        <label for="set_carbs"> Grams of carbs: </label>
+                    </td>
+                    <td>
+                        <input type="text" name="set_carbs" id="set_carbs"><br>
+                    </td>
+                </tr>
+                <tr class="macros">
+                    <td>
+                        <label for="set_fats"> Grams of fats: </label>
+                    </td>
+                    <td>
+                        <input type="text" name="set_fats" id="set_fats"><br>
+                    </td>
+                </tr>
+            </table>
             <input type="submit" value="submit">
         </form>
     </div>
