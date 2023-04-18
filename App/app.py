@@ -6,7 +6,6 @@ import Run.output
 import Run.recommend_for_user
 import Create_data.check_ratings
 
-
 app = Flask(__name__)
 app.secret_key = os.urandom(12)
 app.permanent_session_lifetime = datetime.timedelta(days=7)
@@ -88,7 +87,10 @@ def get_rec():
         cb_with_titles = {}
         cb_ids = []
         for current_recipe_id, rating in content_based.items():
-            cb_with_titles[Run.output.get_recipe_title_by_id(current_recipe_id)] = rating
+            current_title = Run.output.get_recipe_title_by_id(current_recipe_id)
+            if current_title in cb_with_titles:
+                current_title = current_title + " "
+            cb_with_titles[current_title] = rating
             cb_ids.append(current_recipe_id)
         recipes_and_ratings["content-based"] = cb_with_titles
         ids["content-based"] = cb_ids

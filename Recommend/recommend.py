@@ -12,10 +12,10 @@ parent_dir = os.path.dirname(os.getcwd())
 ratings_path_and_filename = parent_dir + "/Data/ratings.csv"
 
 
-def recommend_collaborative_itemknn(rank_length=3):
+def recommend_collaborative_itemknn(rank_length=4):
     """
     create or update the recommendations.csv file
-    :param rank_length: The number of predictions to calculate, default 3
+    :param rank_length: The number of predictions to calculate, default 4
     """
 
     output_path_and_filename = parent_dir + "/Predicted_ratings_data/recommendations_collaborative_itemknn.csv"
@@ -23,10 +23,10 @@ def recommend_collaborative_itemknn(rank_length=3):
             rank_length=rank_length).compute()
 
 
-def recommend_collaborative_userknn(rank_length=3):
+def recommend_collaborative_userknn(rank_length=4):
     """
     create or update the recommendations.csv file
-    :param rank_length: The number of predictions to calculate, default 3
+    :param rank_length: The number of predictions to calculate, default 4
     """
 
     output_path_and_filename = parent_dir + "/Predicted_ratings_data/recommendations_collaborative_userknn.csv"
@@ -34,10 +34,10 @@ def recommend_collaborative_userknn(rank_length=3):
             rank_length=rank_length).compute()
 
 
-def recommend_content_based(rank_length=3):
+def recommend_content_based(rank_length=4):
     """
     create or update the recommendations.csv file
-    :param rank_length: The number of predictions to calculate, default 3
+    :param rank_length: The number of predictions to calculate, default 4
     """
 
     output_path_and_filename = parent_dir + "/Predicted_ratings_data/recommendations_content_based.csv"
