@@ -14,14 +14,15 @@ recipe_database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
 recipe_info = pd.read_csv(recipe_database_path_and_filename, index_col=False)
 
 
-def run_recommendation_algos():
+def run_recommendation_algos(rank_length=3):
     """
     Run the rating prediction algorithms
+    :param rank_length: The number of predictions to calculate, default 3
     """
 
-    recommend.recommend_content_based()
-    recommend.recommend_collaborative_itemknn()
-    # recommend.recommend_collaborative_userknn()
+    recommend.recommend_content_based(rank_length=rank_length)
+    recommend.recommend_collaborative_itemknn(rank_length=rank_length)
+    # recommend.recommend_collaborative_userknn(rank_length=rank_length)
 
 
 def write_recommendations():

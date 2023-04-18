@@ -36,6 +36,3 @@ def create_ratings(amount_of_users):
                 ratings_number += 1
 
     Create_data.check_ratings.delete_double_ratings()
-
-
-create_ratings(300)
