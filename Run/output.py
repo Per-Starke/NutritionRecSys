@@ -19,9 +19,9 @@ def run_recommendation_algos():
     Run the rating prediction algorithms
     """
 
-    recommend.recommend_collaborative_itemknn()
-    recommend.recommend_collaborative_userknn()
     recommend.recommend_content_based()
+    recommend.recommend_collaborative_itemknn()
+    # recommend.recommend_collaborative_userknn()
 
 
 def write_recommendations():
@@ -39,12 +39,16 @@ def write_recommendations():
     recommendations_collaborative_itemknn = pd.read_csv(recommend_collaborative_itemknn_path_and_filename,
                                                         names=col_names)
 
+    # For User-KNN, out-commented because only Content-based and Item-KNN are used.
+    # Remove triple quotation marks and add to returned list, if this shall be used!
+    """
     recommend_collaborative_userknn_path_and_filename = \
         parent_dir + "/Predicted_ratings_data/recommendations_collaborative_userknn.csv"
     recommendations_collaborative_userknn = pd.read_csv(recommend_collaborative_userknn_path_and_filename,
                                                         names=col_names)
+    """
 
-    return [recommendations_content_based, recommendations_collaborative_itemknn, recommendations_collaborative_userknn]
+    return [recommendations_content_based, recommendations_collaborative_itemknn]
 
 
 def get_recipe_title_by_id(id_to_get):
