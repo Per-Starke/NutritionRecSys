@@ -80,7 +80,7 @@ def find_top_3_recs_within_range_of_macros(user_id, algorithm, proteins, carbs, 
     min_fats = float(fats) - float(fats) * allowed_range
     max_fats = float(fats) + float(fats) * allowed_range
 
-    recs_and_macros = get_recs_and_macros(user_id, algorithm)
+    recs_and_macros = get_recs_and_macros(int(user_id), algorithm)
 
     return_list = []
 
@@ -96,8 +96,3 @@ def find_top_3_recs_within_range_of_macros(user_id, algorithm, proteins, carbs, 
                 return return_list
 
     return return_list
-
-
-print(get_recs_and_macros(5, "contentbased"))
-print(find_top_3_recs_within_range_of_macros(user_id=5, algorithm="contentbased",
-                                             proteins=30, carbs=30, fats=30))

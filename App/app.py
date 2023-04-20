@@ -188,14 +188,12 @@ def get_rec_with_macros():
         return redirect("/login")
 
     content_based_recommendations = Recommend.recommend_with_macros.find_top_3_recs_within_range_of_macros(
-        user_id=session["user_id"], algorithm="contentbased", proteins=session["proteins"], carbs=session["carbs"],
-        fats=session["fats"]
-    )
+        user_id=session["user_id"], algorithm="contentbased", proteins=30, carbs=60,
+        fats=30)
 
     itemknn_recommendations = Recommend.recommend_with_macros.find_top_3_recs_within_range_of_macros(
         user_id=session["user_id"], algorithm="itemknn", proteins=session["proteins"], carbs=session["carbs"],
-        fats=session["fats"]
-    )
+        fats=session["fats"])
 
     cb_rec_dict = {}
     itemknn_rec_dict = {}
