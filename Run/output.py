@@ -14,7 +14,7 @@ recipe_database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
 recipe_info = pd.read_csv(recipe_database_path_and_filename, index_col=False)
 
 
-def run_recommendation_algos(rank_length=3):
+def run_recommendation_algos(rank_length=100):
     """
     Run the rating prediction algorithms
     :param rank_length: The number of predictions to calculate, default 3
@@ -60,6 +60,20 @@ def get_recipe_title_by_id(id_to_get):
     """
 
     return recipe_info[recipe_info["ID"] == id_to_get][" Title"].iloc[0][1:]
+
+
+def get_macros_by_id(id_to_get):
+    """
+    Get the macronutrients of a recipe
+    :param id_to_get: The ID of the reicpe where we want to get the macros from, as int
+    :return: The macros, as dict
+    """
+
+    proteins = recipe_info[recipe_info["ID"] == id_to_get][" Proteins"].iloc[0][1:]
+    carbs = recipe_info[recipe_info["ID"] == id_to_get][" Carbs"].iloc[0][1:]
+    fats = recipe_info[recipe_info["ID"] == id_to_get][" Fats"].iloc[0][1:]
+
+    return {"proteins": proteins, "carbs": carbs, "fats": fats}
 
 
 def get_ratings_for_user(user_id):

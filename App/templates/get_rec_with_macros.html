@@ -29,6 +29,30 @@
     <hr class="content-sep">
 
 
+    <h1 class="body body-with-top-margin">
+        <span class="main-header">
+            Here are your recommended recipes, matching your required macronutrients within a 20% range:
+        </span>
+    </h1>
+
+    <h2 class="body body-with-top-margin"> Using the content-based algorithm:</h2>
+    {% for recipe_id, title in cb_recs.items() %}
+        <ol class="body content">
+            <li><a rel="noopener noreferrer nofollow" target="_blank" href="/recipe?id={{recipe_id}}"> {{title}} </a></li>
+        </ol>
+    {% endfor %}
+
+    <h2 class="body body-with-top-margin"> Using the item-knn algorithm:</h2>
+    {% for recipe_id, title in itemknn_recs.items() %}
+        <ol class="body content">
+            <li><a rel="noopener noreferrer nofollow" target="_blank" href="/recipe?id={{recipe_id}}"> {{title}} </a></li>
+        </ol>
+    {% endfor %}
+
+
+    <hr class="content-sep">
+
+
     <h2 class="body body-with-top-margin"> Your user-id:</h2>
     <p class="body content"> {{user_id}} </p>
 

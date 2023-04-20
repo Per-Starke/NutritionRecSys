@@ -5,6 +5,7 @@ from flask import Flask, render_template, request, redirect, session
 import Run.output
 import Run.recommend_for_user
 import Create_data.check_ratings
+import Recommend.recommend_with_macros
 
 app = Flask(__name__)
 app.secret_key = os.urandom(12)
@@ -186,8 +187,28 @@ def get_rec_with_macros():
     if 'user_id' not in session:
         return redirect("/login")
 
+    content_based_recommendations = Recommend.recommend_with_macros.find_top_3_recs_within_range_of_macros(
+        user_id=session["user_id"], algorithm="contentbased", proteins=session["proteins"], carbs=session["carbs"],
+        fats=session["fats"]
+    )
+
+    itemknn_recommendations = Recommend.recommend_with_macros.find_top_3_recs_within_range_of_macros(
+        user_id=session["user_id"], algorithm="itemknn", proteins=session["proteins"], carbs=session["carbs"],
+        fats=session["fats"]
+    )
+
+    cb_rec_dict = {}
+    itemknn_rec_dict = {}
+
+    for recipe_id in content_based_recommendations:
+        cb_rec_dict[recipe_id] = Run.output.get_recipe_title_by_id(recipe_id)
+
+    for recipe_id in itemknn_recommendations:
+        itemknn_rec_dict[recipe_id] = Run.output.get_recipe_title_by_id(recipe_id)
+
     return render_template("get_rec_with_macros.html", user_id=session['user_id'], proteins=session["proteins"],
-                           carbs=session["carbs"], fats=session["fats"])
+                           carbs=session["carbs"], fats=session["fats"], cb_recs=cb_rec_dict,
+                           itemknn_recs=itemknn_rec_dict)
 
 
 @app.route('/recipe', methods=['POST', 'GET'])
