@@ -166,11 +166,20 @@ def enter_macros():
         session['proteins'] = request.form['set_proteins']
         session['carbs'] = request.form['set_carbs']
         session['fats'] = request.form['set_fats']
+        session['range'] = request.form['set_range']
 
-        if not session['proteins'].isdigit() or not session['carbs'].isdigit() or not session['fats'].isdigit():
+        try:
+            float(session['range'])
+            range_is_number = True
+        except ValueError:
+            range_is_number = False
+
+        if not session['proteins'].isdigit() or not session['carbs'].isdigit() or not session['fats'].isdigit()\
+                or not range_is_number:
             session.pop('proteins', None)
             session.pop('carbs', None)
             session.pop('fats', None)
+            session.pop('range', None)
             return render_template("error.html",
                                    error_text="Invalid input for required macronutrients!", return_link="/enter_macros")
         return redirect("/get_rec_with_macros")
@@ -189,11 +198,11 @@ def get_rec_with_macros():
 
     content_based_recommendations = Recommend.recommend_with_macros.find_top_3_recs_within_range_of_macros(
         user_id=session["user_id"], algorithm="contentbased", proteins=30, carbs=60,
-        fats=30)
+        fats=30, allowed_range=session["range"])
 
     itemknn_recommendations = Recommend.recommend_with_macros.find_top_3_recs_within_range_of_macros(
         user_id=session["user_id"], algorithm="itemknn", proteins=session["proteins"], carbs=session["carbs"],
-        fats=session["fats"])
+        fats=session["fats"], allowed_range=session["range"])
 
     cb_rec_dict = {}
     itemknn_rec_dict = {}
@@ -205,8 +214,8 @@ def get_rec_with_macros():
         itemknn_rec_dict[recipe_id] = Run.output.get_recipe_title_by_id(recipe_id)
 
     return render_template("get_rec_with_macros.html", user_id=session['user_id'], proteins=session["proteins"],
-                           carbs=session["carbs"], fats=session["fats"], cb_recs=cb_rec_dict,
-                           itemknn_recs=itemknn_rec_dict)
+                           carbs=session["carbs"], fats=session["fats"], range_percent=float(session["range"])*100,
+                           cb_recs=cb_rec_dict, itemknn_recs=itemknn_rec_dict)
 
 
 @app.route('/recipe', methods=['POST', 'GET'])

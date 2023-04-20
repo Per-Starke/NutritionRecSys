@@ -71,14 +71,14 @@ def find_top_3_recs_within_range_of_macros(user_id, algorithm, proteins, carbs, 
     :return: The top 3 (or less, if less found) recommendations matchingthe given macros, as a list of recipe ids
     """
 
-    min_protein = float(proteins) - float(proteins) * allowed_range
-    max_protein = float(proteins) + float(proteins) * allowed_range
+    min_protein = float(proteins) - float(proteins) * float(allowed_range)
+    max_protein = float(proteins) + float(proteins) * float(allowed_range)
 
-    min_carbs = float(carbs) - float(carbs) * allowed_range
-    max_carbs = float(carbs) + float(carbs) * allowed_range
+    min_carbs = float(carbs) - float(carbs) * float(allowed_range)
+    max_carbs = float(carbs) + float(carbs) * float(allowed_range)
 
-    min_fats = float(fats) - float(fats) * allowed_range
-    max_fats = float(fats) + float(fats) * allowed_range
+    min_fats = float(fats) - float(fats) * float(allowed_range)
+    max_fats = float(fats) + float(fats) * float(allowed_range)
 
     recs_and_macros = get_recs_and_macros(int(user_id), algorithm)
 
