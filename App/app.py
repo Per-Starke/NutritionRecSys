@@ -54,6 +54,7 @@ def home():
         return redirect("/login")
 
     session['prediction_needs_updating'] = True
+    session["large_range"] = False
     return render_template("home.html", user_id=session['user_id'])
 
 
@@ -68,6 +69,7 @@ def get_rec():
 
     elif session['prediction_needs_updating']:
         Run.output.run_recommendation_algos()
+        session["large_range"] = False
         session['prediction_needs_updating'] = False
 
     # Create data-structure for displaying given ratings
@@ -196,9 +198,14 @@ def get_rec_with_macros():
     if 'user_id' not in session:
         return redirect("/login")
 
+    if not session["large_range"] or session['prediction_needs_updating']:
+        Run.output.run_recommendation_algos(rank_length=100)
+    session["large_range"] = True
+    session['prediction_needs_updating'] = False
+
     content_based_recommendations = Recommend.recommend_with_macros.find_top_3_recs_within_range_of_macros(
-        user_id=session["user_id"], algorithm="contentbased", proteins=30, carbs=60,
-        fats=30, allowed_range=session["range"])
+        user_id=session["user_id"], algorithm="contentbased", proteins=session["proteins"], carbs=session["carbs"],
+        fats=session["fats"], allowed_range=session["range"])
 
     itemknn_recommendations = Recommend.recommend_with_macros.find_top_3_recs_within_range_of_macros(
         user_id=session["user_id"], algorithm="itemknn", proteins=session["proteins"], carbs=session["carbs"],

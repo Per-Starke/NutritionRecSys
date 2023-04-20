@@ -14,7 +14,7 @@ recipe_database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
 recipe_info = pd.read_csv(recipe_database_path_and_filename, index_col=False)
 
 
-def run_recommendation_algos(rank_length=100):
+def run_recommendation_algos(rank_length=3):
     """
     Run the rating prediction algorithms
     :param rank_length: The number of predictions to calculate, default 3
