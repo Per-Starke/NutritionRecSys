@@ -36,27 +36,27 @@
     </h1>
 
     <h2 class="body body-with-top-margin"> Using the content-based algorithm:</h2>
-    {% for recipe_id, title in cb_recs.items() %}
-        <ol class="body content">
+    <ol class="body content">
+        {% for recipe_id, title in cb_recs.items() %}
             <li><a rel="noopener noreferrer nofollow" target="_blank" href="/recipe?id={{recipe_id}}"> {{title}} </a></li>
-        </ol>
-        {% if cb_recs.values()|length < 3%}
-            <p class="body content">Sadly, no more matching recommenations found</p>
-        {% endif %}
-    {% endfor %}
+        {% endfor %}
+    </ol>
+    {% if cb_recs.values()|length < 3%}
+        <p class="body content">Sadly, no more matching recommenations found</p>
+    {% endif %}
     {% if cb_recs.values()|length == 0 %}
         <p class="body content">Sadly, no matching recommendations found. Please try again with other nutrient values.</p>
     {% endif %}
 
     <h2 class="body body-with-top-margin"> Using the item-knn algorithm:</h2>
-    {% for recipe_id, title in itemknn_recs.items() %}
-        <ol class="body content">
+    <ol class="body content">
+        {% for recipe_id, title in itemknn_recs.items() %}
             <li><a rel="noopener noreferrer nofollow" target="_blank" href="/recipe?id={{recipe_id}}"> {{title}} </a></li>
-        </ol>
-        {% if itemknn_recs.values()|length < 3%}
-            <p class="body content">Sadly, no more matching recommenations found</p>
-        {% endif %}
-    {% endfor %}
+        {% endfor %}
+    </ol>
+    {% if itemknn_recs.values()|length < 3%}
+        <p class="body content">Sadly, no more matching recommenations found</p>
+    {% endif %}
     {% if itemknn_recs.values()|length == 0 %}
         <p class="body content">Sadly, no matching recommendations found. Please try again with other nutrient values.</p>
     {% endif %}
