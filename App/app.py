@@ -231,6 +231,9 @@ def recipe():
     """
     Create the page where single recipes are displayed
     """
+    
+    if 'user_id' not in session:
+        return redirect("/login")
 
     rapid_api_key = os.getenv("RAPID_API_KEY")
     url = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/"
