@@ -1,15 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-    <script src="https://kit.fontawesome.com/d0c98d3c82.js" crossorigin="anonymous"></script>
-    {% block head %} {% endblock %}
-</head>
-<body>
-    {% block body %} {% endblock %}
+{% extends 'base.html' %}
 
-     <hr class="content-sep">
+{% block nav %}
+
+<hr class="content-sep">
 
     <h2 class="body body-with-top-margin"> Your user-id:</h2>
     <p class="body content"> {{user_id}} </p>
@@ -41,5 +34,4 @@
 
     </p>
 
-</body>
-</html>
+{% endblock %}
