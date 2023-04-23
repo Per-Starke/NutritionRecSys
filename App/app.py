@@ -250,7 +250,7 @@ def recipe():
         session['prediction_needs_updating'] = True
         Create_data.check_ratings.delete_double_ratings()
 
-    return render_template('recipe.html', recipe=recipe_info)
+    return render_template('recipe.html', recipe=recipe_info, user_id=session['user_id'])
 
 
 if __name__ == "__main__":
