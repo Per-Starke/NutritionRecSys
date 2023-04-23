@@ -43,8 +43,7 @@
     </ol>
     {% if cb_recs.values()|length < 3%}
         <p class="body content">Sadly, no more matching recommenations found</p>
-    {% endif %}
-    {% if cb_recs.values()|length == 0 %}
+    {% elif cb_recs.values()|length == 0 %}
         <p class="body content">Sadly, no matching recommendations found. Please try again with other nutrient values.</p>
     {% endif %}
 
@@ -56,8 +55,7 @@
     </ol>
     {% if itemknn_recs.values()|length < 3%}
         <p class="body content">Sadly, no more matching recommenations found</p>
-    {% endif %}
-    {% if itemknn_recs.values()|length == 0 %}
+    {% elif itemknn_recs.values()|length == 0 %}
         <p class="body content">Sadly, no matching recommendations found. Please try again with other nutrient values.</p>
     {% endif %}
 

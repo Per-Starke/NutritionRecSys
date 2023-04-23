@@ -55,6 +55,7 @@ def home():
 
     session['prediction_needs_updating'] = True
     session["large_range"] = False
+
     return render_template("home.html", user_id=session['user_id'])
 
 
