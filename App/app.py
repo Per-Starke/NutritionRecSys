@@ -27,7 +27,7 @@ def login():
         if not session['user_id'] or not session['user_id'].isdigit():
             session.pop('user_id', None)
             return render_template("error.html",
-                                   error_text="this is no valid user id!", return_link="/login")
+                                   error_text="this is no valid user id!")
         return redirect("/")
 
     return render_template("login.html")
@@ -184,7 +184,7 @@ def enter_macros():
             session.pop('fats', None)
             session.pop('range', None)
             return render_template("error.html",
-                                   error_text="Invalid input for required macronutrients!", return_link="/enter_macros")
+                                   error_text="Invalid input for required macronutrients!")
         return redirect("/get_rec_with_macros")
 
     return render_template("enter_macros.html", user_id=session['user_id'])
