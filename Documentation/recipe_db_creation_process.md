@@ -15,6 +15,7 @@
 * run ```create_final_recipe_database``` with default mode 'a+' and query 7, fruit recipes
 * run ```create_final_recipe_database``` with default mode 'a+' and query 8, low-carb pasta recipes
 * run ```create_final_recipe_database``` with default mode 'a+' and query 9, high(er) protein burger recipes
+* run ```create_final_recipe_database``` with default mode 'a+' and query 10, burger recipes
 
 
 ## Todo:
