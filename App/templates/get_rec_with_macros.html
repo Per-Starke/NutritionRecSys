@@ -41,10 +41,10 @@
             <li><a rel="noopener noreferrer nofollow" target="_blank" href="/recipe?id={{recipe_id}}"> {{title}} </a></li>
         {% endfor %}
     </ol>
-    {% if cb_recs.values()|length < 3%}
-        <p class="body content">Sadly, no more matching recommenations found</p>
-    {% elif cb_recs.values()|length == 0 %}
+    {% if cb_recs.values()|length == 0 %}
         <p class="body content">Sadly, no matching recommendations found. Please try again with other nutrient values.</p>
+    {% elif cb_recs.values()|length < 3%}
+        <p class="body content">Sadly, no more matching recommenations found</p>
     {% endif %}
 
     <h2 class="body body-with-top-margin"> Using the item-knn algorithm:</h2>
@@ -53,10 +53,10 @@
             <li><a rel="noopener noreferrer nofollow" target="_blank" href="/recipe?id={{recipe_id}}"> {{title}} </a></li>
         {% endfor %}
     </ol>
-    {% if itemknn_recs.values()|length < 3%}
-        <p class="body content">Sadly, no more matching recommenations found</p>
-    {% elif itemknn_recs.values()|length == 0 %}
+    {% if itemknn_recs.values()|length == 0 %}
         <p class="body content">Sadly, no matching recommendations found. Please try again with other nutrient values.</p>
+    {% elif itemknn_recs.values()|length < 3%}
+        <p class="body content">Sadly, no more matching recommenations found</p>
     {% endif %}
 
 {% endblock %}

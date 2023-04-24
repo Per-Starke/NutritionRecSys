@@ -231,7 +231,7 @@ def recipe():
     """
     Create the page where single recipes are displayed
     """
-    
+
     if 'user_id' not in session:
         return redirect("/login")
 
