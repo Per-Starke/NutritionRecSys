@@ -73,12 +73,21 @@ def find_top_3_recs_within_range_of_macros(user_id, algorithm, proteins, carbs, 
 
     min_protein = float(proteins) - float(proteins) * float(allowed_range)
     max_protein = float(proteins) + float(proteins) * float(allowed_range)
+    protein_open = False
+    if min_protein == 0 and max_protein == 0:
+        protein_open = True
 
     min_carbs = float(carbs) - float(carbs) * float(allowed_range)
     max_carbs = float(carbs) + float(carbs) * float(allowed_range)
+    carbs_open = False
+    if min_carbs == 0 and max_carbs == 0:
+        carbs_open = True
 
     min_fats = float(fats) - float(fats) * float(allowed_range)
     max_fats = float(fats) + float(fats) * float(allowed_range)
+    fats_open = False
+    if min_fats == 0 and max_fats == 0:
+        fats_open = True
 
     recs_and_macros = get_recs_and_macros(int(user_id), algorithm)
 
@@ -89,8 +98,58 @@ def find_top_3_recs_within_range_of_macros(user_id, algorithm, proteins, carbs, 
         recipe_carbs = macro_dict["carbs"][:-1]
         recipe_fats = macro_dict["fats"][:-1]
 
-        if (min_protein <= float(recipe_proteins) <= max_protein and min_carbs <= float(recipe_carbs) <= max_carbs and
-                min_fats <= float(recipe_fats) <= max_fats):
+        # Case 1: All macros given
+        if protein_open == False and carbs_open == False and fats_open == False:
+            if (min_protein <= float(recipe_proteins) <= max_protein and min_carbs <= float(recipe_carbs)
+                    <= max_carbs and min_fats <= float(recipe_fats) <= max_fats):
+                return_list.append(recipe_id)
+                if len(return_list) == 3:
+                    return return_list
+
+        # Case 2: Proteins open, rest given
+        elif protein_open == True and carbs_open == False and fats_open == False:
+            if min_carbs <= float(recipe_carbs) <= max_carbs and min_fats <= float(recipe_fats) <= max_fats:
+                return_list.append(recipe_id)
+                if len(return_list) == 3:
+                    return return_list
+
+        # Case 3: Carbs open, rest given
+        elif protein_open == False and carbs_open == True and fats_open == False:
+            if min_protein <= float(recipe_proteins) <= max_protein and min_fats <= float(recipe_fats) <= max_fats:
+                return_list.append(recipe_id)
+                if len(return_list) == 3:
+                    return return_list
+
+        # Case 4: Fats open, rest given
+        elif protein_open == False and carbs_open == False and fats_open == True:
+            if min_protein <= float(recipe_proteins) <= max_protein and min_carbs <= float(recipe_carbs) <= max_carbs:
+                return_list.append(recipe_id)
+                if len(return_list) == 3:
+                    return return_list
+
+        # Case 5: Proteins and carbs open, fats given
+        elif protein_open == True and carbs_open == True and fats_open == False:
+            if min_fats <= float(recipe_fats) <= max_fats:
+                return_list.append(recipe_id)
+                if len(return_list) == 3:
+                    return return_list
+
+        # Case 6: Carbs and fats open, proteins given
+        elif protein_open == False and carbs_open == True and fats_open == True:
+            if min_protein <= float(recipe_proteins) <= max_protein:
+                return_list.append(recipe_id)
+                if len(return_list) == 3:
+                    return return_list
+
+        # Case 7: Proteins and fats open, carbs given
+        elif protein_open == True and carbs_open == False and fats_open == True:
+            if min_carbs <= float(recipe_carbs) <= max_carbs:
+                return_list.append(recipe_id)
+                if len(return_list) == 3:
+                    return return_list
+
+        # Case 8: Nothing given (same as just getting recommendations)
+        elif protein_open == True and carbs_open == True and fats_open == True:
             return_list.append(recipe_id)
             if len(return_list) == 3:
                 return return_list

@@ -177,8 +177,15 @@ def enter_macros():
         except ValueError:
             range_is_number = False
 
-        if not session['proteins'].isdigit() or not session['carbs'].isdigit() or not session['fats'].isdigit()\
-                or not range_is_number:
+        if session["proteins"] == "":
+            session["proteins"] = "0"
+        if session["carbs"] == "":
+            session["carbs"] = "0"
+        if session["fats"] == "":
+            session["fats"] = "0"
+
+        if (not session['proteins'].isdigit() or not session['carbs'].isdigit() or not session['fats'].isdigit()
+                or not range_is_number):
             session.pop('proteins', None)
             session.pop('carbs', None)
             session.pop('fats', None)
