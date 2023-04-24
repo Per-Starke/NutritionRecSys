@@ -6,6 +6,9 @@ import pandas as pd
 from random import randint
 import os
 
+import Create_data.check_ratings
+from Create_data.check_ratings import delete_double_ratings
+
 
 def create_ratings(amount_of_users):
     """
@@ -31,3 +34,5 @@ def create_ratings(amount_of_users):
                                str(randint(1, 5)) + "\n"
                 file.write(str_to_write)
                 ratings_number += 1
+
+    Create_data.check_ratings.delete_double_ratings()

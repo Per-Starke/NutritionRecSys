@@ -5,6 +5,7 @@ https://rapidapi.com/spoonacular/api/recipe-food-nutrition/
 https://medium.com/mlearning-ai/recommendation-systems-content-based-filtering-e19e3b0a309e
 
 https://github.com/caserec/CaseRecommender
+https://dl.acm.org/doi/10.1145/3240323.3241611
 
 https://rapidapi.com/blog/build-food-website/
 

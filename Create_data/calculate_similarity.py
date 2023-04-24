@@ -57,7 +57,7 @@ def calc_recipe_sim(recipe_id_1, recipe_id_2, recipe_info):
     recipe_2_info = recipe_2[" Information-String"].iloc[0].split(" <<instructions>> ")
 
     recipe_1_ingredients = recipe_1_info[0]
-    recipe_2_ingrecients = recipe_2_info[0]
+    recipe_2_ingredients = recipe_2_info[0]
 
     recipe_1_instructions = recipe_1_info[1]
     recipe_2_instructions = recipe_2_info[1]
@@ -70,12 +70,18 @@ def calc_recipe_sim(recipe_id_1, recipe_id_2, recipe_info):
                       recipe_2[" Bitterness"].iloc[0], recipe_2[" Savoriness"].iloc[0], recipe_2[" Fattiness"].iloc[0],
                       recipe_2[" Spiciness"].iloc[0]]
 
-    cos_ingredient_sim = calc_text_sim(recipe_1_ingredients, recipe_2_ingrecients)
-    cos_instruction_sim = calc_text_sim(recipe_1_instructions, recipe_2_instructions)
+    try:
+        cos_ingredient_sim = calc_text_sim(recipe_1_ingredients, recipe_2_ingredients)
+    except ValueError:
+        cos_ingredient_sim = 0
 
-    # Give higher weight to ingredients than instructions and do NOT divide, to give higher weight to text-sim,
-    # because this is generally very low
-    cos_text_sim = (2 * cos_ingredient_sim + cos_instruction_sim)
+    try:
+        cos_instruction_sim = calc_text_sim(recipe_1_instructions, recipe_2_instructions)
+    except ValueError:
+        cos_instruction_sim = 0
+
+    # Give higher weight to ingredients than instructions, divide by 3 for normalization
+    cos_text_sim = (2 * cos_ingredient_sim + cos_instruction_sim) / 3
 
     cos_taste_sim = calc_taste_sim(recipe_1_taste, recipe_2_taste)
 
@@ -130,3 +136,5 @@ def calculate_similarities():
 
     write_sims_in_file(calc_all_recipe_sims(recipe_info))
 
+
+calculate_similarities()

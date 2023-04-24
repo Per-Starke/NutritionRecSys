@@ -14,9 +14,17 @@ th, td {
     padding-right: 5px;
 }
 
+tr.macros {
+    background-color: rgba(165, 230, 255, 0.2);
+}
+
 .center {
   margin: auto;
   text-align: center
+}
+
+table.left {
+    margin-left: 0;
 }
 
 .max300 {

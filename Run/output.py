@@ -14,14 +14,15 @@ recipe_database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
 recipe_info = pd.read_csv(recipe_database_path_and_filename, index_col=False)
 
 
-def run_recommendation_algos():
+def run_recommendation_algos(rank_length=3):
     """
     Run the rating prediction algorithms
+    :param rank_length: The number of predictions to calculate, default 3
     """
 
-    recommend.recommend_collaborative_itemknn()
-    recommend.recommend_collaborative_userknn()
-    recommend.recommend_content_based()
+    recommend.recommend_content_based(rank_length=rank_length)
+    recommend.recommend_collaborative_itemknn(rank_length=rank_length)
+    # recommend.recommend_collaborative_userknn(rank_length=rank_length)
 
 
 def write_recommendations():
@@ -39,12 +40,16 @@ def write_recommendations():
     recommendations_collaborative_itemknn = pd.read_csv(recommend_collaborative_itemknn_path_and_filename,
                                                         names=col_names)
 
+    # For User-KNN, out-commented because only Content-based and Item-KNN are used.
+    # Remove triple quotation marks and add to returned list, if this shall be used!
+    """
     recommend_collaborative_userknn_path_and_filename = \
         parent_dir + "/Predicted_ratings_data/recommendations_collaborative_userknn.csv"
     recommendations_collaborative_userknn = pd.read_csv(recommend_collaborative_userknn_path_and_filename,
                                                         names=col_names)
+    """
 
-    return [recommendations_content_based, recommendations_collaborative_itemknn, recommendations_collaborative_userknn]
+    return [recommendations_content_based, recommendations_collaborative_itemknn]
 
 
 def get_recipe_title_by_id(id_to_get):
@@ -55,6 +60,20 @@ def get_recipe_title_by_id(id_to_get):
     """
 
     return recipe_info[recipe_info["ID"] == id_to_get][" Title"].iloc[0][1:]
+
+
+def get_macros_by_id(id_to_get):
+    """
+    Get the macronutrients of a recipe
+    :param id_to_get: The ID of the reicpe where we want to get the macros from, as int
+    :return: The macros, as dict
+    """
+
+    proteins = recipe_info[recipe_info["ID"] == id_to_get][" Proteins"].iloc[0][1:]
+    carbs = recipe_info[recipe_info["ID"] == id_to_get][" Carbs"].iloc[0][1:]
+    fats = recipe_info[recipe_info["ID"] == id_to_get][" Fats"].iloc[0][1:]
+
+    return {"proteins": proteins, "carbs": carbs, "fats": fats}
 
 
 def get_ratings_for_user(user_id):
