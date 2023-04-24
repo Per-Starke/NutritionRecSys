@@ -38,8 +38,9 @@
 
     <h2 class="body body-with-top-margin"> Your rated recipes: </h2>
     <p class="body content">
-        {% for recipe_id, rating in given_ratings.items() %}
-            {{recipe_id}}:
+        {% for (recipe_id, recipe_title), rating in given_ratings.items() %}
+            <a rel="noopener noreferrer nofollow" target="_blank" href="/recipe?id={{recipe_id}}">
+                {{recipe_title}}</a>&nbsp;
             {% if rating=="1" %}
                 <i class="fa-solid fa-star fa-xs rating"></i>
             {% endif %}
