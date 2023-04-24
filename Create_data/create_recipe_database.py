@@ -314,5 +314,13 @@ if __name__ == "__main__":
 
     # Query 8 to search for: low-carb pasta recipes
     query8 = {"query": "pasta", "maxCarbs": "30"}
-    create_final_recipe_database(query=query8)
+    # create_final_recipe_database(query=query8)
+
+    # Query 9 to search for: High(er) protein burger recipes
+    query9 = {"query": "burger", "minProtein": "20"}
+    # create_final_recipe_database(query=query9)
+
+    # Query 10 to search for: burger recipes
+    query10 = {"query": "burger"}
+    create_final_recipe_database(query=query10)
 
