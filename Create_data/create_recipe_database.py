@@ -162,6 +162,7 @@ def write_recipes_in_list(amount, query="random"):
                     dish_type = recipe[1]
                 elif recipe[0] == "title":
                     recipe_title = recipe[1]
+                    recipe_title = recipe_title.replace("\"", " ")
 
             if not dish_type or dish_type == []:
                 dish_type = ["None given"]
