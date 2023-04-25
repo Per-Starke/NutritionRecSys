@@ -3,6 +3,7 @@ body {
     margin: 0px;
 }
 
+
 .nav {
     margin-top: 15px;
     margin-bottom: 15px;
@@ -90,12 +91,13 @@ p.image-label {
 }
 
 a {
-    color: rgb(0, 0, 255);
+    color: black;
 }
 
 a:hover {
-    color: rgb(0, 100, 255);
+    color: rgb(100, 100, 100);
 }
+
 
 a.button {
     color: white;
@@ -130,6 +132,7 @@ span.main-header {
     padding-bottom: 5px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
+
 
 /*
 Taken from Bootstrap (slight changes)
