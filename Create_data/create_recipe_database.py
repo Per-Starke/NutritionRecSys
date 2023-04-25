@@ -248,17 +248,6 @@ def write_recipes_in_file_from_df(recipe_df):
             file.write(string_to_append)
 
 
-# @todo unnecessary for final version
-def create_recipe_database(recipe_amount):
-    """
-    Create a recipe database at /Data/recipe_database.csv with a given amount of random vegan recipes.
-    Currently, amount has to be <=100.
-    :param recipe_amount: the amount of recipes to write in the database, limit 100
-    """
-
-    write_recipes_in_file(write_recipes_in_list(recipe_amount))
-
-
 def create_final_recipe_database(mode="a+", query="random"):
     """
     Creates the final recipe database, appending new recipes to the database and checking for duplicates.
