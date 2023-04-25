@@ -331,4 +331,4 @@ if __name__ == "__main__":
 
     # Query 11 to search for: protein recipes
     query12 = {"query": "protein"}
-    create_final_recipe_database(query=query12)
+    # create_final_recipe_database(query=query12)
