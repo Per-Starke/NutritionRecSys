@@ -56,9 +56,13 @@
         {% endfor %}
     </ol>
     {% if cb_recs.values()|length == 0 %}
-        <p class="body content">Sadly, no matching recommendations found. Please try again with other nutrient values.</p>
+        <p class="body content error">
+            Sadly, no matching recommendations found. Please try again with other nutrient values.
+        </p>
     {% elif cb_recs.values()|length < 3%}
-        <p class="body content">Sadly, no more matching recommenations found</p>
+        <p class="body content error">
+            Sadly, only {{cb_recs.values()|length}} matching recommendations found with the content-based algorithm.
+        </p>
     {% endif %}
 
     <h2 class="body body-with-top-margin"> Using the item-knn algorithm:</h2>
@@ -68,9 +72,13 @@
         {% endfor %}
     </ol>
     {% if itemknn_recs.values()|length == 0 %}
-        <p class="body content">Sadly, no matching recommendations found. Please try again with other nutrient values.</p>
+        <p class="body content error">
+            Sadly, no matching recommendations found. Please try again with other nutrient values.
+        </p>
     {% elif itemknn_recs.values()|length < 3%}
-        <p class="body content">Sadly, no more matching recommenations found</p>
+        <p class="body content error">
+            Sadly, only {{itemknn_recs.values()|length}} matching recommendations found with the item-knn algorithm.
+        </p>
     {% endif %}
 
 {% endblock %}

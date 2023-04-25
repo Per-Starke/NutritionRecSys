@@ -128,6 +128,10 @@ a.image-label:hover {
     font-size: 1.3em;
 }
 
+.error {
+    color: rgb(220, 20, 60)
+}
+
 span.main-header {
     padding-bottom: 2px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.3);
