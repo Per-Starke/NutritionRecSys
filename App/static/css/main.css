@@ -3,6 +3,30 @@ body {
     margin: 0px;
 }
 
+.nav {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    display: inline-block;
+}
+
+.left {
+    margin-left: 100px;
+}
+
+.user-box {
+    background-color: #C0C0C0;
+    border-color: #A0A0A0;
+    padding: 10px;
+    position: relative;
+    top: -10px;
+    border-radius: 0.25rem;
+}
+
+.right {
+    float:right;
+    margin-right: 20px;
+}
+
 tr:nth-child(even) {
     background-color: rgba(165, 230, 255, 0.2);
 }
@@ -20,7 +44,7 @@ tr.macros {
 
 .center {
   margin: auto;
-  text-align: center
+  text-align: center;
 }
 
 table.left {
@@ -153,10 +177,24 @@ Taken from Bootstrap (slight changes)
 End of "taken from Bootstrap"
 **/
 
+.btn-user-id {
+    color: black;
+    background-color: rgba(165, 230, 255, 0.5);
+    border-color: rgba(165, 230, 255, 0.7);
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    top: -2px;
+}
+
 .btn-logout {
     color: #fff;
     background-color: #A0A0A0;
     border-color: #909090;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    top: -2px;
 }
 
 .btn-logout:hover {
@@ -214,7 +252,7 @@ i.rating {
     color: #c59b08;
 }
 
-/* end of modified from: https://github.com/mukulkant/Star-rating-using-pure-css */
+/* end of "modified from: https://github.com/mukulkant/Star-rating-using-pure-css" */
 
 p span {
     margin-top: 15px;

@@ -1,23 +1,8 @@
 {% extends 'base.html' %}
 
-{% block user %}
-
-<hr class="content-sep">
-
-    <h2 class="body body-with-top-margin"> Your user-id:</h2>
-    <p class="body content"> {{user_id}} </p>
-
-    <p class="body content">
-        <button class="btn btn-logout">
-            <a class="button" href="/logout"> Logout </a>
-        </button>
-    </p>
-
-{% endblock %}
-
 {% block nav %}
 
-    <p class="body content">
+    <div class="nav left">
         <button class="btn btn-primary">
             <a class="button" href="/"> Home </a>
         </button>
@@ -34,6 +19,17 @@
             <a class="button" href="/rate"> Rate recipes </a>
         </button>
 
-    </p>
+    </div>
+
+    <div class="nav right">
+        <div class="user-box">
+            <button class="btn btn-user-id">
+                User-id: {{user_id}}
+            </button>
+            <button class="btn btn-logout">
+                <a class="button" href="/logout"> Logout </a>
+            </button>
+        </div>
+    </div>
 
 {% endblock %}
