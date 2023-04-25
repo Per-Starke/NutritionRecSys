@@ -162,6 +162,7 @@ def write_recipes_in_list(amount, query="random"):
                     dish_type = recipe[1]
                 elif recipe[0] == "title":
                     recipe_title = recipe[1]
+                    recipe_title = recipe_title.replace("\"", " ")
 
             if not dish_type or dish_type == []:
                 dish_type = ["None given"]
@@ -191,7 +192,11 @@ def write_recipes_in_file(recipes, mode="w+"):
             if recipe[2] == ["None given"]:
                 recipe[2] = get_dishtype(recipe[0])
 
-            dish_type_string = str(recipe[2][0])
+            try:
+                dish_type_string = str(recipe[2][0])
+            except IndexError:
+                dish_type_string = "None given"
+
             if len(recipe[2]) > 1:
                 for dishtype in recipe[2][1:]:
                     dish_type_string += " | " + str(dishtype)
@@ -243,17 +248,6 @@ def write_recipes_in_file_from_df(recipe_df):
             file.write(string_to_append)
 
 
-# @todo unnecessary for final version
-def create_recipe_database(recipe_amount):
-    """
-    Create a recipe database at /Data/recipe_database.csv with a given amount of random vegan recipes.
-    Currently, amount has to be <=100.
-    :param recipe_amount: the amount of recipes to write in the database, limit 100
-    """
-
-    write_recipes_in_file(write_recipes_in_list(recipe_amount))
-
-
 def create_final_recipe_database(mode="a+", query="random"):
     """
     Creates the final recipe database, appending new recipes to the database and checking for duplicates.
@@ -278,7 +272,7 @@ if __name__ == "__main__":
     # create_final_recipe_database(mode="w+")
 
     # Search for more random recipes to append
-    create_final_recipe_database()
+    # create_final_recipe_database()
 
     # Query 1 to search for: High(er) protein pasta recipes
     query1 = {"query": "pasta", "minProtein": "20"}
@@ -300,3 +294,34 @@ if __name__ == "__main__":
     query5 = {"query": "salad", "minProtein": "20"}
     # create_final_recipe_database(query=query5)
 
+    # Query 6 to search for: low fat & high(er) protein salad recipes
+    query6 = {"query": "salad", "minProtein": "20", "maxFat": "15"}
+    # create_final_recipe_database(query=query6)
+
+    # Query 7 to search for: fruit recipes
+    query7 = {"query": "fruit"}
+    # create_final_recipe_database(query=query7)
+
+    # Query 8 to search for: low-carb pasta recipes
+    query8 = {"query": "pasta", "maxCarbs": "30"}
+    # create_final_recipe_database(query=query8)
+
+    # Query 9 to search for: High(er) protein burger recipes
+    query9 = {"query": "burger", "minProtein": "20"}
+    # create_final_recipe_database(query=query9)
+
+    # Query 10 to search for: burger recipes
+    query10 = {"query": "burger"}
+    # create_final_recipe_database(query=query10)
+
+    # Query 11 to search for: coffee recipes
+    query11 = {"query": "coffee"}
+    # create_final_recipe_database(query=query11)
+
+    # Query 12 to search for: protein recipes
+    query12 = {"query": "protein"}
+    # create_final_recipe_database(query=query12)
+
+    # Query 13 to search for: healthy recipes
+    query13 = {"query": "healthy"}
+    # create_final_recipe_database(query=query13)

@@ -64,11 +64,11 @@ def calc_recipe_sim(recipe_id_1, recipe_id_2, recipe_info):
 
     recipe_1_taste = [recipe_1[" Sweetness"].iloc[0], recipe_1[" Saltiness"].iloc[0], recipe_1[" Sourness"].iloc[0],
                       recipe_1[" Bitterness"].iloc[0], recipe_1[" Savoriness"].iloc[0], recipe_1[" Fattiness"].iloc[0],
-                      recipe_1[" Spiciness"].iloc[0]]
+                      recipe_1[" Spiciness "].iloc[0]]
 
     recipe_2_taste = [recipe_2[" Sweetness"].iloc[0], recipe_2[" Saltiness"].iloc[0], recipe_2[" Sourness"].iloc[0],
                       recipe_2[" Bitterness"].iloc[0], recipe_2[" Savoriness"].iloc[0], recipe_2[" Fattiness"].iloc[0],
-                      recipe_2[" Spiciness"].iloc[0]]
+                      recipe_2[" Spiciness "].iloc[0]]
 
     try:
         cos_ingredient_sim = calc_text_sim(recipe_1_ingredients, recipe_2_ingredients)
@@ -136,3 +136,6 @@ def calculate_similarities():
 
     write_sims_in_file(calc_all_recipe_sims(recipe_info))
 
+
+if __name__ == "__main__":
+    calculate_similarities()

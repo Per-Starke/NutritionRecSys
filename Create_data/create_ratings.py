@@ -7,7 +7,6 @@ from random import randint
 import os
 
 import Create_data.check_ratings
-from Create_data.check_ratings import delete_double_ratings
 
 
 def create_ratings(amount_of_users):
@@ -35,4 +34,7 @@ def create_ratings(amount_of_users):
                 file.write(str_to_write)
                 ratings_number += 1
 
+
+if __name__ == "__main__":
+    create_ratings(1000)
     Create_data.check_ratings.delete_double_ratings()
