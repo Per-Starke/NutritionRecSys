@@ -40,7 +40,7 @@
     <p class="body content">
         {% for (recipe_id, recipe_title), rating in given_ratings.items() %}
             <a rel="noopener noreferrer nofollow" target="_blank" href="/recipe?id={{recipe_id}}">
-                {{recipe_title}}</a>&nbsp;
+                {{recipe_title}}</a>
             {% if rating=="1" %}
                 <i class="fa-solid fa-star fa-xs rating"></i>
             {% endif %}
