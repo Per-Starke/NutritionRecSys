@@ -329,6 +329,10 @@ if __name__ == "__main__":
     query11 = {"query": "coffee"}
     # create_final_recipe_database(query=query11)
 
-    # Query 11 to search for: protein recipes
+    # Query 12 to search for: protein recipes
     query12 = {"query": "protein"}
     # create_final_recipe_database(query=query12)
+
+    # Query 13 to search for: healthy recipes
+    query13 = {"query": "healthy"}
+    create_final_recipe_database(query=query13)
