@@ -136,5 +136,3 @@ def calculate_similarities():
 
     write_sims_in_file(calc_all_recipe_sims(recipe_info))
 
-
-calculate_similarities()
