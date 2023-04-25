@@ -324,4 +324,4 @@ if __name__ == "__main__":
 
     # Query 13 to search for: healthy recipes
     query13 = {"query": "healthy"}
-    create_final_recipe_database(query=query13)
+    # create_final_recipe_database(query=query13)
