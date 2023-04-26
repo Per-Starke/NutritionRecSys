@@ -53,8 +53,8 @@ def home():
     if 'user_id' not in session:
         return redirect("/login")
 
-    session['prediction_needs_updating'] = True
-    session["large_range"] = False
+    session['prediction_needs_updating'] = False  # todo set to True
+    session["large_rank"] = False
 
     return render_template("home.html", user_id=session['user_id'])
 
@@ -70,7 +70,7 @@ def get_rec():
 
     elif session['prediction_needs_updating']:
         Run.output.run_recommendation_algos()
-        session["large_range"] = False
+        session["large_rank"] = False
         session['prediction_needs_updating'] = False
 
     # Create data-structure for displaying given ratings
@@ -142,7 +142,7 @@ def rate():
         session['rating'] = request.form['get_rating']
         Run.recommend_for_user.write_rating_to_file(session['user_id'], session['recipe_id'], session['rating'])
         Create_data.check_ratings.delete_double_ratings()
-        session['prediction_needs_updating'] = True
+        # session['prediction_needs_updating'] = True todo
         return redirect("/rate")
 
     session['recipe_id'] = Run.recommend_for_user.get_recipe_to_rate(session['user_id'])
@@ -206,9 +206,10 @@ def get_rec_with_macros():
     if 'user_id' not in session:
         return redirect("/login")
 
-    if not session["large_range"] or session['prediction_needs_updating']:
-        Run.output.run_recommendation_algos(rank_length=100)
-    session["large_range"] = True
+    if not session["large_rank"] or session['prediction_needs_updating']:
+        pass  # todo remove
+        # Run.output.run_recommendation_algos(rank_length=100) todo
+    session["large_rank"] = True
     session['prediction_needs_updating'] = False
 
     content_based_recommendations = Recommend.recommend_with_macros.find_top_3_recs_within_range_of_macros(
@@ -257,7 +258,7 @@ def recipe():
     if request.method == 'POST':
         session['rating'] = request.form['get_rating']
         Run.recommend_for_user.write_rating_to_file(user_id, single_recipe_id, session['rating'])
-        session['prediction_needs_updating'] = True
+        # session['prediction_needs_updating'] = True todo
         Create_data.check_ratings.delete_double_ratings()
 
     return render_template('recipe.html', recipe=recipe_info, user_id=session['user_id'])

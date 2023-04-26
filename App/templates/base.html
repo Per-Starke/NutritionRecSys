@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <script src="https://kit.fontawesome.com/d0c98d3c82.js" crossorigin="anonymous"></script>
+    <script>
+    function extendNav() {
+        var x = document.getElementById("myTopnav");
+            if (x.className === "nav main-nav") {
+                x.className += " responsive";
+            } else {
+                x.className = "nav main-nav";
+            }
+        }
+    </script>
     {% block head %} {% endblock %}
 </head>
 <body>
