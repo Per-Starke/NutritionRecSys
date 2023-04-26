@@ -20,19 +20,19 @@ body {
 }
 
 /* taken from https://www.w3schools.com/howto/howto_js_topnav_responsive.asp, slightly modified
-When the screen is less than 600 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
+When the screen is less than 875 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
 @media (max-width: 875px) {
-  .main-nav {
-    margin-left: 20px;
-  }
-  .main-nav button:not(:first-child){display: none;}
-  .main-nav .icon {
-    float: right;
-    display: block;
-    position: relative;
-    top: 15px;
-    margin-right: 20px;
-  }
+    .main-nav {
+        margin-left: 20px;
+    }
+    .main-nav button:not(:first-child){display: none;}
+    .main-nav .icon {
+        float: right;
+        display: block;
+        position: relative;
+        top: 15px;
+        margin-right: 20px;
+    }
 }
 
 /* The "responsive" class is added to the nav with JavaScript when the user clicks on the icon. This class makes the nav look good on small screens (display the links vertically instead of horizontally) */
@@ -41,22 +41,22 @@ When the screen is less than 600 pixels wide, hide all links, except for the fir
         position: relative;
         transition: 1s;
     }
-  .main-nav.responsive .icon {
-    float: right;
-    display: block;
-    position: absolute;
-    top: 15px;
-    right: 73.8px;
-    color: rgb(220, 20, 60);
-  }
+    .main-nav.responsive .icon {
+        float: right;
+        display: block;
+        position: absolute;
+        top: 15px;
+        right: 73.8px;
+        color: rgb(220, 20, 60);
+    }
     .main-nav.responsive .icon:hover {
-    color: rgb(190, 0, 50);
-  }
-  .main-nav.responsive button {
-    float: none;
-    display: block;
-    text-align: left;
-  }
+        color: rgb(190, 0, 50);
+    }
+    .main-nav.responsive button {
+        float: none;
+        display: block;
+        text-align: left;
+    }
 }
 
 /* end of "taken from https://www.w3schools.com/howto/howto_js_topnav_responsive.asp" */
