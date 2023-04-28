@@ -3,6 +3,19 @@ body {
     margin: 0px;
 }
 
+.bottom-button {
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.more {
+    display: none;
+}
+
+.more-shown {
+    display: inline;
+}
+
 .main-nav {
     margin-left: 100px;
     transition: 1s;
