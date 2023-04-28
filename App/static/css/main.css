@@ -8,6 +8,23 @@ body {
     margin-right: 100px;
 }
 
+@media (max-width: 600px) {
+    .body {
+        margin-left: 50px;
+        margin-right: 50px;
+    }
+}
+
+@media (max-width: 600px) {
+    .bottom-margin-mobile {
+        margin-bottom: 15px;
+    }
+}
+
+.on-one-line {
+    white-space: nowrap;
+}
+
 .body-with-top-margin {
     margin-top: 50px;
 }
