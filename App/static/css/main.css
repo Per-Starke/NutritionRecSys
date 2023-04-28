@@ -3,18 +3,106 @@ body {
     margin: 0px;
 }
 
-.bottom-button {
-    margin-top: 25px;
-    margin-bottom: 25px;
+.body {
+    margin-left: 100px;
+    margin-right: 100px;
 }
 
-.more {
-    display: none;
+.body-with-top-margin {
+    margin-top: 50px;
 }
 
-.more-shown {
-    display: inline;
+.content {
+    line-height: 1.5;
+    font-size: 1.3em;
 }
+
+p span {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    display: inline-block;
+    font-style: italic;
+    font-weight: bolder;
+}
+
+
+.center {
+  margin: auto;
+  text-align: center;
+}
+
+
+.max300 {
+    max-height: 300px;
+    width: auto;
+}
+
+.title {
+    color: rgb(165, 230, 255);
+    font-size: 400%;
+}
+
+.subtitle{
+    color: rgb(165, 230, 255);
+}
+
+div.header{
+    padding: 40px;
+    background: url('../images/home-header.jpg') rgba(0, 0, 0, 0.8);
+    background-blend-mode: multiply;
+}
+
+img.in-title {
+    position: relative;
+    bottom: -2px;
+}
+
+p.image-label {
+    position: absolute;
+    vertical-align: bottom;
+    right: 0;
+    color: rgb(50, 50, 50);
+    background-color: rgba(255, 255, 255, 0.4);
+    padding-right: 5px;
+    padding-left: 5px;
+    padding-top: 2px;
+    padding-bottom: 10px;
+    border-radius: 5px 0 0 0;
+}
+
+a {
+    color: black;
+}
+
+a:hover {
+    color: rgb(100, 100, 100);
+}
+
+a.button {
+    color: white;
+    text-decoration: none;
+}
+
+a.image-label {
+    color: rgb(50, 50, 50);
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a.image-label:hover {
+    color: rgb(70, 70, 70);
+}
+
+
+.error {
+    color: rgb(220, 20, 60)
+}
+
+span.main-header {
+    padding-bottom: 2px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+
 
 .main-nav {
     margin-left: 100px;
@@ -88,6 +176,14 @@ When the screen is less than 875 pixels wide, hide all links, except for the fir
     margin-right: 20px;
 }
 
+.more {
+    display: none;
+}
+
+.more-shown {
+    display: inline;
+}
+
 tr:nth-child(even) {
     background-color: rgba(165, 230, 255, 0.2);
 }
@@ -103,100 +199,9 @@ tr.macros {
     background-color: rgba(165, 230, 255, 0.2);
 }
 
-.center {
-  margin: auto;
-  text-align: center;
-}
-
 table.left {
     margin-left: 0;
 }
-
-.max300 {
-    max-height: 300px;
-    width: auto;
-}
-
-.title {
-    color: rgb(165, 230, 255);
-    font-size: 400%;
-}
-
-.subtitle{
-    color: rgb(165, 230, 255);
-}
-
-div.header{
-    padding: 40px;
-    background: url('../images/home-header.jpg') rgba(0, 0, 0, 0.8);
-    background-blend-mode: multiply;
-}
-
-img.in-title {
-    position: relative;
-    bottom: -2px;
-}
-
-p.image-label {
-    position: absolute;
-    vertical-align: bottom;
-    right: 0;
-    color: rgb(50, 50, 50);
-    background-color: rgba(255, 255, 255, 0.4);
-    padding-right: 5px;
-    padding-left: 5px;
-    padding-top: 2px;
-    padding-bottom: 10px;
-    border-radius: 5px 0 0 0;
-}
-
-a {
-    color: black;
-}
-
-a:hover {
-    color: rgb(100, 100, 100);
-}
-
-
-a.button {
-    color: white;
-    text-decoration: none;
-}
-
-a.image-label {
-    color: rgb(50, 50, 50);
-    font-weight: bold;
-    text-decoration: none;
-}
-
-a.image-label:hover {
-    color: rgb(70, 70, 70);
-}
-
-.body {
-    margin-left: 100px;
-    margin-right: 100px;
-}
-
-.body-with-top-margin {
-    margin-top: 50px;
-}
-
-.content {
-    line-height: 1.5;
-    font-size: 1.3em;
-}
-
-.error {
-    color: rgb(220, 20, 60)
-}
-
-span.main-header {
-    padding-bottom: 2px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-}
-
 
 /*
 Taken from Bootstrap (slight changes)
@@ -270,6 +275,11 @@ End of "taken from Bootstrap"
     transform: scale(1.1);
 }
 
+.bottom-button {
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
 hr.content-sep {
     margin-left: 100px;
     margin-right: 100px;
@@ -319,11 +329,3 @@ i.rating {
 }
 
 /* end of "modified from: https://github.com/mukulkant/Star-rating-using-pure-css" */
-
-p span {
-    margin-top: 15px;
-    margin-bottom: 15px;
-    display: inline-block;
-    font-style: italic;
-    font-weight: bolder;
-}
