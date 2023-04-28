@@ -77,8 +77,12 @@
                 </div>
             {% endfor %}
         </div>
-        <button class="btn btn-primary body bottom-button">
-            <a id="show-all-recipes" class="button" onclick="showMoreRecipes()"> Show all </a>
-        </button>
+        {% if given_ratings.values() | length > 10 %}
+            <button class="btn btn-primary body bottom-button">
+                <a id="show-all-recipes" class="button" onclick="showMoreRecipes()"> Show all </a>
+            </button>
+        {% else %}
+            <br>
+        {% endif %}
 
 {% endblock %}
