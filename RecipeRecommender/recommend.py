@@ -1,16 +1,63 @@
 """
-Includes functions to get recommendations matching the required macronutrients
+Functions to run the CaseRec algorithms to predict ratings
 """
 
+from caserec.recommenders.item_recommendation.itemknn import ItemKNN
+from caserec.recommenders.item_recommendation.userknn import UserKNN
+from caserec.recommenders.item_recommendation.content_based import ContentBased
 import os
 import pandas as pd
 
-import Run.output
+import RecipeRecommender.output
 
 parent_dir = os.path.dirname(os.getcwd())
 
 ratings_path_and_filename = parent_dir + "/Data/ratings.csv"
 col_names = ["User", "Item", "Feedback"]
+
+parent_dir = os.path.dirname(os.getcwd())
+
+ratings_path_and_filename = parent_dir + "/Data/ratings.csv"
+
+
+def recommend_collaborative_itemknn(rank_length=3):
+    """
+    create or update the recommendations.csv file
+    :param rank_length: The number of predictions to calculate, default 3
+    """
+
+    output_path_and_filename = parent_dir + "/Predicted_ratings_data/recommendations_collaborative_itemknn.csv"
+    ItemKNN(train_file=ratings_path_and_filename, output_file=output_path_and_filename, sep=", ",
+            rank_length=rank_length).compute()
+
+
+def recommend_collaborative_userknn(rank_length=3):
+    """
+    create or update the recommendations.csv file
+    :param rank_length: The number of predictions to calculate, default 3
+    """
+
+    output_path_and_filename = parent_dir + "/Predicted_ratings_data/recommendations_collaborative_userknn.csv"
+    UserKNN(train_file=ratings_path_and_filename, output_file=output_path_and_filename, sep=", ",
+            rank_length=rank_length).compute()
+
+
+def recommend_content_based(rank_length=3):
+    """
+    create or update the recommendations.csv file
+    :param rank_length: The number of predictions to calculate, default 3
+    """
+
+    output_path_and_filename = parent_dir + "/Predicted_ratings_data/recommendations_content_based.csv"
+    similarities_path_and_filename = parent_dir + "/Data/similarities.csv"
+    ContentBased(train_file=ratings_path_and_filename, output_file=output_path_and_filename,
+                 similarity_file=similarities_path_and_filename, sep=", ", similarity_sep=", ",
+                 rank_length=rank_length).compute()
+
+
+"""
+Functions to get recommendations matching the required macronutrients
+"""
 
 
 def get_macros(recipe_ids):
@@ -23,7 +70,7 @@ def get_macros(recipe_ids):
     return_dict = {}
 
     for recipe_id in recipe_ids:
-        return_dict[recipe_id] = Run.output.get_macros_by_id(recipe_id)
+        return_dict[recipe_id] = RecipeRecommender.output.get_macros_by_id(recipe_id)
 
     return return_dict
 

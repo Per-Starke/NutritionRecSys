@@ -59,6 +59,10 @@
         <p class="body content error">
             Sadly, no matching recommendations found. Please try again with other nutrient values.
         </p>
+    {% elif cb_recs.values()|length < 2%}
+        <p class="body content error">
+            Sadly, only {{cb_recs.values()|length}} matching recommendation found with the content-based algorithm.
+        </p>
     {% elif cb_recs.values()|length < 3%}
         <p class="body content error">
             Sadly, only {{cb_recs.values()|length}} matching recommendations found with the content-based algorithm.
@@ -74,6 +78,10 @@
     {% if itemknn_recs.values()|length == 0 %}
         <p class="body content error">
             Sadly, no matching recommendations found. Please try again with other nutrient values.
+        </p>
+    {% elif cb_recs.values()|length < 2%}
+        <p class="body content error">
+            Sadly, only {{cb_recs.values()|length}} matching recommendation found with the content-based algorithm.
         </p>
     {% elif itemknn_recs.values()|length < 3%}
         <p class="body content error">

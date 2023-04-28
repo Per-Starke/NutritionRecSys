@@ -2,10 +2,11 @@ import datetime
 import requests
 import os
 from flask import Flask, render_template, request, redirect, session
-import Run.output
-import Run.recommend_for_user
-import Create_data.check_ratings
-import Recommend.recommend_with_macros
+
+from RecipeRecommender.output import get_ratings_for_user, run_recommendation_algos, get_recipe_title_by_id, \
+    get_calculated_ratings_for_user, write_recommendations, write_rating_to_file, get_recipe_to_rate
+from RecipeRecommender.ratings import delete_double_ratings
+from RecipeRecommender.recommend import find_top_3_recs_within_range_of_macros
 
 app = Flask(__name__)
 app.secret_key = os.urandom(12)
@@ -69,21 +70,21 @@ def get_rec():
         return redirect("/login")
 
     elif session['prediction_needs_updating']:
-        Run.output.run_recommendation_algos()
+        run_recommendation_algos()
         session["large_rank"] = False
         session['prediction_needs_updating'] = False
 
     # Create data-structure for displaying given ratings
-    given_ratings = Run.output.get_ratings_for_user(session['user_id'])
+    given_ratings = get_ratings_for_user(session['user_id'])
     given_ratings_with_titles = {}
     for current_recipe_id, rating in given_ratings.items():
-        given_ratings_with_titles[(current_recipe_id, Run.output.get_recipe_title_by_id(current_recipe_id))] = rating
+        given_ratings_with_titles[(current_recipe_id, get_recipe_title_by_id(current_recipe_id))] = rating
     sorted_given_ratings_with_titles = \
         {k: v for k, v in sorted(given_ratings_with_titles.items(), key=lambda item: item[1], reverse=True)}
 
     # Create data-structure for displaying predicted ratings
-    recipes_and_ratings = Run.output.get_calculated_ratings_for_user(
-        session['user_id'], Run.output.write_recommendations(), ratings_to_get=3, userknn=False)
+    recipes_and_ratings = get_calculated_ratings_for_user(
+        session['user_id'], write_recommendations(), ratings_to_get=3, userknn=False)
     ids = {}
 
     try:
@@ -91,7 +92,7 @@ def get_rec():
         cb_with_titles = {}
         cb_ids = []
         for current_recipe_id, rating in content_based.items():
-            current_title = Run.output.get_recipe_title_by_id(current_recipe_id)
+            current_title = get_recipe_title_by_id(current_recipe_id)
             if current_title in cb_with_titles:
                 current_title = current_title + " "
             cb_with_titles[current_title] = rating
@@ -106,7 +107,7 @@ def get_rec():
         itemknn_with_titles = {}
         itemknn_ids = []
         for current_recipe_id, rating in itemknn.items():
-            itemknn_with_titles[Run.output.get_recipe_title_by_id(current_recipe_id)] = rating
+            itemknn_with_titles[get_recipe_title_by_id(current_recipe_id)] = rating
             itemknn_ids.append(current_recipe_id)
         recipes_and_ratings["item-knn"] = itemknn_with_titles
         ids["item-knn"] = itemknn_ids
@@ -118,7 +119,7 @@ def get_rec():
         userknn_with_titles = {}
         userknn_ids = []
         for current_recipe_id, rating in userknn.items():
-            userknn_with_titles[Run.output.get_recipe_title_by_id(current_recipe_id)] = rating
+            userknn_with_titles[get_recipe_title_by_id(current_recipe_id)] = rating
             userknn_ids.append(current_recipe_id)
         recipes_and_ratings["user-knn"] = userknn_with_titles
         ids["user-knn"] = userknn_ids
@@ -140,15 +141,15 @@ def rate():
 
     elif request.method == 'POST':
         session['rating'] = request.form['get_rating']
-        Run.recommend_for_user.write_rating_to_file(session['user_id'], session['recipe_id'], session['rating'])
-        Create_data.check_ratings.delete_double_ratings()
+        write_rating_to_file(session['user_id'], session['recipe_id'], session['rating'])
+        delete_double_ratings()
         # session['prediction_needs_updating'] = True todo
         return redirect("/rate")
 
-    session['recipe_id'] = Run.recommend_for_user.get_recipe_to_rate(session['user_id'])
+    session['recipe_id'] = get_recipe_to_rate(session['user_id'])
 
     if session['recipe_id']:
-        session['recipe_title'] = Run.output.get_recipe_title_by_id(session['recipe_id'])
+        session['recipe_title'] = get_recipe_title_by_id(session['recipe_id'])
     else:
         session['recipe_title'] = "No unrated recipe found!"
 
@@ -212,11 +213,11 @@ def get_rec_with_macros():
     session["large_rank"] = True
     session['prediction_needs_updating'] = False
 
-    content_based_recommendations = Recommend.recommend_with_macros.find_top_3_recs_within_range_of_macros(
+    content_based_recommendations = find_top_3_recs_within_range_of_macros(
         user_id=session["user_id"], algorithm="contentbased", proteins=session["proteins"], carbs=session["carbs"],
         fats=session["fats"], allowed_range=session["range"])
 
-    itemknn_recommendations = Recommend.recommend_with_macros.find_top_3_recs_within_range_of_macros(
+    itemknn_recommendations = find_top_3_recs_within_range_of_macros(
         user_id=session["user_id"], algorithm="itemknn", proteins=session["proteins"], carbs=session["carbs"],
         fats=session["fats"], allowed_range=session["range"])
 
@@ -224,10 +225,10 @@ def get_rec_with_macros():
     itemknn_rec_dict = {}
 
     for recipe_id in content_based_recommendations:
-        cb_rec_dict[recipe_id] = Run.output.get_recipe_title_by_id(recipe_id)
+        cb_rec_dict[recipe_id] = get_recipe_title_by_id(recipe_id)
 
     for recipe_id in itemknn_recommendations:
-        itemknn_rec_dict[recipe_id] = Run.output.get_recipe_title_by_id(recipe_id)
+        itemknn_rec_dict[recipe_id] = get_recipe_title_by_id(recipe_id)
 
     return render_template("get_rec_with_macros.html", user_id=session['user_id'], proteins=session["proteins"],
                            carbs=session["carbs"], fats=session["fats"], range_percent=float(session["range"])*100,
@@ -257,9 +258,9 @@ def recipe():
 
     if request.method == 'POST':
         session['rating'] = request.form['get_rating']
-        Run.recommend_for_user.write_rating_to_file(user_id, single_recipe_id, session['rating'])
+        write_rating_to_file(user_id, single_recipe_id, session['rating'])
         # session['prediction_needs_updating'] = True todo
-        Create_data.check_ratings.delete_double_ratings()
+        delete_double_ratings()
 
     return render_template('recipe.html', recipe=recipe_info, user_id=session['user_id'])
 
