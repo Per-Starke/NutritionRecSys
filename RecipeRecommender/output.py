@@ -23,13 +23,12 @@ def run_recommendation_algos(rank_length=3):
 
     recommend.recommend_content_based(rank_length=rank_length)
     recommend.recommend_collaborative_itemknn(rank_length=rank_length)
-    # recommend.recommend_collaborative_userknn(rank_length=rank_length)
 
 
 def write_recommendations():
     """
     Write the results of the recommendation algorithms in a list of dataframes
-    :return: A list of three dataframes, with the predicted ratings of Content-based, ItemKNN and UserKNN
+    :return: A list of three dataframes, with the predicted ratings of Content-based and ItemKNN
     """
 
     recommend_contend_based_path_and_filename = \
@@ -40,15 +39,6 @@ def write_recommendations():
         parent_dir + "/Predicted_ratings_data/recommendations_collaborative_itemknn.csv"
     recommendations_collaborative_itemknn = pd.read_csv(recommend_collaborative_itemknn_path_and_filename,
                                                         names=col_names)
-
-    # For User-KNN, out-commented because only Content-based and Item-KNN are used.
-    # Remove triple quotation marks and add to returned list, if this shall be used!
-    """
-    recommend_collaborative_userknn_path_and_filename = \
-        parent_dir + "/Predicted_ratings_data/recommendations_collaborative_userknn.csv"
-    recommendations_collaborative_userknn = pd.read_csv(recommend_collaborative_userknn_path_and_filename,
-                                                        names=col_names)
-    """
 
     return [recommendations_content_based, recommendations_collaborative_itemknn]
 
@@ -129,17 +119,16 @@ def get_single_algo_ratings(recommendations, user_id, ratings_to_get=10):
     return return_dict
 
 
-def get_calculated_ratings_for_user(user_id, recommendations_list, cb=True, itemknn=True, userknn=True,
+def get_calculated_ratings_for_user(user_id, recommendations_list, cb=True, itemknn=True,
                                     ratings_to_get=10):
     """
     Get the calculated ratings a user gave for recipes the user did not rate.
     If less than 10 unrated recipes, get all. Else, get the 10 (or given amount) recipes with the highest
     predicted rating.
     :param user_id: the id of the user, as int
-    :param recommendations_list: List of dataframes with the predicted ratings, ordererd: cb, itemknn, userknn
-    :param cb: True (default) if Content-Based recommendations shall be printed
-    :param itemknn: True (default) if Collaborative ItemKNN recommendations shall be printed
-    :param userknn: True (default) if Collaborative UserKNN recommendations shall be printed
+    :param recommendations_list: List of dataframes with the predicted ratings, ordererd: cb, itemknn
+    :param cb: True (default) if Content-Based recommendations shall be returned
+    :param itemknn: True (default) if Collaborative ItemKNN recommendations shall be returned
     :param ratings_to_get: The number of ratings to get, default 10
     :return: a list of dicts of id:rating pairs with the calculated top-n ratings for the given user.
     """
@@ -153,10 +142,6 @@ def get_calculated_ratings_for_user(user_id, recommendations_list, cb=True, item
     if itemknn:
         recommendations = recommendations_list[1]
         return_dict["item-knn"] = get_single_algo_ratings(recommendations, user_id, ratings_to_get)
-
-    if userknn:
-        recommendations = recommendations_list[2]
-        return_dict["user-knn"] = get_single_algo_ratings(recommendations, user_id, ratings_to_get)
 
     return return_dict
 

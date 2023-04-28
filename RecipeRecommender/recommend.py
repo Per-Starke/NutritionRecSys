@@ -3,7 +3,6 @@ Functions to run the CaseRec algorithms to predict ratings
 """
 
 from caserec.recommenders.item_recommendation.itemknn import ItemKNN
-from caserec.recommenders.item_recommendation.userknn import UserKNN
 from caserec.recommenders.item_recommendation.content_based import ContentBased
 import os
 import pandas as pd
@@ -28,17 +27,6 @@ def recommend_collaborative_itemknn(rank_length=3):
 
     output_path_and_filename = parent_dir + "/Predicted_ratings_data/recommendations_collaborative_itemknn.csv"
     ItemKNN(train_file=ratings_path_and_filename, output_file=output_path_and_filename, sep=", ",
-            rank_length=rank_length).compute()
-
-
-def recommend_collaborative_userknn(rank_length=3):
-    """
-    create or update the recommendations.csv file
-    :param rank_length: The number of predictions to calculate, default 3
-    """
-
-    output_path_and_filename = parent_dir + "/Predicted_ratings_data/recommendations_collaborative_userknn.csv"
-    UserKNN(train_file=ratings_path_and_filename, output_file=output_path_and_filename, sep=", ",
             rank_length=rank_length).compute()
 
 
@@ -79,7 +67,7 @@ def get_recs_and_macros(user_id, algorithm):
     """
     For a give user, get all recommendations of the given algorithm and their respective macronutrients
     :param user_id: The ID of the user, as int
-    :param algorithm: the name of the algorithm, as string, either contentbased, itemknn or userknn
+    :param algorithm: the name of the algorithm, as string, either contentbased or itemknn
     :return: A dict, with pairs of recipe_id:dict_of_macros
     """
 
@@ -87,10 +75,8 @@ def get_recs_and_macros(user_id, algorithm):
         filename = "recommendations_content_based.csv"
     elif algorithm == "itemknn":
         filename = "recommendations_collaborative_itemknn.csv"
-    elif algorithm == "userknn":
-        filename = "recommendations_collaborative_userknn.csv"
     else:
-        raise ValueError("This is not a valid algorithm name, must be contentbased, itemknn or userknn")
+        raise ValueError("This is not a valid algorithm name, must be contentbased or itemknn")
 
     path_and_filename = parent_dir + "/Predicted_ratings_data/" + filename
 
@@ -109,7 +95,7 @@ def find_top_3_recs_within_range_of_macros(user_id, algorithm, proteins, carbs, 
     """
     Find the top 3 recommendations withing a given range of the given macronutrients, for a given user and algorithm
     :param user_id: The ID of the user, as int
-    :param algorithm: The algorithm, either contentbased, itemknn or userknn
+    :param algorithm: The algorithm, either contentbased or itemknn
     :param proteins: the required amount of proteins, in grams
     :param carbs: the required amount of carbs, in grams
     :param fats: the required amount of fats, in grams

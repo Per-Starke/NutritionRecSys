@@ -84,7 +84,7 @@ def get_rec():
 
     # Create data-structure for displaying predicted ratings
     recipes_and_ratings = get_calculated_ratings_for_user(
-        session['user_id'], write_recommendations(), ratings_to_get=3, userknn=False)
+        session['user_id'], write_recommendations(), ratings_to_get=3)
     ids = {}
 
     try:
@@ -111,18 +111,6 @@ def get_rec():
             itemknn_ids.append(current_recipe_id)
         recipes_and_ratings["item-knn"] = itemknn_with_titles
         ids["item-knn"] = itemknn_ids
-    except KeyError:
-        pass
-
-    try:
-        userknn = recipes_and_ratings["user-knn"]
-        userknn_with_titles = {}
-        userknn_ids = []
-        for current_recipe_id, rating in userknn.items():
-            userknn_with_titles[get_recipe_title_by_id(current_recipe_id)] = rating
-            userknn_ids.append(current_recipe_id)
-        recipes_and_ratings["user-knn"] = userknn_with_titles
-        ids["user-knn"] = userknn_ids
     except KeyError:
         pass
 
