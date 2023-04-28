@@ -4,7 +4,6 @@ Functions for outputting the recommendations and ratings
 
 import pandas as pd
 import os
-from RecipeRecommender import recommend
 
 parent_dir = os.path.dirname(os.getcwd())
 col_names = ["User", "Item", "Feedback"]
@@ -13,16 +12,6 @@ recipe_database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
 recipe_info = pd.read_csv(recipe_database_path_and_filename, index_col=False)
 
 ratings_path_and_filename = parent_dir + "/Data/ratings.csv"
-
-
-def run_recommendation_algos(rank_length=3):
-    """
-    Run the rating prediction algorithms
-    :param rank_length: The number of predictions to calculate, default 3
-    """
-
-    recommend.recommend_content_based(rank_length=rank_length)
-    recommend.recommend_collaborative_itemknn(rank_length=rank_length)
 
 
 def write_recommendations():

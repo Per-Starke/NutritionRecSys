@@ -3,10 +3,10 @@ import requests
 import os
 from flask import Flask, render_template, request, redirect, session
 
-from RecipeRecommender.output import get_ratings_for_user, run_recommendation_algos, get_recipe_title_by_id, \
+from RecipeRecommender.output import get_ratings_for_user, get_recipe_title_by_id, \
     get_calculated_ratings_for_user, write_recommendations, write_rating_to_file, get_recipe_to_rate
 from RecipeRecommender.ratings import delete_double_ratings
-from RecipeRecommender.recommend import find_top_3_recs_within_range_of_macros
+from RecipeRecommender.recommend import find_top_3_recs_within_range_of_macros, run_recommendation_algos
 
 app = Flask(__name__)
 app.secret_key = os.urandom(12)

@@ -43,6 +43,16 @@ def recommend_content_based(rank_length=3):
                  rank_length=rank_length).compute()
 
 
+def run_recommendation_algos(rank_length=3):
+    """
+    Run the rating prediction algorithms
+    :param rank_length: The number of predictions to calculate, default 3
+    """
+
+    recommend_content_based(rank_length=rank_length)
+    recommend_collaborative_itemknn(rank_length=rank_length)
+
+
 """
 Functions to get recommendations matching the required macronutrients
 """
