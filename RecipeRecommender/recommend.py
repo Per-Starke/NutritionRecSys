@@ -9,14 +9,10 @@ import pandas as pd
 
 import RecipeRecommender.output
 
-parent_dir = os.path.dirname(os.getcwd())
+parent_dir = os.path.dirname(os.path.dirname((os.getcwd())))
 
 ratings_path_and_filename = parent_dir + "/Data/ratings.csv"
 col_names = ["User", "Item", "Feedback"]
-
-parent_dir = os.path.dirname(os.getcwd())
-
-ratings_path_and_filename = parent_dir + "/Data/ratings.csv"
 
 
 def recommend_collaborative_itemknn(rank_length=3):

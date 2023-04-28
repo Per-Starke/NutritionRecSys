@@ -5,7 +5,7 @@ Functions for outputting the recommendations and ratings
 import pandas as pd
 import os
 
-parent_dir = os.path.dirname(os.getcwd())
+parent_dir = os.path.dirname(os.path.dirname((os.getcwd())))
 col_names = ["User", "Item", "Feedback"]
 
 recipe_database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
