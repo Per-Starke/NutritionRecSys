@@ -1,5 +1,5 @@
 """
-Create a User-Item-Rating file with random ratings
+Create a User-Item-Rating file with random ratings and provide a function to check for and delete duplicate ratings
 """
 
 import pandas as pd
@@ -14,7 +14,7 @@ def create_ratings(amount_of_users):
     Create random ratings from 1-5 for a given amount of users for recipes in the database.
     User 1 gives 1 rating, user 2 gives 2, and so on.
     Write into /Data/ratings.csv
-    :param amount_of_users:
+    :param amount_of_users: the amount of users, as int
     """
 
     recipe_database_path_and_filename = parent_dir + "/Data/recipe_database.csv"

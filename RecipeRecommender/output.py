@@ -17,7 +17,7 @@ ratings_path_and_filename = parent_dir + "/Data/ratings.csv"
 def write_recommendations():
     """
     Write the results of the recommendation algorithms in a list of dataframes
-    :return: A list of three dataframes, with the predicted ratings of Content-based and ItemKNN
+    :return: A list of two dataframes, with the predicted ratings of content-based and ItemKNN
     """
 
     recommend_contend_based_path_and_filename = \
@@ -36,7 +36,7 @@ def get_recipe_title_by_id(id_to_get):
     """
     Get the title of a recipe
     :param id_to_get: the ID of the recipe where we want to get the title from, as int
-    :return: the title of the recipe, as str
+    :return: the title of the recipe, as string
     """
 
     return recipe_info[recipe_info["ID"] == id_to_get][" Title"].iloc[0][1:]
@@ -92,12 +92,12 @@ def get_ratings_for_user(user_id):
     return return_dict
 
 
-def get_single_algo_ratings(recommendations, user_id, ratings_to_get=10):
+def get_single_algo_ratings(recommendations, user_id, ratings_to_get):
     """
     Get the predicted ratings of a single algorithm
     :param recommendations: the dataframe of predicted ratings
     :param user_id: the id of the user the ratings shall be returned for
-    :param ratings_to_get: The number of ratings to print, default 10
+    :param ratings_to_get: The number of ratings to print, as int
     :return: A dict of the top-n recipes with the highest predicted ratings (with id:rating pairs) for a given user
     """
 
@@ -120,29 +120,23 @@ def get_single_algo_ratings(recommendations, user_id, ratings_to_get=10):
     return return_dict
 
 
-def get_calculated_ratings_for_user(user_id, recommendations_list, cb=True, itemknn=True,
-                                    ratings_to_get=10):
+def get_calculated_ratings_for_user(user_id, recommendations_list, ratings_to_get):
     """
     Get the calculated ratings a user gave for recipes the user did not rate.
-    If less than 10 unrated recipes, get all. Else, get the 10 (or given amount) recipes with the highest
-    predicted rating.
+    Get the ratings_to_get amount of recipes with the highest predicted rating.
     :param user_id: the id of the user, as int
     :param recommendations_list: List of dataframes with the predicted ratings, ordererd: cb, itemknn
-    :param cb: True (default) if Content-Based recommendations shall be returned
-    :param itemknn: True (default) if Collaborative ItemKNN recommendations shall be returned
-    :param ratings_to_get: The number of ratings to get, default 10
+    :param ratings_to_get: The number of ratings to get, as int
     :return: a list of dicts of id:rating pairs with the calculated top-n ratings for the given user.
     """
 
     return_dict = {}
 
-    if cb:
-        recommendations = recommendations_list[0]
-        return_dict["content-based"] = get_single_algo_ratings(recommendations, user_id, ratings_to_get)
+    recommendations = recommendations_list[0]
+    return_dict["content-based"] = get_single_algo_ratings(recommendations, user_id, ratings_to_get)
 
-    if itemknn:
-        recommendations = recommendations_list[1]
-        return_dict["item-knn"] = get_single_algo_ratings(recommendations, user_id, ratings_to_get)
+    recommendations = recommendations_list[1]
+    return_dict["item-knn"] = get_single_algo_ratings(recommendations, user_id, ratings_to_get)
 
     return return_dict
 

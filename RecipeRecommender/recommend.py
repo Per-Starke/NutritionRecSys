@@ -15,10 +15,10 @@ ratings_path_and_filename = parent_dir + "/Data/ratings.csv"
 col_names = ["User", "Item", "Feedback"]
 
 
-def recommend_collaborative_itemknn(rank_length=3):
+def recommend_collaborative_itemknn(rank_length):
     """
     create or update the recommendations.csv file
-    :param rank_length: The number of predictions to calculate, default 3
+    :param rank_length: The number of predictions to calculate, as int
     """
 
     output_path_and_filename = parent_dir + "/Predicted_ratings_data/recommendations_collaborative_itemknn.csv"
@@ -26,10 +26,10 @@ def recommend_collaborative_itemknn(rank_length=3):
             rank_length=rank_length).compute()
 
 
-def recommend_content_based(rank_length=3):
+def recommend_content_based(rank_length):
     """
     create or update the recommendations.csv file
-    :param rank_length: The number of predictions to calculate, default 3
+    :param rank_length: The number of predictions to calculate, as int
     """
 
     output_path_and_filename = parent_dir + "/Predicted_ratings_data/recommendations_content_based.csv"
@@ -42,7 +42,7 @@ def recommend_content_based(rank_length=3):
 def run_recommendation_algos(rank_length=3):
     """
     Run the rating prediction algorithms
-    :param rank_length: The number of predictions to calculate, default 3
+    :param rank_length: The number of predictions to calculate, as int, default 3
     """
 
     recommend_content_based(rank_length=rank_length)

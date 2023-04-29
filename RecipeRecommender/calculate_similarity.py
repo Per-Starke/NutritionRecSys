@@ -16,9 +16,9 @@ def calc_text_sim(text1, text2):
     """
     Calculate the similarity between two texts, by getting a term frequency inverse document frequency matrix
     and then calculating the cosine-similarity
-    :param text1:
-    :param text2:
-    :return: the similarity, between 0 and 1, as int
+    :param text1: The first text, as string
+    :param text2: The second text, as string
+    :return: the similarity, between 0 and 1
     """
 
     tfidf = TfidfVectorizer(stop_words="english")
@@ -32,9 +32,9 @@ def calc_text_sim(text1, text2):
 def calc_taste_sim(taste1, taste2):
     """
     Calculate the similarity between two given taste dictionaries
-    :param taste1:
-    :param taste2:
-    :return: the similarity, between 0 and 1, as int
+    :param taste1: The first taste-dict
+    :param taste2: The second taste-dict
+    :return: the similarity, between 0 and 1
     """
 
     return cosine_similarity([taste1], [taste2])[0][0]
@@ -47,7 +47,7 @@ def calc_recipe_sim(recipe_id_1, recipe_id_2, recipe_info):
     :param recipe_id_1: the id of the first recipe
     :param recipe_id_2: the id of the second recipe
     :param recipe_info: The dataframe of the recipe database
-    :return: the similarity, between 0 and 1, as int
+    :return: the similarity, between 0 and 1
     """
 
     recipe_1 = recipe_info.loc[recipe_info["ID"] == recipe_id_1]
@@ -112,15 +112,15 @@ def calc_all_recipe_sims(recipe_info):
     return all_sims
 
 
-def write_sims_in_file(sim_array):
+def write_sims_in_file(sim_list):
     """
     Write a given similarity array into the similarities.csv file
-    :param sim_array: the similarity array to write into the file
+    :param sim_list: the similarity list to write into the file
     """
 
     similarities_path_and_filename = parent_dir + "/Data/similarities.csv"
     with open(similarities_path_and_filename, "w+") as file:
-        for line in sim_array:
+        for line in sim_list:
             file.write((", ".join(line)))
             file.write("\n")
 

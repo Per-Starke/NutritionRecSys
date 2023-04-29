@@ -231,7 +231,7 @@ def write_recipes_in_file(recipes, mode="w+"):
 def write_recipes_in_file_from_df(recipe_df):
     """
     write the id, title, dish-type, nutrients, information-string and taste of given recipes in the
-    recipe_database.csv file, append at the end of the file
+    recipe_database.csv file, overwrite the current content of the file
     :param recipe_df: The pandas dataframe of recipes to write into the file
     """
 
@@ -252,8 +252,8 @@ def create_final_recipe_database(mode="a+", query="random"):
     """
     Creates the final recipe database, appending new recipes to the database and checking for duplicates.
     Needs to be done several times, spread over days, in order to not pay too much for spoonacular api due to
-    too many requests / day.
-    :param mode: the write-mode for the file, default a+
+    too many requests / day, and also because each query is limited to 100 items in the response by Spoonacular
+    :param mode: the write-mode for the file, default a+ (choose w+ if you want to overwrite the file content)
     :param query: the query to give to write_recipes_in_list
     """
 

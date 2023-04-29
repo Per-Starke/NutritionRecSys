@@ -85,7 +85,7 @@ def home():
 @app.route("/recs_and_ratings")
 def recs_and_ratings():
     """
-    Create the get-recommendations-page
+    Create the recommendations & ratings page
     """
 
     if 'user_id' not in session:
@@ -171,7 +171,7 @@ def random():
 @app.route('/enter_reqs', methods=['POST', 'GET'])
 def enter_reqs():
     """
-    Create the page to enter requirements
+    Create the page to enter requirements (macros and meal-type)
     """
 
     if 'user_id' not in session:
