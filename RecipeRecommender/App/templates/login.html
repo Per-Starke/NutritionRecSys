@@ -18,10 +18,27 @@
         </p>
     </div>
 
+    <h1 class="center-heading">
+        <span class="main-header"> Login as user: </span>
+    </h1>
     <div class="center">
-        <form class="body content body-with-top-margin" action="/login" method="POST">
+        <form class="body content" action="/login" method="POST">
             <label for="set_id"> enter your user-id: </label><br>
             <input type="text" name="set_id" id="set_id"><br>
+            <input type="submit" value="submit">
+        </form>
+    </div>
+
+
+    <hr class="content-sep">
+    <h1 class="center-heading">
+        <span class="main-header"> Login as coach: </span>
+    </h1>
+
+    <div class="center">
+        <form class="body content" action="/login" method="POST">
+            <label for="set_coach_id"> enter your coach-id: </label><br>
+            <input type="text" name="set_coach_id" id="set_coach_id"><br>
             <input type="submit" value="submit">
         </form>
     </div>
