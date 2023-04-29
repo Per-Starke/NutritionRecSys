@@ -164,7 +164,7 @@ When the screen is less than 875 pixels wide, hide all links, except for the fir
         display: block;
         position: absolute;
         top: 15px;
-        right: 73.8px;
+        right: 123.5px;
         color: rgb(220, 20, 60);
     }
     .main-nav.responsive .icon:hover {
