@@ -7,7 +7,8 @@ from caserec.recommenders.item_recommendation.content_based import ContentBased
 import os
 import pandas as pd
 
-import RecipeRecommender.output
+from RecipeRecommender.output import get_macros_by_id
+from RecipeRecommender.create_recipe_database import get_mealtype
 
 parent_dir = os.path.dirname(os.path.dirname((os.getcwd())))
 
@@ -64,7 +65,7 @@ def get_macros(recipe_ids):
     return_dict = {}
 
     for recipe_id in recipe_ids:
-        return_dict[recipe_id] = RecipeRecommender.output.get_macros_by_id(recipe_id)
+        return_dict[recipe_id] = get_macros_by_id(recipe_id)
 
     return return_dict
 
@@ -97,7 +98,7 @@ def get_recs_and_macros(user_id, algorithm):
     return get_macros(list_of_recommended_recipe_ids)
 
 
-def find_top_3_recs_within_range_of_macros(user_id, algorithm, proteins, carbs, fats, allowed_range=0.2):
+def find_top_3_matching_reqs(user_id, algorithm, proteins, carbs, fats, allowed_range, mealtype):
     """
     Find the top 3 recommendations withing a given range of the given macronutrients, for a given user and algorithm
     :param user_id: The ID of the user, as int
@@ -105,10 +106,14 @@ def find_top_3_recs_within_range_of_macros(user_id, algorithm, proteins, carbs, 
     :param proteins: the required amount of proteins, in grams
     :param carbs: the required amount of carbs, in grams
     :param fats: the required amount of fats, in grams
-    :param allowed_range: The range of how much the real macros are allowed to differ from the required macros,
-    default 0.2
-    :return: The top 3 (or less, if less found) recommendations matchingthe given macros, as a list of recipe ids
+    :param allowed_range: The range of how much the real macros are allowed to differ from the required macros
+    :param mealtype: the required mealtype
+    :return: The top 3 (or less, if less found) recommendations matching the given requirements, as a list of recipe ids
     """
+
+    ########
+    # Macros
+    ########
 
     min_protein = float(proteins) - float(proteins) * float(allowed_range)
     max_protein = float(proteins) + float(proteins) * float(allowed_range)
@@ -130,7 +135,7 @@ def find_top_3_recs_within_range_of_macros(user_id, algorithm, proteins, carbs, 
 
     recs_and_macros = get_recs_and_macros(int(user_id), algorithm)
 
-    return_list = []
+    return_list_macros = []
 
     for recipe_id, macro_dict in recs_and_macros.items():
         recipe_proteins = macro_dict["proteins"][:-1]
@@ -141,56 +146,96 @@ def find_top_3_recs_within_range_of_macros(user_id, algorithm, proteins, carbs, 
         if protein_open == False and carbs_open == False and fats_open == False:
             if (min_protein <= float(recipe_proteins) <= max_protein and min_carbs <= float(recipe_carbs)
                     <= max_carbs and min_fats <= float(recipe_fats) <= max_fats):
-                return_list.append(recipe_id)
-                if len(return_list) == 3:
-                    return return_list
+                return_list_macros.append(recipe_id)
 
         # Case 2: Proteins open, rest given
         elif protein_open == True and carbs_open == False and fats_open == False:
             if min_carbs <= float(recipe_carbs) <= max_carbs and min_fats <= float(recipe_fats) <= max_fats:
-                return_list.append(recipe_id)
-                if len(return_list) == 3:
-                    return return_list
+                return_list_macros.append(recipe_id)
 
         # Case 3: Carbs open, rest given
         elif protein_open == False and carbs_open == True and fats_open == False:
             if min_protein <= float(recipe_proteins) <= max_protein and min_fats <= float(recipe_fats) <= max_fats:
-                return_list.append(recipe_id)
-                if len(return_list) == 3:
-                    return return_list
+                return_list_macros.append(recipe_id)
 
         # Case 4: Fats open, rest given
         elif protein_open == False and carbs_open == False and fats_open == True:
             if min_protein <= float(recipe_proteins) <= max_protein and min_carbs <= float(recipe_carbs) <= max_carbs:
-                return_list.append(recipe_id)
-                if len(return_list) == 3:
-                    return return_list
+                return_list_macros.append(recipe_id)
 
         # Case 5: Proteins and carbs open, fats given
         elif protein_open == True and carbs_open == True and fats_open == False:
             if min_fats <= float(recipe_fats) <= max_fats:
-                return_list.append(recipe_id)
-                if len(return_list) == 3:
-                    return return_list
+                return_list_macros.append(recipe_id)
 
         # Case 6: Carbs and fats open, proteins given
         elif protein_open == False and carbs_open == True and fats_open == True:
             if min_protein <= float(recipe_proteins) <= max_protein:
-                return_list.append(recipe_id)
-                if len(return_list) == 3:
-                    return return_list
+                return_list_macros.append(recipe_id)
 
         # Case 7: Proteins and fats open, carbs given
         elif protein_open == True and carbs_open == False and fats_open == True:
             if min_carbs <= float(recipe_carbs) <= max_carbs:
-                return_list.append(recipe_id)
-                if len(return_list) == 3:
-                    return return_list
+                return_list_macros.append(recipe_id)
 
         # Case 8: Nothing given (same as just getting recommendations)
         elif protein_open == True and carbs_open == True and fats_open == True:
-            return_list.append(recipe_id)
-            if len(return_list) == 3:
-                return return_list
+            return_list_macros.append(recipe_id)
 
-    return return_list
+    ##########
+    # Mealtype
+    ##########
+
+    return_list = []
+
+    # Case 1: Mealtype "Open"
+    if mealtype == "Open":
+        return_list = return_list_macros
+
+    # Case 2: Mealtype "Drink"
+    elif mealtype == "Drink":
+        for current_recipe_id in return_list_macros:
+            current_mealtype_list = get_mealtype(current_recipe_id)
+            if "drink" in current_mealtype_list or "beverage" in current_mealtype_list:
+                return_list.append(current_recipe_id)
+
+    # Case 3: Mealtype "Snack"
+    elif mealtype == "Snack":
+        for current_recipe_id in return_list_macros:
+            current_mealtype_list = get_mealtype(current_recipe_id)
+            if "snack" in current_mealtype_list:
+                return_list.append(current_recipe_id)
+
+    # Case 4: Mealtype "Side dish"
+    elif mealtype == "Side dish":
+        for current_recipe_id in return_list_macros:
+            current_mealtype_list = get_mealtype(current_recipe_id)
+            if ("side dish" in current_mealtype_list or "appetizer" in current_mealtype_list or
+            "antipasto" in current_mealtype_list or "antipasti" in current_mealtype_list or "starter" in
+            current_mealtype_list or "hor d'oeuvre" in current_mealtype_list):
+                return_list.append(current_recipe_id)
+
+    # Case 5: Mealtype "Breakfast"
+    elif mealtype == "Breakfast":
+        for current_recipe_id in return_list_macros:
+            current_mealtype_list = get_mealtype(current_recipe_id)
+            if ("breakfast" in current_mealtype_list or "morning meal" in current_mealtype_list or
+            "brunch" in current_mealtype_list):
+                return_list.append(current_recipe_id)
+
+    # Case 6: Mealtype "Main dish"
+    elif mealtype == "Main dish":
+        for current_recipe_id in return_list_macros:
+            current_mealtype_list = get_mealtype(current_recipe_id)
+            if ("main dish" in current_mealtype_list or "lunch" in current_mealtype_list or
+                    "main course" in current_mealtype_list or "dinner" in current_mealtype_list) :
+                return_list.append(current_recipe_id)
+
+    # Case 7: Mealtype "Dessert"
+    elif mealtype == "Dessert":
+        for current_recipe_id in return_list_macros:
+            current_mealtype_list = get_mealtype(current_recipe_id)
+            if "dessert" in current_mealtype_list:
+                return_list.append(current_recipe_id)
+
+    return return_list[:3]

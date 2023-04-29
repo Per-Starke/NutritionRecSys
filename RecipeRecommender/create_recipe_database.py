@@ -20,17 +20,17 @@ headers = {
 }
 
 
-def get_dishtype(recipe_id):
+def get_mealtype(recipe_id):
     """
-    Get the dish-type of a certain recipe
+    Get the mealtype of a certain recipe
     :param recipe_id: the id of the recipe
-    :return: the dish-type, as an array
+    :return: the mealtype, as an array
     """
 
     info_url = "recipes/{0}/information".format(recipe_id)
     info = requests.request("GET", url + info_url, headers=headers).json()
 
-    dishtypes =  info["dishTypes"]
+    dishtypes = info["dishTypes"]
     if isinstance(dishtypes, list):
         return dishtypes
     else:
@@ -190,7 +190,7 @@ def write_recipes_in_file(recipes, mode="w+"):
 
         for recipe in recipes:
             if recipe[2] == ["None given"]:
-                recipe[2] = get_dishtype(recipe[0])
+                recipe[2] = get_mealtype(recipe[0])
 
             try:
                 dish_type_string = str(recipe[2][0])
