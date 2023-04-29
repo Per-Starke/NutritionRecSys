@@ -216,6 +216,11 @@ tr.macros {
     background-color: rgba(165, 230, 255, 0.2);
 }
 
+td.meal-type {
+    text-align: left;
+    font-size: 15px;
+}
+
 table.left {
     margin-left: 0;
 }

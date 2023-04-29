@@ -1,7 +1,7 @@
 {% extends 'base_with_nav.html' %}
 
 {% block head %}
-    <title> Get Recommendations - Recipe Recommender </title>
+    <title> Get matching recommendations - Recipe Recommender </title>
 {% endblock %}
 
 {% block body %}
@@ -18,25 +18,27 @@
         </p>
     </div>
 
-    <h2 class="body body-with-top-margin"> Your required macronutrients: </h2>
+    <h2 class="body body-with-top-margin"> Your requirements: </h2>
     <p class="body content">
         {% if proteins == "0" %}
-            Proteins: open <br>
+            Proteins: Open <br>
         {% else %}
             Proteins: {{proteins}}g <br>
         {% endif %}
 
         {% if carbs == "0" %}
-            Carbs: open <br>
+            Carbs: Open <br>
         {% else %}
             Carbs: {{carbs}}g <br>
         {% endif %}
 
         {% if fats == "0" %}
-            Fats: open <br>
+            Fats: Open <br>
         {% else %}
             Fats: {{fats}}g <br>
         {% endif %}
+
+        Mealtype: {{mealtype}}<br>
     </p>
 
 

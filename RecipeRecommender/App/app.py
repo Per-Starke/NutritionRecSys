@@ -35,6 +35,7 @@ def login():
     session["carbs"] = "0"
     session["fats"] = "0"
     session["range"] = "0.2"
+    session['meal-type'] = "Open"
 
     return render_template("login.html")
 
@@ -165,6 +166,7 @@ def enter_reqs():
         session['carbs'] = request.form['set_carbs']
         session['fats'] = request.form['set_fats']
         session['range'] = request.form['set_range']
+        session['meal-type'] = request.form['get_mealtype']
 
         try:
             float(session['range'])
@@ -187,9 +189,11 @@ def enter_reqs():
             session.pop('range', None)
             return render_template("error.html",
                                    error_text="Invalid input for required macronutrients!")
-        return redirect("/get_recs_with_reqs")
+        return redirect("/enter_reqs")
 
-    return render_template("enter_reqs.html", user_id=session['user_id'])
+    return render_template("enter_reqs.html", user_id=session['user_id'], proteins=session["proteins"],
+                           carbs=session["carbs"], fats=session["fats"], range=session["range"],
+                           mealtype=session["meal-type"])
 
 
 @app.route('/get_recs_with_reqs')
@@ -226,7 +230,7 @@ def get_recs_with_reqs():
 
     return render_template("get_recs_with_reqs.html", user_id=session['user_id'], proteins=session["proteins"],
                            carbs=session["carbs"], fats=session["fats"], range_percent=float(session["range"])*100,
-                           cb_recs=cb_rec_dict, itemknn_recs=itemknn_rec_dict)
+                           mealtype=session["meal-type"], cb_recs=cb_rec_dict, itemknn_recs=itemknn_rec_dict)
 
 
 @app.route('/recipe', methods=['POST', 'GET'])
