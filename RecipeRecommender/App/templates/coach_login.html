@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
 
 {% block head %}
-    <title> User login - Recipe Recommender </title>
+    <title> Coach login - Recipe Recommender </title>
 {% endblock %}
 
 {% block body %}
     <div class="header">
         <h1 class="title">
             <img class="in-title" src="{{url_for('static', filename='/images/vegan-icon.png')}}" width="50px" />
-            User login - Recipe Recommender
+            Coach login - Recipe Recommender
         </h1>
-        <h2 class="subtitle"> Login with your user-id here </h2>
+        <h2 class="subtitle"> Login with your coach-id here </h2>
         <p class="image-label"> Photo credit:
             <a class="image-label" rel="noopener noreferrer nofollow" target="_blank" href="https://unsplash.com/de/fotos/2IxTgsgFi-s">
                 Unsplash
@@ -19,12 +19,12 @@
     </div>
 
     <h1 class="center-heading">
-        <span class="main-header"> Login as user: </span>
+        <span class="main-header"> Login as coach: </span>
     </h1>
     <div class="center">
-        <form class="body content" action="/login" method="POST">
-            <label for="set_id"> enter your user-id: </label><br>
-            <input type="text" name="set_id" id="set_id"><br>
+        <form class="body content" action="/coach_login" method="POST">
+            <label for="set_coach_id"> enter your coach-id: </label><br>
+            <input type="text" name="set_coach_id" id="set_coach_id"><br>
             <input type="submit" value="submit">
         </form>
     </div>
@@ -32,7 +32,7 @@
 
     <hr class="content-sep">
     <h1 class="center-heading">
-        <a href="/coach_login"> Login as coach instead </a>
+        <a href="/login"> Login as user instead </a>
     </h1>
 
 

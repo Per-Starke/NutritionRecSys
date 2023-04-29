@@ -40,6 +40,33 @@ def login():
     return render_template("login.html")
 
 
+@app.route("/coach_login", methods=['POST', 'GET'])
+def coach_login():
+    """
+    Create coach login page
+    """
+
+    if 'coach_id' in session:
+        return redirect("/")
+
+    elif request.method == 'POST':
+        session.permanent = True
+        session['coach_id'] = request.form['set_coach_id']
+        if not session['coach_id'] or not session['coach_id'].isdigit():
+            session.pop('coach_id', None)
+            return render_template("error.html",
+                                   error_text="this is no valid coach id!")
+        return redirect("/")
+
+    session["proteins"] = "0"
+    session["carbs"] = "0"
+    session["fats"] = "0"
+    session["range"] = "0.2"
+    session['mealtype'] = "Open"
+
+    return render_template("coach_login.html")
+
+
 @app.route("/logout")
 def logout():
     """
@@ -73,13 +100,14 @@ def home():
     Create the home-page
     """
 
-    if 'user_id' not in session:
-        return redirect("/login")
+    if 'user_id' in session or 'coach_id' in session:
 
-    session['prediction_needs_updating'] = False  # todo set to True
-    session["large_rank"] = False
+        session['prediction_needs_updating'] = False  # todo set to True
+        session["large_rank"] = False
 
-    return render_template("home.html", user_id=session['user_id'])
+        return render_template("home.html", user_id=session['user_id'])
+
+    return redirect("/login")
 
 
 @app.route("/recs_and_ratings")
