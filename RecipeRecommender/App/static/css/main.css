@@ -49,7 +49,6 @@ p span {
 }
 
 .center-heading {
-    text-align: center;
 }
 
 
@@ -130,6 +129,11 @@ span.main-header {
     transition: 1s;
 }
 
+.main-nav-coach {
+    margin-left: 100px;
+    transition: 1s;
+}
+
 .nav {
     margin-top: 15px;
     margin-bottom: 15px;
@@ -149,6 +153,20 @@ When the screen is less than 875 pixels wide, hide all links, except for the fir
     }
     .main-nav button:not(:first-child){display: none;}
     .main-nav .icon {
+        float: right;
+        display: block;
+        position: relative;
+        top: 15px;
+        margin-right: 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    .main-nav-coach {
+        margin-left: 20px;
+    }
+    .main-nav-coach button:not(:first-child){display: none;}
+    .main-nav-coach .icon {
         float: right;
         display: block;
         position: relative;
@@ -181,6 +199,29 @@ When the screen is less than 875 pixels wide, hide all links, except for the fir
     }
 }
 
+
+@media (max-width: 600px) {
+    .main-nav-coach.responsive {
+        position: relative;
+        transition: 1s;
+    }
+    .main-nav-coach.responsive .icon {
+        float: right;
+        display: block;
+        position: absolute;
+        top: 15px;
+        right: 123.5px;
+        color: rgb(220, 20, 60);
+    }
+    .main-nav-coach.responsive .icon:hover {
+        color: rgb(190, 0, 50);
+    }
+    .main-nav-coach.responsive button {
+        float: none;
+        display: block;
+        text-align: left;
+    }
+}
 /* end of "taken from https://www.w3schools.com/howto/howto_js_topnav_responsive.asp" */
 
 .user-box {

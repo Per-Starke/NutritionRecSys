@@ -100,12 +100,18 @@ def home():
     Create the home-page
     """
 
-    if 'user_id' in session or 'coach_id' in session:
+    if 'user_id' in session:
 
         session['prediction_needs_updating'] = False  # todo set to True
         session["large_rank"] = False
 
         return render_template("home.html", user_id=session['user_id'])
+
+    if 'coach_id' in session:
+        session['prediction_needs_updating'] = False  # todo set to True
+        session["large_rank"] = False
+
+        return render_template("home_coach.html", coach_id=session['coach_id'])
 
     return redirect("/login")
 

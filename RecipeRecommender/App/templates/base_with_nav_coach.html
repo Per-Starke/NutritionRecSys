@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block nav %}
+
+    <div class="nav main-nav-coach" id="myTopnavCoach">
+        <button class="btn btn-primary">
+            <a class="button" href="/"> Home </a>
+        </button>
+
+        <button class="btn btn-primary">
+            <a class="button" href="/user_overview"> User overview </a>
+        </button>
+
+        <a class="icon" onclick="extendNavCoach()">
+            <i class="fa fa-bars fa-xl"></i>
+        </a>
+
+    </div>
+
+    <div class="nav right">
+        <div class="user-box">
+            <button class="btn btn-user-id">
+                Coach-id: {{coach_id}}
+            </button>
+            <button class="btn btn-logout">
+                <a class="button" href="/logout"> Logout </a>
+            </button>
+        </div>
+    </div>
+
+{% endblock %}
