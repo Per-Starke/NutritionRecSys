@@ -49,6 +49,7 @@ p span {
 }
 
 .center-heading {
+    text-align: center;
 }
 
 
@@ -210,7 +211,7 @@ When the screen is less than 875 pixels wide, hide all links, except for the fir
         display: block;
         position: absolute;
         top: 15px;
-        right: 123.5px;
+        right: 17.8px;
         color: rgb(220, 20, 60);
     }
     .main-nav-coach.responsive .icon:hover {
