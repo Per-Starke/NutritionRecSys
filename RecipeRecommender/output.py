@@ -56,6 +56,18 @@ def get_macros_by_id(id_to_get):
     return {"proteins": proteins, "carbs": carbs, "fats": fats}
 
 
+def get_mealtype_by_id(id_to_get):
+    """
+    Get the mealtypes of a recipe
+    :param id_to_get: The ID of the reicpe where we want to get the mealtypes from, as int
+    :return: the mealtypes, as list
+    """
+
+    mealtypes = recipe_info[recipe_info["ID"] == id_to_get][" Dish-Type"].iloc[0][1:].replace(" ", "")
+
+    return mealtypes.split("|")
+
+
 def get_ratings_for_user(user_id):
     """
     Get the ratings a user gave for all recipes

@@ -24,7 +24,7 @@ def get_mealtype(recipe_id):
     """
     Get the mealtype of a certain recipe
     :param recipe_id: the id of the recipe
-    :return: the mealtype, as an array
+    :return: the mealtype, as a list
     """
 
     info_url = "recipes/{0}/information".format(recipe_id)

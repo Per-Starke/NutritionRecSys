@@ -7,8 +7,7 @@ from caserec.recommenders.item_recommendation.content_based import ContentBased
 import os
 import pandas as pd
 
-from RecipeRecommender.output import get_macros_by_id
-from RecipeRecommender.create_recipe_database import get_mealtype
+from RecipeRecommender.output import get_macros_by_id, get_mealtype_by_id
 
 parent_dir = os.path.dirname(os.path.dirname((os.getcwd())))
 
@@ -51,7 +50,7 @@ def run_recommendation_algos(rank_length=3):
 
 
 """
-Functions to get recommendations matching the required macronutrients
+Functions to get recommendations matching the requirements
 """
 
 
@@ -195,46 +194,46 @@ def find_top_3_matching_reqs(user_id, algorithm, proteins, carbs, fats, allowed_
     # Case 2: Mealtype "Drink"
     elif mealtype == "Drink":
         for current_recipe_id in return_list_macros:
-            current_mealtype_list = get_mealtype(current_recipe_id)
+            current_mealtype_list = get_mealtype_by_id(current_recipe_id)
             if "drink" in current_mealtype_list or "beverage" in current_mealtype_list:
                 return_list.append(current_recipe_id)
 
     # Case 3: Mealtype "Snack"
     elif mealtype == "Snack":
         for current_recipe_id in return_list_macros:
-            current_mealtype_list = get_mealtype(current_recipe_id)
+            current_mealtype_list = get_mealtype_by_id(current_recipe_id)
             if "snack" in current_mealtype_list:
                 return_list.append(current_recipe_id)
 
     # Case 4: Mealtype "Side dish"
     elif mealtype == "Side dish":
         for current_recipe_id in return_list_macros:
-            current_mealtype_list = get_mealtype(current_recipe_id)
-            if ("side dish" in current_mealtype_list or "appetizer" in current_mealtype_list or
+            current_mealtype_list = get_mealtype_by_id(current_recipe_id)
+            if ("sidedish" in current_mealtype_list or "appetizer" in current_mealtype_list or
             "antipasto" in current_mealtype_list or "antipasti" in current_mealtype_list or "starter" in
-            current_mealtype_list or "hor d'oeuvre" in current_mealtype_list):
+            current_mealtype_list or "hord'oeuvre" in current_mealtype_list):
                 return_list.append(current_recipe_id)
 
     # Case 5: Mealtype "Breakfast"
     elif mealtype == "Breakfast":
         for current_recipe_id in return_list_macros:
-            current_mealtype_list = get_mealtype(current_recipe_id)
-            if ("breakfast" in current_mealtype_list or "morning meal" in current_mealtype_list or
+            current_mealtype_list = get_mealtype_by_id(current_recipe_id)
+            if ("breakfast" in current_mealtype_list or "morningmeal" in current_mealtype_list or
             "brunch" in current_mealtype_list):
                 return_list.append(current_recipe_id)
 
     # Case 6: Mealtype "Main dish"
     elif mealtype == "Main dish":
         for current_recipe_id in return_list_macros:
-            current_mealtype_list = get_mealtype(current_recipe_id)
-            if ("main dish" in current_mealtype_list or "lunch" in current_mealtype_list or
-                    "main course" in current_mealtype_list or "dinner" in current_mealtype_list) :
+            current_mealtype_list = get_mealtype_by_id(current_recipe_id)
+            if ("maindish" in current_mealtype_list or "lunch" in current_mealtype_list or
+                    "maincourse" in current_mealtype_list or "dinner" in current_mealtype_list):
                 return_list.append(current_recipe_id)
 
     # Case 7: Mealtype "Dessert"
     elif mealtype == "Dessert":
         for current_recipe_id in return_list_macros:
-            current_mealtype_list = get_mealtype(current_recipe_id)
+            current_mealtype_list = get_mealtype_by_id(current_recipe_id)
             if "dessert" in current_mealtype_list:
                 return_list.append(current_recipe_id)
 
