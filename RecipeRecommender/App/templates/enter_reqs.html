@@ -20,7 +20,7 @@
 
 
     <p class="body content"> Enter 0 or nothing in a field, if you want to leave this macronutrient open. </p>
-    <form class="body content" action="/enter_reqs" method="POST">
+    <form class="body content" action="/enter_reqs" method="POST" id="requirements_form">
         <table class="body content left">
             <tr class="macros">
                 <td>
@@ -114,6 +114,10 @@
             </tr>
         </table>
         <input class="bottom-margin-mobile" type="submit" value="submit">
+        <input
+                class="bottom-margin-mobile" type="button" value="clear" form="requirements_form"
+                onclick="location.href = '/reset_requirements';"
+        >
     </form>
 
 
