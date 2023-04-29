@@ -6,7 +6,7 @@ import pandas as pd
 from random import randint
 import os
 
-parent_dir = os.path.dirname(os.getcwd())
+parent_dir = os.path.dirname(os.path.dirname(os.getcwd()))
 
 
 def create_ratings(amount_of_users):

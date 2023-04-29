@@ -1,7 +1,7 @@
 {% extends 'base_with_nav.html' %}
 
 {% block head %}
-    <title> Enter macros - Recipe Recommender </title>
+    <title> Enter requirements - Recipe Recommender </title>
 {% endblock %}
 
 {% block body %}
@@ -10,7 +10,7 @@
             <img class="in-title" src="{{url_for('static', filename='/images/vegan-icon.png')}}" width="50px" />
             Recipe Recommender
         </h1>
-        <h2 class="subtitle"> Enter the macronutrients you want your recommended recipes to have here! </h2>
+        <h2 class="subtitle"> Enter the requirements (macros and meal-type) you want your recommended recipes to have here! </h2>
         <p class="image-label"> Photo credit:
             <a class="image-label" rel="noopener noreferrer nofollow" target="_blank" href="https://unsplash.com/de/fotos/2IxTgsgFi-s">
                 Unsplash
@@ -20,7 +20,7 @@
 
 
     <p class="body content"> Enter 0 or nothing in a field, if you want to leave this macronutrient open. </p>
-    <form class="body content" action="/enter_macros" method="POST">
+    <form class="body content" action="/enter_reqs" method="POST">
         <table class="body content left">
             <tr class="macros">
                 <td>
