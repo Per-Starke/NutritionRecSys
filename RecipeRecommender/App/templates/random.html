@@ -1,16 +1,16 @@
 {% extends 'base_with_nav.html' %}
 
 {% block head %}
-    <title> Rate recipes - Recipe Recommender </title>
+    <title> Random recipes - Recipe Recommender </title>
 {% endblock %}
 
 {% block body %}
     <div class="header">
-        <h1 class="title">
+        <h2 class="title">
             <img class="in-title" src="{{url_for('static', filename='/images/vegan-icon.png')}}" width="50px" />
             Recipe Recommender
-        </h1>
-        <h2 class="subtitle"> Rate new recipes here! </h2>
+        </h2>
+        <h2 class="subtitle"> Explore and rate random recipes </h2>
         <p class="image-label"> Photo credit:
             <a class="image-label" rel="noopener noreferrer nofollow" target="_blank" href="https://unsplash.com/de/fotos/2IxTgsgFi-s">
                 Unsplash
@@ -32,7 +32,7 @@
 
 
     {% if recipe_title != "No unrated recipe found!" %}
-    <form class="body" action="/rate#get_rating" method="POST">
+    <form class="body" action="/random#get_rating" method="POST">
         <p> What would you rate this recipe, from 1 to 5? </p>
         <div class="rate">
             <input type="radio" id="star5" name="get_rating" value="5" />

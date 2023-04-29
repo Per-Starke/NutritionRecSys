@@ -6,7 +6,7 @@ from flask import Flask, render_template, request, redirect, session
 from RecipeRecommender.output import get_ratings_for_user, get_recipe_title_by_id, \
     get_calculated_ratings_for_user, write_recommendations, write_rating_to_file, get_recipe_to_rate
 from RecipeRecommender.ratings import delete_double_ratings
-from RecipeRecommender.recommend import find_top_3_recs_within_range_of_macros, run_recommendation_algos
+from RecipeRecommender.recommend import find_top_3_matching_reqs, run_recommendation_algos
 
 app = Flask(__name__)
 app.secret_key = os.urandom(12)
@@ -31,6 +31,12 @@ def login():
                                    error_text="this is no valid user id!")
         return redirect("/")
 
+    session["proteins"] = "0"
+    session["carbs"] = "0"
+    session["fats"] = "0"
+    session["range"] = "0.2"
+    session['mealtype'] = "Open"
+
     return render_template("login.html")
 
 
@@ -43,6 +49,22 @@ def logout():
     session.clear()
 
     return redirect("/login")
+
+
+@app.route("/reset_requirements")
+def reset_requirements():
+    """
+    Not a shown page, redirect here to reset given requirements and redirect to the enter_reqs page
+    """
+
+    session["proteins"] = "0"
+    session["carbs"] = "0"
+    session["fats"] = "0"
+    session["range"] = "0.2"
+    session["proteins"] = "0"
+    session["mealtype"] = "Open"
+
+    return redirect("/enter_reqs")
 
 
 @app.route("/", methods=['POST', 'GET'])
@@ -60,8 +82,8 @@ def home():
     return render_template("home.html", user_id=session['user_id'])
 
 
-@app.route("/get_rec")
-def get_rec():
+@app.route("/recs_and_ratings")
+def recs_and_ratings():
     """
     Create the get-recommendations-page
     """
@@ -114,14 +136,15 @@ def get_rec():
     except KeyError:
         pass
 
-    return render_template("get_rec.html", user_id=session['user_id'], given_ratings=sorted_given_ratings_with_titles,
+    return render_template("recs_and_ratings.html", user_id=session['user_id'],
+                           given_ratings=sorted_given_ratings_with_titles,
                            recipes_and_ratings=recipes_and_ratings, ids=ids)
 
 
-@app.route("/rate", methods=['POST', 'GET'])
-def rate():
+@app.route("/random", methods=['POST', 'GET'])
+def random():
     """
-    Create the rate-recipes-page
+    Create the random-recipes-page
     """
 
     if 'user_id' not in session:
@@ -132,7 +155,7 @@ def rate():
         write_rating_to_file(session['user_id'], session['recipe_id'], session['rating'])
         delete_double_ratings()
         # session['prediction_needs_updating'] = True todo
-        return redirect("/rate")
+        return redirect("/random")
 
     session['recipe_id'] = get_recipe_to_rate(session['user_id'])
 
@@ -141,14 +164,14 @@ def rate():
     else:
         session['recipe_title'] = "No unrated recipe found!"
 
-    return render_template("rate.html", user_id=session['user_id'], recipe_title=session['recipe_title'],
+    return render_template("random.html", user_id=session['user_id'], recipe_title=session['recipe_title'],
                            recipe_id=session['recipe_id'])
 
 
-@app.route('/enter_macros', methods=['POST', 'GET'])
-def enter_macros():
+@app.route('/enter_reqs', methods=['POST', 'GET'])
+def enter_reqs():
     """
-    Create the page to enter required macronutrients
+    Create the page to enter requirements
     """
 
     if 'user_id' not in session:
@@ -159,6 +182,7 @@ def enter_macros():
         session['carbs'] = request.form['set_carbs']
         session['fats'] = request.form['set_fats']
         session['range'] = request.form['set_range']
+        session['mealtype'] = request.form['get_mealtype']
 
         try:
             float(session['range'])
@@ -181,15 +205,17 @@ def enter_macros():
             session.pop('range', None)
             return render_template("error.html",
                                    error_text="Invalid input for required macronutrients!")
-        return redirect("/get_rec_with_macros")
+        return redirect("/enter_reqs")
 
-    return render_template("enter_macros.html", user_id=session['user_id'])
+    return render_template("enter_reqs.html", user_id=session['user_id'], proteins=session["proteins"],
+                           carbs=session["carbs"], fats=session["fats"], range=session["range"],
+                           mealtype=session["mealtype"])
 
 
-@app.route('/get_rec_with_macros')
-def get_rec_with_macros():
+@app.route('/get_recs_with_reqs')
+def get_recs_with_reqs():
     """
-    Create the page to show recommendations matching the required macronutrients
+    Create the page to show recommendations matching the given requirements
     """
 
     if 'user_id' not in session:
@@ -201,13 +227,13 @@ def get_rec_with_macros():
     session["large_rank"] = True
     session['prediction_needs_updating'] = False
 
-    content_based_recommendations = find_top_3_recs_within_range_of_macros(
+    content_based_recommendations = find_top_3_matching_reqs(
         user_id=session["user_id"], algorithm="contentbased", proteins=session["proteins"], carbs=session["carbs"],
-        fats=session["fats"], allowed_range=session["range"])
+        fats=session["fats"], allowed_range=session["range"], mealtype=session["mealtype"])
 
-    itemknn_recommendations = find_top_3_recs_within_range_of_macros(
+    itemknn_recommendations = find_top_3_matching_reqs(
         user_id=session["user_id"], algorithm="itemknn", proteins=session["proteins"], carbs=session["carbs"],
-        fats=session["fats"], allowed_range=session["range"])
+        fats=session["fats"], allowed_range=session["range"], mealtype=session["mealtype"])
 
     cb_rec_dict = {}
     itemknn_rec_dict = {}
@@ -218,9 +244,9 @@ def get_rec_with_macros():
     for recipe_id in itemknn_recommendations:
         itemknn_rec_dict[recipe_id] = get_recipe_title_by_id(recipe_id)
 
-    return render_template("get_rec_with_macros.html", user_id=session['user_id'], proteins=session["proteins"],
+    return render_template("get_recs_with_reqs.html", user_id=session['user_id'], proteins=session["proteins"],
                            carbs=session["carbs"], fats=session["fats"], range_percent=float(session["range"])*100,
-                           cb_recs=cb_rec_dict, itemknn_recs=itemknn_rec_dict)
+                           mealtype=session["mealtype"], cb_recs=cb_rec_dict, itemknn_recs=itemknn_rec_dict)
 
 
 @app.route('/recipe', methods=['POST', 'GET'])

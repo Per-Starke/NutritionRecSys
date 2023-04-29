@@ -1,0 +1,124 @@
+{% extends 'base_with_nav.html' %}
+
+{% block head %}
+    <title> Enter requirements - Recipe Recommender </title>
+{% endblock %}
+
+{% block body %}
+    <div class="header">
+        <h1 class="title">
+            <img class="in-title" src="{{url_for('static', filename='/images/vegan-icon.png')}}" width="50px" />
+            Recipe Recommender
+        </h1>
+        <h2 class="subtitle"> Enter the requirements (macros and meal-type) you want your recommended recipes to have </h2>
+        <p class="image-label"> Photo credit:
+            <a class="image-label" rel="noopener noreferrer nofollow" target="_blank" href="https://unsplash.com/de/fotos/2IxTgsgFi-s">
+                Unsplash
+            </a>
+        </p>
+    </div>
+
+
+    <p class="body content"> Enter 0 or nothing in a field, if you want to leave this macronutrient open. </p>
+    <form class="body content" action="/enter_reqs" method="POST" id="requirements_form">
+        <table class="body content left">
+            <tr class="macros">
+                <td>
+                    <label for="set_proteins"> Grams of proteins: </label>
+                </td>
+                <td>
+                    <input type="text" name="set_proteins" id="set_proteins" value="{{proteins}}"><br>
+                </td>
+            </tr>
+            <tr class="macros">
+                <td>
+                    <label for="set_carbs"> Grams of carbs: </label>
+                </td>
+                <td>
+                    <input type="text" name="set_carbs" id="set_carbs" value="{{carbs}}"><br>
+                </td>
+            </tr>
+            <tr class="macros">
+                <td>
+                    <label for="set_fats"> Grams of fats: </label>
+                </td>
+                <td>
+                    <input type="text" name="set_fats" id="set_fats" value="{{fats}}"><br>
+                </td>
+            </tr>
+            <tr class="macros">
+                <td>
+                    <label for="set_range"> Allowed range: </label>
+                </td>
+                <td>
+                    <input type="text" name="set_range" id="set_range" value="{{range}}"><br>
+                </td>
+            </tr>
+            <tr class="macros">
+                <td>
+                    <p> Meal-type</p>
+                </td>
+                <td class="meal-type">
+
+                    {% set checked="" %}
+
+                    {% if mealtype == "Open" %}
+                        {% set checked="checked" %}
+                    {% endif %}
+                    <input type="radio" id="open" name="get_mealtype" value="Open" {{checked}}>
+                    {% set checked="" %}
+                    <label for="open">Open</label><br>
+
+                    {% if mealtype == "Drink" %}
+                        {% set checked="checked" %}
+                    {% endif %}
+                    <input type="radio" id="drink" name="get_mealtype" value="Drink" {{checked}}>
+                    {% set checked="" %}
+                    <label for="drink">Drink</label><br>
+
+                    {% if mealtype == "Snack" %}
+                        {% set checked="checked" %}
+                    {% endif %}
+                    <input type="radio" id="snack" name="get_mealtype" value="Snack" {{checked}}>
+                    {% set checked="" %}
+                    <label for="snack">Snack</label><br>
+
+                    {% if mealtype == "Side dish" %}
+                        {% set checked="checked" %}
+                    {% endif %}
+                    <input type="radio" id="side-dish" name="get_mealtype" value="Side dish" {{checked}}>
+                    {% set checked="" %}
+                    <label for="side-dish">Side dish</label><br>
+
+                    {% if mealtype == "Breakfast" %}
+                        {% set checked="checked" %}
+                    {% endif %}
+                    <input type="radio" id="breakfast" name="get_mealtype" value="Breakfast" {{checked}}>
+                    {% set checked="" %}
+                    <label for="breakfast">Breakfast</label><br>
+
+                    {% if mealtype == "Main dish" %}
+                        {% set checked="checked" %}
+                    {% endif %}
+                    <input type="radio" id="main-dish" name="get_mealtype" value="Main dish" {{checked}}>
+                    {% set checked="" %}
+                    <label for="main-dish">Main dish</label><br>
+
+                    {% if mealtype == "Dessert" %}
+                        {% set checked="checked" %}
+                    {% endif %}
+                    <input type="radio" id="dessert" name="get_mealtype" value="Dessert" {{checked}}>
+                    {% set checked="" %}
+                    <label for="dessert">Dessert</label><br>
+                </td>
+            </tr>
+        </table>
+        <input class="bottom-margin-mobile" type="submit" value="submit">
+        <input
+                class="bottom-margin-mobile" type="button" value="clear" form="requirements_form"
+                onclick="location.href = '/reset_requirements';"
+        >
+    </form>
+
+
+{% endblock %}

@@ -139,7 +139,7 @@ span.main-header {
 
 /* taken from https://www.w3schools.com/howto/howto_js_topnav_responsive.asp, slightly modified
 When the screen is less than 875 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
-@media (max-width: 875px) {
+@media (max-width: 1260px) {
     .main-nav {
         margin-left: 20px;
     }
@@ -154,7 +154,7 @@ When the screen is less than 875 pixels wide, hide all links, except for the fir
 }
 
 /* The "responsive" class is added to the nav with JavaScript when the user clicks on the icon. This class makes the nav look good on small screens (display the links vertically instead of horizontally) */
-@media (max-width: 875px) {
+@media (max-width: 1260px) {
     .main-nav.responsive {
         position: relative;
         transition: 1s;
@@ -164,7 +164,7 @@ When the screen is less than 875 pixels wide, hide all links, except for the fir
         display: block;
         position: absolute;
         top: 15px;
-        right: 73.8px;
+        right: 123.5px;
         color: rgb(220, 20, 60);
     }
     .main-nav.responsive .icon:hover {
@@ -214,6 +214,11 @@ th, td {
 
 tr.macros {
     background-color: rgba(165, 230, 255, 0.2);
+}
+
+td.meal-type {
+    text-align: left;
+    font-size: 15px;
 }
 
 table.left {
