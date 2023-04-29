@@ -59,53 +59,56 @@
                     <p> Meal-type</p>
                 </td>
                 <td class="meal-type">
+
+                    {% set checked="" %}
+
                     {% if mealtype == "Open" %}
-                        <input type="radio" id="open" name="get_mealtype" value="Open" checked>
-                    {% else %}
-                        <input type="radio" id="open" name="get_mealtype" value="Open">
+                        {% set checked="checked" %}
                     {% endif %}
+                    <input type="radio" id="open" name="get_mealtype" value="Open" {{checked}}>
+                    {% set checked="" %}
                     <label for="open">Open</label><br>
 
                     {% if mealtype == "Drink" %}
-                        <input type="radio" id="drink" name="get_mealtype" value="Drink" checked>
-                    {% else %}
-                        <input type="radio" id="drink" name="get_mealtype" value="Drink">
+                        {% set checked="checked" %}
                     {% endif %}
+                    <input type="radio" id="drink" name="get_mealtype" value="Drink" {{checked}}>
+                    {% set checked="" %}
                     <label for="drink">Drink</label><br>
 
                     {% if mealtype == "Snack" %}
-                        <input type="radio" id="snack" name="get_mealtype" value="Snack" checked>
-                    {% else %}
-                        <input type="radio" id="snack" name="get_mealtype" value="Snack">
+                        {% set checked="checked" %}
                     {% endif %}
+                    <input type="radio" id="snack" name="get_mealtype" value="Snack" {{checked}}>
+                    {% set checked="" %}
                     <label for="snack">Snack</label><br>
 
                     {% if mealtype == "Side dish" %}
-                        <input type="radio" id="side-dish" name="get_mealtype" value="Side dish" checked>
-                    {% else %}
-                        <input type="radio" id="side-dish" name="get_mealtype" value="Side dish">
+                        {% set checked="checked" %}
                     {% endif %}
+                    <input type="radio" id="side-dish" name="get_mealtype" value="Side dish" {{checked}}>
+                    {% set checked="" %}
                     <label for="side-dish">Side dish</label><br>
 
                     {% if mealtype == "Breakfast" %}
-                        <input type="radio" id="breakfast" name="get_mealtype" value="Breakfast" checked>
-                    {% else %}
-                        <input type="radio" id="breakfast" name="get_mealtype" value="Breakfast">
+                        {% set checked="checked" %}
                     {% endif %}
+                    <input type="radio" id="breakfast" name="get_mealtype" value="Breakfast" {{checked}}>
+                    {% set checked="" %}
                     <label for="breakfast">Breakfast</label><br>
 
                     {% if mealtype == "Main dish" %}
-                        <input type="radio" id="main-dish" name="get_mealtype" value="Main dish" checked>
-                    {% else %}
-                        <input type="radio" id="main-dish" name="get_mealtype" value="Main dish">
+                        {% set checked="checked" %}
                     {% endif %}
+                    <input type="radio" id="main-dish" name="get_mealtype" value="Main dish" {{checked}}>
+                    {% set checked="" %}
                     <label for="main-dish">Main dish</label><br>
 
                     {% if mealtype == "Dessert" %}
-                        <input type="radio" id="dessert" name="get_mealtype" value="Dessert" checked>
-                    {% else %}
-                        <input type="radio" id="dessert" name="get_mealtype" value="Dessert">
+                        {% set checked="checked" %}
                     {% endif %}
+                    <input type="radio" id="dessert" name="get_mealtype" value="Dessert" {{checked}}>
+                    {% set checked="" %}
                     <label for="dessert">Dessert</label><br>
                 </td>
             </tr>
