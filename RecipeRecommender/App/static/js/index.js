@@ -8,6 +8,15 @@ function extendNav() {
         }
     }
 
+function extendNavCoach() {
+    var x = document.getElementById("myTopnavCoach");
+        if (x.className === "nav main-nav-coach") {
+            x.className += " responsive";
+        } else {
+            x.className = "nav main-nav-coach";
+        }
+    }
+
 function showMoreRecipes() {
     var button = document.getElementById("show-all-recipes");
     var recipes = document.getElementById("ratedRecipes").children;

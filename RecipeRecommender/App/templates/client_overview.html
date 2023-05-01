@@ -1,0 +1,33 @@
+{% extends 'base_with_nav_coach.html' %}
+
+{% block head %}
+    <title> Client overview - Recipe Recommender </title>
+{% endblock %}
+
+{% block body %}
+    <div class="header">
+        <h1 class="title">
+            <img class="in-title" src="{{url_for('static', filename='/images/vegan-icon.png')}}" width="50px" />
+            Recipe Recommender
+        </h1>
+        <h2 class="subtitle"> An overview of all your clients </h2>
+        <p class="image-label"> Photo credit:
+            <a class="image-label" rel="noopener noreferrer nofollow" target="_blank" href="https://unsplash.com/de/fotos/2IxTgsgFi-s">
+                Unsplash
+            </a>
+        </p>
+    </div>
+
+    <h1 class="body body-with-top-margin">
+        <span class="main-header">
+            Here are the user-ids of your clients:
+        </span>
+    </h1>
+
+    <ul class="body content">
+        {% for user_id in users %}
+            <li><a rel="noopener noreferrer nofollow" target="_blank" href="/?user_id={{user_id}}"> {{user_id}} </a></li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
