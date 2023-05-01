@@ -21,11 +21,11 @@ def write_recommendations():
     """
 
     recommend_contend_based_path_and_filename = \
-        parent_dir + "/Predicted_ratings_data/recommendations_content_based.csv"
+        parent_dir + "/Data/Predicted_ratings_data/recommendations_content_based.csv"
     recommendations_content_based = pd.read_csv(recommend_contend_based_path_and_filename, names=col_names)
 
     recommend_collaborative_itemknn_path_and_filename = \
-        parent_dir + "/Predicted_ratings_data/recommendations_collaborative_itemknn.csv"
+        parent_dir + "/Data/predicted_ratings_data/recommendations_collaborative_itemknn.csv"
     recommendations_collaborative_itemknn = pd.read_csv(recommend_collaborative_itemknn_path_and_filename,
                                                         names=col_names)
 
