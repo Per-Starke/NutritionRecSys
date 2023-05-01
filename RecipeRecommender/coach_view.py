@@ -7,7 +7,7 @@ import os
 
 parent_dir = os.path.dirname(os.path.dirname(os.getcwd()))
 
-coach_user_db_path_and_filename = parent_dir + "/User_data/coach_users.csv"
+coach_user_db_path_and_filename = parent_dir + "/Data/User_data/coach_users.csv"
 coach_user_info = pd.read_csv(coach_user_db_path_and_filename, index_col=False)
 
 
