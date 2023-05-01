@@ -21,7 +21,7 @@
     <h2 class="body body-with-top-margin"> Here are the user ids of your clients: </h2>
     <ul class="body content">
         {% for user_id in users %}
-            <li><a rel="noopener noreferrer nofollow" target="_blank" href="/home"> {{user_id}} </a></li>
+            <li><a rel="noopener noreferrer nofollow" target="_blank" href="/?user_id={{user_id}}"> {{user_id}} </a></li>
         {% endfor %}
     </ul>
 

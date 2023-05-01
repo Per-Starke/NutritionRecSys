@@ -2,6 +2,7 @@ import datetime
 import requests
 import os
 from flask import Flask, render_template, request, redirect, session
+from werkzeug.exceptions import BadRequestKeyError
 
 from RecipeRecommender.output import get_ratings_for_user, get_recipe_title_by_id, \
     get_calculated_ratings_for_user, write_recommendations, write_rating_to_file, get_recipe_to_rate
@@ -74,12 +75,32 @@ def coach_login():
 @app.route("/logout")
 def logout():
     """
-    Not a shown page, redirect here to log out and return to login page
+    Not a shown page, redirect here to log out from user and return to login page, or home page if logged in as coach
     """
+
+    coach_logged_in = False
+
+    if 'coach_id' in session:
+        coach_logged_in = True
+        coach_id = session['coach_id']
 
     session.clear()
 
+    if coach_logged_in:
+        session['coach_id'] = coach_id
+        return redirect("/")
+
     return redirect("/login")
+
+
+@app.route("/logout_coach")
+def logout_coach():
+    """
+    Not a shown page, redirect here to logout as coach
+    """
+
+    session.clear()
+    return redirect("/coach_login")
 
 
 @app.route("/reset_requirements")
@@ -104,18 +125,27 @@ def home():
     Create the home-page
     """
 
-    if 'user_id' in session:
+    try:
+        session['user_id'] = request.args["user_id"]
+    except BadRequestKeyError:
+        if 'user_id' in session:
 
-        session['prediction_needs_updating'] = False  # todo set to True
-        session["large_rank"] = False
+            session['prediction_needs_updating'] = False  # todo set to True
+            session["large_rank"] = False
 
-        return render_template("home.html", user_id=session['user_id'])
+            return render_template("home.html", user_id=session['user_id'])
+
+        if 'coach_id' in session:
+            session['prediction_needs_updating'] = False  # todo set to True
+            session["large_rank"] = False
+
+            return render_template("home_coach.html", coach_id=session['coach_id'])
 
     if 'coach_id' in session:
         session['prediction_needs_updating'] = False  # todo set to True
         session["large_rank"] = False
 
-        return render_template("home_coach.html", coach_id=session['coach_id'])
+        return render_template("home.html", user_id=session['user_id'])
 
     return redirect("/login")
 
@@ -319,6 +349,8 @@ def recipe():
     recipe_info_endpoint = "recipes/{0}/information".format(single_recipe_id)
     recipe_info = requests.request("GET", url + recipe_info_endpoint, headers=headers,
                                    params={'includeNutrition': 'true'}).json()
+
+    print(recipe_info)
 
     user_id = session['user_id']
 
