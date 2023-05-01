@@ -7,6 +7,7 @@ from RecipeRecommender.output import get_ratings_for_user, get_recipe_title_by_i
     get_calculated_ratings_for_user, write_recommendations, write_rating_to_file, get_recipe_to_rate
 from RecipeRecommender.ratings import delete_double_ratings
 from RecipeRecommender.recommend import find_top_3_matching_reqs, run_recommendation_algos
+from RecipeRecommender.coach_view import get_users
 
 app = Flask(__name__)
 app.secret_key = os.urandom(12)
@@ -48,6 +49,9 @@ def coach_login():
 
     if 'coach_id' in session:
         return redirect("/")
+
+    if 'user_id' in session:
+        return redirect("/logout")
 
     elif request.method == 'POST':
         session.permanent = True
@@ -114,6 +118,20 @@ def home():
         return render_template("home_coach.html", coach_id=session['coach_id'])
 
     return redirect("/login")
+
+
+@app.route("/client_overview")
+def client_overview():
+    """
+    Create the client overview page (coach-view)
+    """
+
+    if 'coach_id' not in session:
+        return redirect("/coach_login")
+
+    users = get_users(session['coach_id'])
+
+    return render_template("client_overview.html", users=users)
 
 
 @app.route("/recs_and_ratings")
