@@ -18,4 +18,4 @@ def get_users(coach_id):
     :return: a list of user_ids
     """
 
-    return coach_user_info.loc[coach_user_info['coach_id'] == int(coach_id)][" user_id"].values.tolist()
+    return coach_user_info.loc[coach_user_info['coach_id'] == int(coach_id)]["user_id"].values.tolist()

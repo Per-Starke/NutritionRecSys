@@ -4,7 +4,7 @@ import os
 from flask import Flask, render_template, request, redirect, session
 from werkzeug.exceptions import BadRequestKeyError
 
-from RecipeRecommender.authentication import check_user_login
+from RecipeRecommender.authentication import check_user_login, check_coach_login
 from RecipeRecommender.output import get_ratings_for_user, get_recipe_title_by_id, \
     get_calculated_ratings_for_user, write_recommendations, write_rating_to_file, get_recipe_to_rate
 from RecipeRecommender.ratings import delete_double_ratings
@@ -72,17 +72,32 @@ def coach_login():
     elif request.method == 'POST':
         session.permanent = True
         session['coach_id'] = request.form['set_coach_id']
+        password = request.form['set_coach_pw']
         if not session['coach_id'] or not session['coach_id'].isdigit():
             session.pop('coach_id', None)
-            return render_template("error.html",
-                                   error_text="this is no valid coach id!")
-        return redirect("/")
+            return render_template("error.html", error_text="this is no valid format for a coach-id!")
+
+        coach_id_passsword_check = check_coach_login(session['coach_id'], password)
+
+        if coach_id_passsword_check == 1:
+            session.pop('coach_id', None)
+            return render_template("error.html", error_text="This coach-id does not exist")
+
+        elif coach_id_passsword_check == 2:
+            session.pop('coach_id', None)
+            return render_template("error.html", error_text="Wrong password")
+
+        elif coach_id_passsword_check == 3:
+            return redirect("/")
+
+        return render_template("error.html", error_text="Unknown error")
 
     session["proteins"] = "0"
     session["carbs"] = "0"
     session["fats"] = "0"
     session["range"] = "0.2"
     session['mealtype'] = "Open"
+    session['coach_views_user'] = False
 
     return render_template("coach_login.html")
 
@@ -103,6 +118,12 @@ def logout():
 
     if coach_logged_in:
         session['coach_id'] = coach_id
+        session["proteins"] = "0"
+        session["carbs"] = "0"
+        session["fats"] = "0"
+        session["range"] = "0.2"
+        session['mealtype'] = "Open"
+        session['coach_views_user'] = False
         return redirect("/")
 
     return redirect("/login")
@@ -142,19 +163,21 @@ def home():
 
     try:
         session['user_id'] = request.args["user_id"]
+        session['coach_views_user'] = True
     except BadRequestKeyError:
+
+        if 'coach_id' in session and not session['coach_views_user']:
+            session['prediction_needs_updating'] = False  # todo set to True
+            session["large_rank"] = False
+
+            return render_template("home_coach.html", coach_id=session['coach_id'])
+
         if 'user_id' in session:
 
             session['prediction_needs_updating'] = False  # todo set to True
             session["large_rank"] = False
 
             return render_template("home.html", user_id=session['user_id'])
-
-        if 'coach_id' in session:
-            session['prediction_needs_updating'] = False  # todo set to True
-            session["large_rank"] = False
-
-            return render_template("home_coach.html", coach_id=session['coach_id'])
 
     if 'coach_id' in session:
         session['prediction_needs_updating'] = False  # todo set to True
@@ -176,7 +199,7 @@ def client_overview():
 
     users = get_users(session['coach_id'])
 
-    return render_template("client_overview.html", users=users)
+    return render_template("client_overview.html", users=users, coach_id=session['coach_id'])
 
 
 @app.route("/recs_and_ratings")
