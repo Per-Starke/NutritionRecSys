@@ -89,7 +89,7 @@ def check_coach_can_view_user(coach_id, user_id):
 
 def get_new_user_id():
     """
-    Get a new, random, currently unused user-id
+    Get a new, currently unused, user-id
     :return: A new user-id
     """
 
@@ -102,6 +102,35 @@ def get_new_user_id():
         user_id = user_id + 1
 
     return user_id
+
+
+def get_new_coach_id():
+    """
+    Get a new, currently unused, coach-id
+    :return: A new coach-id
+    """
+
+    coaches_and_pws = pd.read_csv(coaches_path_and_filename, index_col=False)
+
+    coach_id = 1
+    all_used_coach_ids = coaches_and_pws["coach_id"].values.tolist()
+
+    while coach_id in all_used_coach_ids:
+        coach_id = coach_id + 1
+
+    return coach_id
+
+
+def write_new_coach_to_file(coach_id, password):
+    """
+    Write a newly created coach into the coaches.csv file
+    :param coach_id: The id of the new coach
+    :param password: the password the coach entered
+    """
+
+    with open(coaches_path_and_filename, "a+") as file:
+        string_to_write = "\n" + str(coach_id) + "," + str(password)
+        file.write(string_to_write)
 
 
 def write_new_user_to_file(user_id, password):

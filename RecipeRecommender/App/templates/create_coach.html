@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
 
 {% block head %}
-    <title> Create user - Recipe Recommender </title>
+    <title> Create coach - Recipe Recommender </title>
 {% endblock %}
 
 {% block body %}
     <div class="header">
         <h1 class="title">
             <img class="in-title" src="{{url_for('static', filename='/images/vegan-icon.png')}}" width="50px" />
-            Create user - Recipe Recommender
+            Create coach - Recipe Recommender
         </h1>
-        <h2 class="subtitle"> Create a new user account </h2>
+        <h2 class="subtitle"> Create a new coach account </h2>
         <p class="image-label"> Photo credit:
             <a class="image-label" rel="noopener noreferrer nofollow" target="_blank" href="https://unsplash.com/de/fotos/2IxTgsgFi-s">
                 Unsplash
@@ -19,11 +19,11 @@
     </div>
 
     <h1 class="center-heading">
-        <span class="main-header"> Your user-id is: {{user_id}} </span>
+        <span class="main-header"> Your coach-id is: {{coach_id}} </span>
     </h1>
 
     <div class="center">
-        <form class="body content" action="/create_user" method="POST">
+        <form class="body content" action="/create_coach" method="POST">
             <label for="set_new_pw_first"> Set your password: </label><br>
             <input type="password" name="set_new_pw_first" id="set_new_pw_first"><br>
             <label for="set_new_pw_second"> Repeat your password: </label><br>
@@ -36,7 +36,7 @@
 
     <div class="center">
         <button class="btn btn-primary">
-            <a class="button" href="/create_coach"> Create a coach account instead </a>
+            <a class="button" href="/create_user"> Create a user account instead </a>
         </button>
     </div>
 
