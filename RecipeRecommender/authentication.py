@@ -1,5 +1,5 @@
 """
-Functions to ensure security, check login data etc
+Functions to ensure security, check login data, check user-visibilty for coaches and create new accounts
 """
 
 import pandas as pd
@@ -12,9 +12,6 @@ parent_dir = os.path.dirname(os.path.dirname(os.getcwd()))
 users_path_and_filename = parent_dir + "/Data/User_data/users.csv"
 coaches_path_and_filename = parent_dir + "/Data/User_data/coaches.csv"
 
-users_and_pws = pd.read_csv(users_path_and_filename, index_col=False)
-coaches_and_pws = pd.read_csv(coaches_path_and_filename, index_col=False)
-
 
 def check_user_login(user_id, password):
     """
@@ -23,6 +20,8 @@ def check_user_login(user_id, password):
     :param password: the password
     :return: 1 if user-id is invalid, 2 if password is wrong, 3 if user-id exists and password is correct
     """
+
+    users_and_pws = pd.read_csv(users_path_and_filename, index_col=False)
 
     all_valid_user_ids = users_and_pws["user_id"].values.tolist()
     all_valid_pws = users_and_pws["password"].values.tolist()
@@ -50,6 +49,8 @@ def check_coach_login(coach_id, password):
     :param password: the password
     :return: 1 if coach-id is invalid, 2 if password is wrong, 3 if coach-id exists and password is correct
     """
+
+    coaches_and_pws = pd.read_csv(coaches_path_and_filename, index_col=False)
 
     all_valid_coach_ids = coaches_and_pws["coach_id"].values.tolist()
     all_valid_pws = coaches_and_pws["password"].values.tolist()
@@ -84,3 +85,32 @@ def check_coach_can_view_user(coach_id, user_id):
         return True
 
     return False
+
+
+def get_new_user_id():
+    """
+    Get a new, random, currently unused user-id
+    :return: A new user-id
+    """
+
+    users_and_pws = pd.read_csv(users_path_and_filename, index_col=False)
+
+    user_id = 1
+    all_used_user_ids = users_and_pws["user_id"].values.tolist()
+
+    while user_id in all_used_user_ids:
+        user_id = user_id + 1
+
+    return user_id
+
+
+def write_new_user_to_file(user_id, password):
+    """
+    Write a newly created user into the users.csv file
+    :param user_id: The id of the new user
+    :param password: the password the user entered
+    """
+
+    with open(users_path_and_filename, "a+") as file:
+        string_to_write = "\n" + str(user_id) + "," + str(password)
+        file.write(string_to_write)

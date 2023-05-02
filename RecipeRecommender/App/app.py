@@ -4,7 +4,8 @@ import os
 from flask import Flask, render_template, request, redirect, session
 from werkzeug.exceptions import BadRequestKeyError
 
-from RecipeRecommender.authentication import check_user_login, check_coach_login, check_coach_can_view_user
+from RecipeRecommender.authentication import check_user_login, check_coach_login, check_coach_can_view_user, \
+    get_new_user_id, write_new_user_to_file
 from RecipeRecommender.output import get_ratings_for_user, get_recipe_title_by_id, \
     get_calculated_ratings_for_user, write_recommendations, write_rating_to_file, get_recipe_to_rate
 from RecipeRecommender.ratings import delete_double_ratings
@@ -153,6 +154,33 @@ def reset_requirements():
     session["mealtype"] = "Open"
 
     return redirect("/enter_reqs")
+
+
+@app.route("/create_user", methods=['POST', 'GET'])
+def create_user():
+    """
+    Create the page for creating a new user account
+    """
+
+    if 'coach_id' in session:
+        return redirect("/coach_logout")
+
+    if 'user_id' in session:
+        return redirect("/logout")
+
+    user_id = get_new_user_id()
+
+    if request.method == 'POST':
+        password_one = request.form['set_new_pw_first']
+        password_two = request.form['set_new_pw_second']
+        if password_one == "":
+            return render_template("error.html", error_text="Password can't be empty")
+        elif password_one != password_two:
+            return render_template("error.html", error_text="Passwords don't match")
+        write_new_user_to_file(user_id, password_one)
+        return redirect("/login")
+
+    return render_template("create_user.html", user_id=user_id)
 
 
 @app.route("/", methods=['POST', 'GET'])
