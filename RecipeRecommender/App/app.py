@@ -4,7 +4,7 @@ import os
 from flask import Flask, render_template, request, redirect, session
 from werkzeug.exceptions import BadRequestKeyError
 
-from RecipeRecommender.authentication import check_user_login, check_coach_login
+from RecipeRecommender.authentication import check_user_login, check_coach_login, check_coach_can_view_user
 from RecipeRecommender.output import get_ratings_for_user, get_recipe_title_by_id, \
     get_calculated_ratings_for_user, write_recommendations, write_rating_to_file, get_recipe_to_rate
 from RecipeRecommender.ratings import delete_double_ratings
@@ -129,10 +129,10 @@ def logout():
     return redirect("/login")
 
 
-@app.route("/logout_coach")
-def logout_coach():
+@app.route("/coach_logout")
+def coach_logout():
     """
-    Not a shown page, redirect here to logout as coach
+    Not a shown page, redirect here to logout as coach and clear whole session
     """
 
     session.clear()
@@ -163,15 +163,26 @@ def home():
 
     try:
         session['user_id'] = request.args["user_id"]
+
+        # Authenticate
+        if 'coach_id' not in session:
+            return redirect("coach_logout")
+        else:
+            coach_can_view_user = check_coach_can_view_user(session['coach_id'], session['user_id'])
+            if not coach_can_view_user:
+                return redirect("coach_logout")
+
         session['coach_views_user'] = True
     except BadRequestKeyError:
 
+        # Logged in as coach, view coaches home page
         if 'coach_id' in session and not session['coach_views_user']:
             session['prediction_needs_updating'] = False  # todo set to True
             session["large_rank"] = False
 
             return render_template("home_coach.html", coach_id=session['coach_id'])
 
+        # Logged in as user, view users home page
         if 'user_id' in session:
 
             session['prediction_needs_updating'] = False  # todo set to True
@@ -179,13 +190,14 @@ def home():
 
             return render_template("home.html", user_id=session['user_id'])
 
+    # Logged in
     if 'coach_id' in session:
         session['prediction_needs_updating'] = False  # todo set to True
         session["large_rank"] = False
 
         return render_template("home.html", user_id=session['user_id'])
 
-    return redirect("/login")
+    return redirect("/coach_logout")
 
 
 @app.route("/client_overview")
@@ -195,7 +207,7 @@ def client_overview():
     """
 
     if 'coach_id' not in session:
-        return redirect("/coach_login")
+        return redirect("/coach_logout")
 
     users = get_users(session['coach_id'])
 
@@ -209,7 +221,7 @@ def recs_and_ratings():
     """
 
     if 'user_id' not in session:
-        return redirect("/login")
+        return redirect("/logout")
 
     elif session['prediction_needs_updating']:
         run_recommendation_algos()
@@ -268,7 +280,7 @@ def random():
     """
 
     if 'user_id' not in session:
-        return redirect("/login")
+        return redirect("/logout")
 
     elif request.method == 'POST':
         session['rating'] = request.form['get_rating']
@@ -295,7 +307,7 @@ def enter_reqs():
     """
 
     if 'user_id' not in session:
-        return redirect("/login")
+        return redirect("/logout")
 
     elif request.method == 'POST':
         session['proteins'] = request.form['set_proteins']
@@ -339,7 +351,7 @@ def get_recs_with_reqs():
     """
 
     if 'user_id' not in session:
-        return redirect("/login")
+        return redirect("/logout")
 
     if not session["large_rank"] or session['prediction_needs_updating']:
         pass  # todo remove
@@ -376,7 +388,7 @@ def recipe():
     """
 
     if 'user_id' not in session:
-        return redirect("/login")
+        return redirect("/logout")
 
     rapid_api_key = os.getenv("RAPID_API_KEY")
     url = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/"

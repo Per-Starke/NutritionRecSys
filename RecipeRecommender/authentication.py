@@ -5,6 +5,8 @@ Functions to ensure security, check login data etc
 import pandas as pd
 import os
 
+from RecipeRecommender.coach_view import get_users
+
 parent_dir = os.path.dirname(os.path.dirname(os.getcwd()))
 
 users_path_and_filename = parent_dir + "/Data/User_data/users.csv"
@@ -66,3 +68,20 @@ def check_coach_login(coach_id, password):
             else:
                 # Invalid password
                 return 2
+
+
+def check_coach_can_view_user(coach_id, user_id):
+    """
+    Check if the currently logged in coach is allowed to manage the user he/she is trying to view
+    :param coach_id: the coach-id
+    :param user_id: the user-id
+    :return: True if allowed, False otherwise
+    """
+
+    current_coaches_users = get_users(coach_id)
+
+    if int(user_id) in current_coaches_users:
+        print("inside")
+        return True
+
+    return False
