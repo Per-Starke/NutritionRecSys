@@ -4,6 +4,7 @@ import os
 from flask import Flask, render_template, request, redirect, session
 from werkzeug.exceptions import BadRequestKeyError
 
+from RecipeRecommender.authentication import check_user_login
 from RecipeRecommender.output import get_ratings_for_user, get_recipe_title_by_id, \
     get_calculated_ratings_for_user, write_recommendations, write_rating_to_file, get_recipe_to_rate
 from RecipeRecommender.ratings import delete_double_ratings
@@ -27,11 +28,25 @@ def login():
     elif request.method == 'POST':
         session.permanent = True
         session['user_id'] = request.form['set_id']
+        password = request.form['set_pw']
         if not session['user_id'] or not session['user_id'].isdigit():
             session.pop('user_id', None)
-            return render_template("error.html",
-                                   error_text="this is no valid user id!")
-        return redirect("/")
+            return render_template("error.html", error_text="this is no valid format for a user-id!")
+
+        user_id_passsword_check = check_user_login(session['user_id'], password)
+
+        if user_id_passsword_check == 1:
+            session.pop('user_id', None)
+            return render_template("error.html", error_text="This user-id does not exist")
+
+        elif user_id_passsword_check == 2:
+            session.pop('user_id', None)
+            return render_template("error.html", error_text="Wrong password")
+
+        elif user_id_passsword_check == 3:
+            return redirect("/")
+
+        return render_template("error.html", error_text="Unknown error")
 
     session["proteins"] = "0"
     session["carbs"] = "0"
