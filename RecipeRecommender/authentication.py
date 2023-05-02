@@ -81,7 +81,6 @@ def check_coach_can_view_user(coach_id, user_id):
     current_coaches_users = get_users(coach_id)
 
     if int(user_id) in current_coaches_users:
-        print("inside")
         return True
 
     return False
