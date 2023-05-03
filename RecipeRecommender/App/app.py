@@ -261,7 +261,6 @@ def add_client():
         elif int(id_one) in get_users(session['coach_id']):
             return render_template("error.html", error_text="That is already one of your clients")
 
-        # todo add functionality
         request_new_client(session['coach_id'], id_one)
 
         return redirect("client_overview")
@@ -306,7 +305,7 @@ def home():
             coaching_requests = check_for_coaching_requests(session['user_id'])
             if coaching_requests:
                 return render_template("home_with_requests.html", user_id=session['user_id'],
-                                       coaching_requests=coaching_requests)
+                                       coaching_requests=coaching_requests)  # todo create template
 
             return render_template("home.html", user_id=session['user_id'])
 

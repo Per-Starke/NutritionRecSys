@@ -8,10 +8,21 @@ body {
     margin-right: 100px;
 }
 
+hr.content-sep {
+    margin-left: 100px;
+    margin-right: 100px;
+    margin-top: 50px;
+}
+
 @media (max-width: 600px) {
     .body {
         margin-left: 50px;
         margin-right: 50px;
+    }
+    hr.content-sep {
+        margin-left: 50px;
+        margin-right: 50px;
+        margin-top: 50px;
     }
 }
 
@@ -350,12 +361,6 @@ End of "taken from Bootstrap"
 .bottom-button {
     margin-top: 25px;
     margin-bottom: 25px;
-}
-
-hr.content-sep {
-    margin-left: 100px;
-    margin-right: 100px;
-    margin-top: 50px;
 }
 
 i.rating {
