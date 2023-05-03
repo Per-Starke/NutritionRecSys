@@ -1,0 +1,42 @@
+{% extends 'base_with_nav_coach.html' %}
+
+{% block head %}
+    <title> Add client - Recipe Recommender </title>
+{% endblock %}
+
+{% block body %}
+    <div class="header">
+        <h1 class="title">
+            <img class="in-title" src="{{url_for('static', filename='/images/vegan-icon.png')}}" width="50px" />
+            Recipe Recommender
+        </h1>
+        <h2 class="subtitle"> Add a new client </h2>
+        <p class="image-label"> Photo credit:
+            <a class="image-label" rel="noopener noreferrer nofollow" target="_blank" href="https://unsplash.com/de/fotos/2IxTgsgFi-s">
+                Unsplash
+            </a>
+        </p>
+    </div>
+
+    <h1 class="center-heading">
+        <span class="main-header"> Enter client details: </span>
+    </h1>
+
+    <div class="center">
+        <form class="body content" action="/add_client" method="POST">
+            <label for="enter_id_one"> Id of the client you want to add: </label><br>
+            <input type="text" name="enter_id_one" id="enter_id_one"><br>
+            <label for="enter_id_two"> Repeat id for confirmation: </label><br>
+            <input type="text" name="enter_id_two" id="enter_id_two"><br>
+            <input type="submit" value="add client">
+        </form>
+    </div>
+
+    <hr class="content-sep">
+
+    <p class="body content center-text">
+        Once you've added a new client, he/she get's a message and after confirming you as his/her coach,
+        you can see your new client at your <a href="/client_overview"> client overview</a>.
+    </p>
+
+{% endblock %}

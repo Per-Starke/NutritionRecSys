@@ -239,6 +239,34 @@ def remove_client():
     return render_template("remove_client.html", coach_id=session['coach_id'])
 
 
+@app.route("/add_client", methods=['POST', 'GET'])
+def add_client():
+    """
+    Create the page for adding a client (coach-view)
+    """
+
+    if 'coach_id' not in session:
+        return redirect("/coach_logout")
+
+    if 'user_id' in session:
+        return redirect("/logout")
+
+    if request.method == 'POST':
+        id_one = request.form['enter_id_one']
+        id_two = request.form['enter_id_two']
+        if id_one == "":
+            return render_template("error.html", error_text="Id can't be empty")
+        elif id_one != id_two:
+            return render_template("error.html", error_text="Ids don't match")
+        elif int(id_one) in get_users(session['coach_id']):
+            return render_template("error.html", error_text="That is already one of your clients")
+
+        # remove_client_by_id(session['coach_id'], id_one)
+
+        return redirect("client_overview")
+
+    return render_template("add_client.html", coach_id=session['coach_id'])
+
 
 
 @app.route("/", methods=['POST', 'GET'])
