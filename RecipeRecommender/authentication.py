@@ -5,12 +5,13 @@ Functions to ensure security, check login data, check user-visibilty for coaches
 import pandas as pd
 import os
 
-from RecipeRecommender.coach_view import get_users
+from RecipeRecommender.coach_view import get_users, remove_client_by_id
 
 parent_dir = os.path.dirname(os.path.dirname(os.getcwd()))
 
 users_path_and_filename = parent_dir + "/Data/User_data/users.csv"
 coaches_path_and_filename = parent_dir + "/Data/User_data/coaches.csv"
+coach_user_db_path_and_filename = parent_dir + "/Data/User_data/coach_users.csv"
 coach_user_requests_db_path_and_filename = parent_dir + "/Data/User_data/coach_users_requests.csv"
 
 
@@ -157,3 +158,17 @@ def check_for_coaching_requests(user_id):
     all_requests = pd.read_csv(coach_user_requests_db_path_and_filename, index_col=False)
 
     return all_requests.loc[all_requests['user_id'] == int(user_id)]["coach_id"].values.tolist()
+
+
+def confirm_request_auth(coach_id, user_id):
+    """
+    Confirm a coaching request, delete the request from coach_users_requests.csv and add to coach_users.csv
+    :param coach_id: The id of the coach
+    :param user_id: The id of the client
+    """
+
+    remove_client_by_id(coach_id, user_id, True)
+
+    with open(coach_user_db_path_and_filename, "a+") as file:
+        string_to_write = "\n" + str(coach_id) + "," + str(user_id)
+        file.write(string_to_write)

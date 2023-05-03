@@ -41,8 +41,8 @@
         {% for coach_id in coaching_requests %}
             <li> The coach with the coach-id {{coach_id}} sent you a coaching-request. </li>
             <ul>
-                <li> confirm this request </li>
-                <li> decline this request </li>
+                <li><a href="/confirm_request?coach_id={{coach_id}}"> confirm this request </a></li>
+                <li><a href="/decline_request?coach_id={{coach_id}}"> decline this request </a></li>
             </ul>
         {% endfor %}
     </ul>

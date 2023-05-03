@@ -5,7 +5,8 @@ from flask import Flask, render_template, request, redirect, session
 from werkzeug.exceptions import BadRequestKeyError
 
 from RecipeRecommender.authentication import check_user_login, check_coach_login, check_coach_can_view_user, \
-    get_new_user_id, write_new_user_to_file, get_new_coach_id, write_new_coach_to_file, check_for_coaching_requests
+    get_new_user_id, write_new_user_to_file, get_new_coach_id, write_new_coach_to_file, check_for_coaching_requests, \
+    confirm_request_auth
 from RecipeRecommender.output import get_ratings_for_user, get_recipe_title_by_id, \
     get_calculated_ratings_for_user, write_recommendations, write_rating_to_file, get_recipe_to_rate
 from RecipeRecommender.ratings import delete_double_ratings
@@ -154,6 +155,33 @@ def reset_requirements():
     session["mealtype"] = "Open"
 
     return redirect("/enter_reqs")
+
+
+@app.route("/decline_request")
+def decline_request():
+    """
+    Not a shown page, redirect here with paramter coach_id added to the url to decline the coaching request from
+    this coach for the currently logged-in user
+    """
+
+    return "in the making"
+
+
+@app.route("/confirm_request")
+def confirm_request():
+    """
+    Not a shown page, redirect here with paramter coach_id added to the url to confirm the coaching request from
+    this coach for the currently logged-in user
+    """
+
+    try:
+        coach_id = request.args["coach_id"]
+    except BadRequestKeyError:
+        return render_template("error.html", error_text="Coach-id needs to be specified in the url")
+
+    confirm_request_auth(coach_id, session['user_id'])
+
+    return redirect("/")
 
 
 @app.route("/create_user", methods=['POST', 'GET'])
