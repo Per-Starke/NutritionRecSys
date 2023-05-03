@@ -11,6 +11,7 @@ parent_dir = os.path.dirname(os.path.dirname(os.getcwd()))
 
 users_path_and_filename = parent_dir + "/Data/User_data/users.csv"
 coaches_path_and_filename = parent_dir + "/Data/User_data/coaches.csv"
+coach_user_requests_db_path_and_filename = parent_dir + "/Data/User_data/coach_users_requests.csv"
 
 
 def check_user_login(user_id, password):
@@ -143,3 +144,16 @@ def write_new_user_to_file(user_id, password):
     with open(users_path_and_filename, "a+") as file:
         string_to_write = "\n" + str(user_id) + "," + str(password)
         file.write(string_to_write)
+
+
+def check_for_coaching_requests(user_id):
+    """
+    Check if the given user has an entry in the coach_users_requests.csv file, and return the coach ids of the
+    coaches that requested to coach this user
+    :param user_id: the id of the user
+    :return: A list of coach ids, empty list if no request found
+    """
+
+    all_requests = pd.read_csv(coach_user_requests_db_path_and_filename, index_col=False)
+
+    return all_requests.loc[all_requests['user_id'] == int(user_id)]["coach_id"].values.tolist()

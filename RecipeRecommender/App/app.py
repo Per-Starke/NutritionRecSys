@@ -5,12 +5,12 @@ from flask import Flask, render_template, request, redirect, session
 from werkzeug.exceptions import BadRequestKeyError
 
 from RecipeRecommender.authentication import check_user_login, check_coach_login, check_coach_can_view_user, \
-    get_new_user_id, write_new_user_to_file, get_new_coach_id, write_new_coach_to_file
+    get_new_user_id, write_new_user_to_file, get_new_coach_id, write_new_coach_to_file, check_for_coaching_requests
 from RecipeRecommender.output import get_ratings_for_user, get_recipe_title_by_id, \
     get_calculated_ratings_for_user, write_recommendations, write_rating_to_file, get_recipe_to_rate
 from RecipeRecommender.ratings import delete_double_ratings
 from RecipeRecommender.recommend import find_top_3_matching_reqs, run_recommendation_algos
-from RecipeRecommender.coach_view import get_users, remove_client_by_id
+from RecipeRecommender.coach_view import get_users, remove_client_by_id, request_new_client
 
 app = Flask(__name__)
 app.secret_key = os.urandom(12)
@@ -261,12 +261,12 @@ def add_client():
         elif int(id_one) in get_users(session['coach_id']):
             return render_template("error.html", error_text="That is already one of your clients")
 
-        # remove_client_by_id(session['coach_id'], id_one)
+        # todo add functionality
+        request_new_client(session['coach_id'], id_one)
 
         return redirect("client_overview")
 
     return render_template("add_client.html", coach_id=session['coach_id'])
-
 
 
 @app.route("/", methods=['POST', 'GET'])
@@ -301,6 +301,12 @@ def home():
 
             session['prediction_needs_updating'] = False  # todo set to True
             session["large_rank"] = False
+
+            # Logged in as user, a coach sent a request to this user
+            coaching_requests = check_for_coaching_requests(session['user_id'])
+            if coaching_requests:
+                return render_template("home_with_requests.html", user_id=session['user_id'],
+                                       coaching_requests=coaching_requests)
 
             return render_template("home.html", user_id=session['user_id'])
 
