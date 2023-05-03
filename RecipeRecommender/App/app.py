@@ -164,7 +164,17 @@ def decline_request():
     this coach for the currently logged-in user
     """
 
-    return "in the making"
+    if 'user_id' not in session:
+        return redirect("/coach_logout")
+
+    try:
+        coach_id = request.args["coach_id"]
+    except BadRequestKeyError:
+        return render_template("error.html", error_text="Coach-id needs to be specified in the url")
+
+    remove_client_by_id(coach_id, session['user_id'], request=True)
+
+    return redirect("/")
 
 
 @app.route("/confirm_request")
@@ -173,6 +183,9 @@ def confirm_request():
     Not a shown page, redirect here with paramter coach_id added to the url to confirm the coaching request from
     this coach for the currently logged-in user
     """
+
+    if 'user_id' not in session:
+        return redirect("/coach_logout")
 
     try:
         coach_id = request.args["coach_id"]
