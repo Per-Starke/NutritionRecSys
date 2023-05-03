@@ -20,7 +20,10 @@ def get_users(coach_id):
 
     coach_user_info = pd.read_csv(coach_user_db_path_and_filename, index_col=False)
 
-    return coach_user_info.loc[coach_user_info['coach_id'] == int(coach_id)]["user_id"].values.tolist()
+    return_list = coach_user_info.loc[coach_user_info['coach_id'] == int(coach_id)]["user_id"].values.tolist()
+    return_list.sort()
+
+    return return_list
 
 
 def remove_client_by_id(coach_id, client_id, request=False):
@@ -60,5 +63,3 @@ def request_new_client(coach_id, client_id):
     with open(coach_user_requests_db_path_and_filename, "a+") as file:
         str_to_write = "\n" + str(coach_id) + "," + str(client_id)
         file.write(str_to_write)
-
-

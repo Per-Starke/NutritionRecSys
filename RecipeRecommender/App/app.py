@@ -25,7 +25,7 @@ def login():
     """
 
     if 'user_id' in session:
-        return redirect("/")
+        return redirect("/coach_logout")
 
     if request.method == 'POST':
         session.permanent = True
@@ -66,10 +66,10 @@ def coach_login():
     """
 
     if 'coach_id' in session:
-        return redirect("/")
+        return redirect("/coach_logout")
 
     if 'user_id' in session:
-        return redirect("/logout")
+        return redirect("/coach_logout")
 
     if request.method == 'POST':
         session.permanent = True
