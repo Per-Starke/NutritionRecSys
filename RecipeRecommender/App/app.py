@@ -27,7 +27,7 @@ def login():
     if 'user_id' in session:
         return redirect("/")
 
-    elif request.method == 'POST':
+    if request.method == 'POST':
         session.permanent = True
         session['user_id'] = request.form['set_id']
         password = request.form['set_pw']
@@ -41,11 +41,11 @@ def login():
             session.pop('user_id', None)
             return render_template("error.html", error_text="This user-id does not exist")
 
-        elif user_id_passsword_check == 2:
+        if user_id_passsword_check == 2:
             session.pop('user_id', None)
             return render_template("error.html", error_text="Wrong password")
 
-        elif user_id_passsword_check == 3:
+        if user_id_passsword_check == 3:
             return redirect("/")
 
         return render_template("error.html", error_text="Unknown error")
@@ -71,7 +71,7 @@ def coach_login():
     if 'user_id' in session:
         return redirect("/logout")
 
-    elif request.method == 'POST':
+    if request.method == 'POST':
         session.permanent = True
         session['coach_id'] = request.form['set_coach_id']
         password = request.form['set_coach_pw']
@@ -85,11 +85,11 @@ def coach_login():
             session.pop('coach_id', None)
             return render_template("error.html", error_text="This coach-id does not exist")
 
-        elif coach_id_passsword_check == 2:
+        if coach_id_passsword_check == 2:
             session.pop('coach_id', None)
             return render_template("error.html", error_text="Wrong password")
 
-        elif coach_id_passsword_check == 3:
+        if coach_id_passsword_check == 3:
             return redirect("/")
 
         return render_template("error.html", error_text="Unknown error")
@@ -216,7 +216,7 @@ def create_user():
         password_two = request.form['set_new_pw_second']
         if password_one == "":
             return render_template("error.html", error_text="Password can't be empty")
-        elif password_one != password_two:
+        if password_one != password_two:
             return render_template("error.html", error_text="Passwords don't match")
         write_new_user_to_file(user_id, password_one)
         return redirect("/login")
@@ -243,7 +243,7 @@ def create_coach():
         password_two = request.form['set_new_pw_second']
         if password_one == "":
             return render_template("error.html", error_text="Password can't be empty")
-        elif password_one != password_two:
+        if password_one != password_two:
             return render_template("error.html", error_text="Passwords don't match")
         write_new_coach_to_file(coach_id, password_one)
         return redirect("/coach_login")
@@ -266,11 +266,13 @@ def remove_client():
     if request.method == 'POST':
         id_one = request.form['enter_id_one']
         id_two = request.form['enter_id_two']
+        if not id_one.isdigit() or not id_two.isdigit():
+            return render_template("error.html", error_text="That is not a valid id")
         if id_one == "":
             return render_template("error.html", error_text="Id can't be empty")
-        elif id_one != id_two:
+        if id_one != id_two:
             return render_template("error.html", error_text="Ids don't match")
-        elif int(id_one) not in get_users(session['coach_id']):
+        if int(id_one) not in get_users(session['coach_id']):
             return render_template("error.html", error_text="That is not one of your clients")
 
         remove_client_by_id(session['coach_id'], id_one)
@@ -295,11 +297,13 @@ def add_client():
     if request.method == 'POST':
         id_one = request.form['enter_id_one']
         id_two = request.form['enter_id_two']
+        if not id_one.isdigit() or not id_two.isdigit():
+            return render_template("error.html", error_text="That is not a valid id")
         if id_one == "":
             return render_template("error.html", error_text="Id can't be empty")
-        elif id_one != id_two:
+        if id_one != id_two:
             return render_template("error.html", error_text="Ids don't match")
-        elif int(id_one) in get_users(session['coach_id']):
+        if int(id_one) in get_users(session['coach_id']):
             return render_template("error.html", error_text="That is already one of your clients")
 
         request_new_client(session['coach_id'], id_one)
@@ -383,7 +387,7 @@ def recs_and_ratings():
     if 'user_id' not in session:
         return redirect("/logout")
 
-    elif session['prediction_needs_updating']:
+    if session['prediction_needs_updating']:
         run_recommendation_algos()
         session["large_rank"] = False
         session['prediction_needs_updating'] = False
@@ -442,7 +446,7 @@ def random():
     if 'user_id' not in session:
         return redirect("/logout")
 
-    elif request.method == 'POST':
+    if request.method == 'POST':
         session['rating'] = request.form['get_rating']
         write_rating_to_file(session['user_id'], session['recipe_id'], session['rating'])
         delete_double_ratings()
@@ -469,7 +473,7 @@ def enter_reqs():
     if 'user_id' not in session:
         return redirect("/logout")
 
-    elif request.method == 'POST':
+    if request.method == 'POST':
         session['proteins'] = request.form['set_proteins']
         session['carbs'] = request.form['set_carbs']
         session['fats'] = request.form['set_fats']
