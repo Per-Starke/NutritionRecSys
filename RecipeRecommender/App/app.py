@@ -10,7 +10,7 @@ from RecipeRecommender.output import get_ratings_for_user, get_recipe_title_by_i
     get_calculated_ratings_for_user, write_recommendations, write_rating_to_file, get_recipe_to_rate
 from RecipeRecommender.ratings import delete_double_ratings
 from RecipeRecommender.recommend import find_top_3_matching_reqs, run_recommendation_algos
-from RecipeRecommender.coach_view import get_users
+from RecipeRecommender.coach_view import get_users, remove_client_by_id
 
 app = Flask(__name__)
 app.secret_key = os.urandom(12)
@@ -208,6 +208,37 @@ def create_coach():
         return redirect("/coach_login")
 
     return render_template("create_coach.html", coach_id=coach_id)
+
+
+@app.route("/remove_client", methods=['POST', 'GET'])
+def remove_client():
+    """
+    Create the page for removing a client (coach-view)
+    """
+
+    if 'coach_id' not in session:
+        return redirect("/coach_logout")
+
+    if 'user_id' in session:
+        return redirect("/logout")
+
+    if request.method == 'POST':
+        id_one = request.form['enter_id_one']
+        id_two = request.form['enter_id_two']
+        if id_one == "":
+            return render_template("error.html", error_text="Id can't be empty")
+        elif id_one != id_two:
+            return render_template("error.html", error_text="Ids don't match")
+        elif int(id_one) not in get_users(session['coach_id']):
+            return render_template("error.html", error_text="That is not one of your clients")
+
+        remove_client_by_id(session['coach_id'], id_one)
+
+        return redirect("/client_overview")
+
+    return render_template("remove_client.html", coach_id=session['coach_id'])
+
+
 
 
 @app.route("/", methods=['POST', 'GET'])
