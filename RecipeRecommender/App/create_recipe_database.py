@@ -181,7 +181,7 @@ def write_recipes_in_file(recipes, mode="w+"):
     :param mode: the write-mode for the file, default w+
     """
 
-    database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
+    database_path_and_filename = parent_dir + "/NutritionRecSys/Data/recipe_database.csv"
     with open(database_path_and_filename, mode) as file:
         if mode == "w+":
             file.write("ID, Title, Dis"
@@ -235,7 +235,7 @@ def write_recipes_in_file_from_df(recipe_df):
     :param recipe_df: The pandas dataframe of recipes to write into the file
     """
 
-    database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
+    database_path_and_filename = parent_dir + "/NutritionRecSys/Data/recipe_database.csv"
     with open(database_path_and_filename, "w+") as file:
         file.write("ID, Title, Dis"
                    "h-Type, Proteins, Carbs, Fats, Information-String, Sweetness, "
@@ -261,7 +261,7 @@ def create_final_recipe_database(mode="a+", query="random"):
     write_recipes_in_file(write_recipes_in_list(100, query), mode=mode)
 
     # read database, remove duplicates, write to file without duplicates
-    recipe_database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
+    recipe_database_path_and_filename = parent_dir + "/NutritionRecSys/Data/recipe_database.csv"
     recipe_database = pd.read_csv(recipe_database_path_and_filename, index_col=False)
     recipe_database.drop_duplicates(inplace=True)
     write_recipes_in_file_from_df(recipe_database)

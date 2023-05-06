@@ -118,7 +118,7 @@ def write_sims_in_file(sim_list):
     :param sim_list: the similarity list to write into the file
     """
 
-    similarities_path_and_filename = parent_dir + "/Data/similarities.csv"
+    similarities_path_and_filename = parent_dir + "/NutritionRecSys/Data/similarities.csv"
     with open(similarities_path_and_filename, "w+") as file:
         for line in sim_list:
             file.write((", ".join(line)))
@@ -131,7 +131,7 @@ def calculate_similarities():
     Write into /Data/similarities.csv
     """
 
-    recipe_database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
+    recipe_database_path_and_filename = parent_dir + "/NutritionRecSys/Data/recipe_database.csv"
     recipe_info = pd.read_csv(recipe_database_path_and_filename, index_col=False)
 
     write_sims_in_file(calc_all_recipe_sims(recipe_info))

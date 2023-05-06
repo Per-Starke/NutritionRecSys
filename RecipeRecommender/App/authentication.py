@@ -5,14 +5,14 @@ Functions to ensure security, check login data, check user-visibilty for coaches
 import pandas as pd
 import os
 
-from RecipeRecommender.coach_view import get_users, remove_client_by_id
+from coach_view import get_users, remove_client_by_id
 
-parent_dir = os.path.dirname(os.path.dirname(os.getcwd()))
+parent_dir = os.path.dirname(os.getcwd())
 
-users_path_and_filename = parent_dir + "/Data/User_data/users.csv"
-coaches_path_and_filename = parent_dir + "/Data/User_data/coaches.csv"
-coach_user_db_path_and_filename = parent_dir + "/Data/User_data/coach_users.csv"
-coach_user_requests_db_path_and_filename = parent_dir + "/Data/User_data/coach_users_requests.csv"
+users_path_and_filename = parent_dir + "/NutritionRecSys/Data/User_data/users.csv"
+coaches_path_and_filename = parent_dir + "/NutritionRecSys/Data/User_data/coaches.csv"
+coach_user_db_path_and_filename = parent_dir + "/NutritionRecSys/Data/User_data/coach_users.csv"
+coach_user_requests_db_path_and_filename = parent_dir + "/NutritionRecSys/Data/User_data/coach_users_requests.csv"
 
 
 def check_user_login(user_id, password):

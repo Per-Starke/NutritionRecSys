@@ -4,14 +4,14 @@ import os
 from flask import Flask, render_template, request, redirect, session
 from werkzeug.exceptions import BadRequestKeyError
 
-from RecipeRecommender.authentication import check_user_login, check_coach_login, check_coach_can_view_user, \
+from authentication import check_user_login, check_coach_login, check_coach_can_view_user, \
     get_new_user_id, write_new_user_to_file, get_new_coach_id, write_new_coach_to_file, check_for_coaching_requests, \
     confirm_request_auth
-from RecipeRecommender.output import get_ratings_for_user, get_recipe_title_by_id, \
+from output import get_ratings_for_user, get_recipe_title_by_id, \
     get_calculated_ratings_for_user, write_recommendations, write_rating_to_file, get_recipe_to_rate
-from RecipeRecommender.ratings import delete_double_ratings
-from RecipeRecommender.recommend import find_top_3_matching_reqs, run_recommendation_algos
-from RecipeRecommender.coach_view import get_users, remove_client_by_id, request_new_client
+from ratings import delete_double_ratings
+from recommend import find_top_3_matching_reqs, run_recommendation_algos
+from coach_view import get_users, remove_client_by_id, request_new_client
 
 app = Flask(__name__)
 app.secret_key = os.urandom(12)

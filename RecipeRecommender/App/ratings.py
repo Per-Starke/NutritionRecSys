@@ -6,7 +6,7 @@ import pandas as pd
 from random import randint
 import os
 
-parent_dir = os.path.dirname(os.path.dirname(os.getcwd()))
+parent_dir = os.path.dirname(os.getcwd())
 
 
 def create_ratings(amount_of_users):
@@ -17,12 +17,12 @@ def create_ratings(amount_of_users):
     :param amount_of_users: the amount of users, as int
     """
 
-    recipe_database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
+    recipe_database_path_and_filename = parent_dir + "/NutritionRecSys/Data/recipe_database.csv"
     recipe_info = pd.read_csv(recipe_database_path_and_filename, index_col=False)
 
     ids = recipe_info["ID"]
 
-    ratings_path_and_filename = parent_dir + "/Data/ratings.csv"
+    ratings_path_and_filename = parent_dir + "/NutritionRecSys/Data/ratings.csv"
     with open(ratings_path_and_filename, "w+") as file:
         for users_number in range(1, amount_of_users+1):
             ratings_number = 0
@@ -39,7 +39,7 @@ def delete_double_ratings():
     Write the corrected ratings in the file.
     """
 
-    ratings_path_and_filename = parent_dir + "/Data/ratings.csv"
+    ratings_path_and_filename = parent_dir + "/NutritionRecSys/Data/ratings.csv"
     names = ["user", "item", "rating"]
     ratings = pd.read_csv(ratings_path_and_filename, index_col=False, names=names)
     ratings.drop_duplicates(subset=["user", "item"], keep="last", inplace=True)

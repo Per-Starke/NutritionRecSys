@@ -5,13 +5,13 @@ Functions for outputting the recommendations and ratings
 import pandas as pd
 import os
 
-parent_dir = os.path.dirname(os.path.dirname((os.getcwd())))
+parent_dir = os.path.dirname(os.getcwd())
 col_names = ["User", "Item", "Feedback"]
 
-recipe_database_path_and_filename = parent_dir + "/Data/recipe_database.csv"
+recipe_database_path_and_filename = parent_dir + "/NutritionRecSys/Data/recipe_database.csv"
 recipe_info = pd.read_csv(recipe_database_path_and_filename, index_col=False)
 
-ratings_path_and_filename = parent_dir + "/Data/ratings.csv"
+ratings_path_and_filename = parent_dir + "/NutritionRecSys/Data/ratings.csv"
 
 
 def write_recommendations():
@@ -21,11 +21,11 @@ def write_recommendations():
     """
 
     recommend_contend_based_path_and_filename = \
-        parent_dir + "/Data/Predicted_ratings_data/recommendations_content_based.csv"
+        parent_dir + "/NutritionRecSys/Data/Predicted_ratings_data/recommendations_content_based.csv"
     recommendations_content_based = pd.read_csv(recommend_contend_based_path_and_filename, names=col_names)
 
     recommend_collaborative_itemknn_path_and_filename = \
-        parent_dir + "/Data/predicted_ratings_data/recommendations_collaborative_itemknn.csv"
+        parent_dir + "/NutritionRecSys/Data/predicted_ratings_data/recommendations_collaborative_itemknn.csv"
     recommendations_collaborative_itemknn = pd.read_csv(recommend_collaborative_itemknn_path_and_filename,
                                                         names=col_names)
 

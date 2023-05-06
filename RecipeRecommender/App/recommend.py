@@ -7,11 +7,11 @@ from caserec.recommenders.item_recommendation.content_based import ContentBased
 import os
 import pandas as pd
 
-from RecipeRecommender.output import get_macros_by_id, get_mealtype_by_id
+from output import get_macros_by_id, get_mealtype_by_id
 
-parent_dir = os.path.dirname(os.path.dirname((os.getcwd())))
+parent_dir = os.path.dirname(os.getcwd())
 
-ratings_path_and_filename = parent_dir + "/Data/ratings.csv"
+ratings_path_and_filename = parent_dir + "/NutritionRecSys/Data/ratings.csv"
 col_names = ["User", "Item", "Feedback"]
 
 
@@ -21,7 +21,8 @@ def recommend_collaborative_itemknn(rank_length):
     :param rank_length: The number of predictions to calculate, as int
     """
 
-    output_path_and_filename = parent_dir + "/Data/Predicted_ratings_data/recommendations_collaborative_itemknn.csv"
+    output_path_and_filename = parent_dir + \
+                               "/NutritionRecSys/Data/Predicted_ratings_data/recommendations_collaborative_itemknn.csv"
     ItemKNN(train_file=ratings_path_and_filename, output_file=output_path_and_filename, sep=", ",
             rank_length=rank_length).compute()
 
@@ -32,8 +33,9 @@ def recommend_content_based(rank_length):
     :param rank_length: The number of predictions to calculate, as int
     """
 
-    output_path_and_filename = parent_dir + "/Data/Predicted_ratings_data/recommendations_content_based.csv"
-    similarities_path_and_filename = parent_dir + "/Data/similarities.csv"
+    output_path_and_filename = parent_dir + \
+                               "/NutritionRecSys/Data/Predicted_ratings_data/recommendations_content_based.csv"
+    similarities_path_and_filename = parent_dir + "/NutritionRecSys/Data/similarities.csv"
     ContentBased(train_file=ratings_path_and_filename, output_file=output_path_and_filename,
                  similarity_file=similarities_path_and_filename, sep=", ", similarity_sep=", ",
                  rank_length=rank_length).compute()
@@ -84,7 +86,7 @@ def get_recs_and_macros(user_id, algorithm):
     else:
         raise ValueError("This is not a valid algorithm name, must be contentbased or itemknn")
 
-    path_and_filename = parent_dir + "/Data/Predicted_ratings_data/" + filename
+    path_and_filename = parent_dir + "/NutritionRecSys/Data/Predicted_ratings_data/" + filename
 
     recommendations = pd.read_csv(path_and_filename, names=col_names)
     recommendations = recommendations[recommendations["User"] == user_id]
@@ -210,8 +212,8 @@ def find_top_3_matching_reqs(user_id, algorithm, proteins, carbs, fats, allowed_
         for current_recipe_id in return_list_macros:
             current_mealtype_list = get_mealtype_by_id(current_recipe_id)
             if ("sidedish" in current_mealtype_list or "appetizer" in current_mealtype_list or
-            "antipasto" in current_mealtype_list or "antipasti" in current_mealtype_list or "starter" in
-            current_mealtype_list or "hord'oeuvre" in current_mealtype_list):
+                    "antipasto" in current_mealtype_list or "antipasti" in current_mealtype_list or "starter" in
+                    current_mealtype_list or "hord'oeuvre" in current_mealtype_list):
                 return_list.append(current_recipe_id)
 
     # Case 5: Mealtype "Breakfast"
@@ -219,7 +221,7 @@ def find_top_3_matching_reqs(user_id, algorithm, proteins, carbs, fats, allowed_
         for current_recipe_id in return_list_macros:
             current_mealtype_list = get_mealtype_by_id(current_recipe_id)
             if ("breakfast" in current_mealtype_list or "morningmeal" in current_mealtype_list or
-            "brunch" in current_mealtype_list):
+                    "brunch" in current_mealtype_list):
                 return_list.append(current_recipe_id)
 
     # Case 6: Mealtype "Main dish"

@@ -5,10 +5,10 @@ Functions for the coach-view of the web-app
 import pandas as pd
 import os
 
-parent_dir = os.path.dirname(os.path.dirname(os.getcwd()))
+parent_dir = os.path.dirname(os.getcwd())
 
-coach_user_db_path_and_filename = parent_dir + "/Data/User_data/coach_users.csv"
-coach_user_requests_db_path_and_filename = parent_dir + "/Data/User_data/coach_users_requests.csv"
+coach_user_db_path_and_filename = parent_dir + "/NutritionRecSys/Data/User_data/coach_users.csv"
+coach_user_requests_db_path_and_filename = parent_dir + "/NutritionRecSys/Data/User_data/coach_users_requests.csv"
 
 
 def get_users(coach_id):
