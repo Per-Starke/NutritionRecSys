@@ -31,8 +31,7 @@ def remove_client_by_id(coach_id, client_id, request=False):
     Remove a given client of a given coach, either from coach_users.csv or coach_users_requests.csv
     :param coach_id: The id of the coach
     :param client_id: the id of the client
-    :param request: False (default) if client should be removed from coach_users.csv,
-    True if from coach_users_requests.csv
+    :param request: False (default) if client should be removed from coach_users.csv, True if from coach_users_requests.csv
     """
 
     filename = coach_user_db_path_and_filename
