@@ -13,6 +13,7 @@ users_path_and_filename = parent_dir + "/NutritionRecSys/Data/User_data/users.cs
 coaches_path_and_filename = parent_dir + "/NutritionRecSys/Data/User_data/coaches.csv"
 coach_user_db_path_and_filename = parent_dir + "/NutritionRecSys/Data/User_data/coach_users.csv"
 coach_user_requests_db_path_and_filename = parent_dir + "/NutritionRecSys/Data/User_data/coach_users_requests.csv"
+ratings_path_and_filename = parent_dir + "/NutritionRecSys/Data/ratings.csv"
 
 
 def check_user_login(user_id, password):
@@ -96,14 +97,17 @@ def get_new_user_id():
     """
 
     users_and_pws = pd.read_csv(users_path_and_filename, index_col=False)
+    ratings = pd.read_csv(ratings_path_and_filename, index_col=False, names=["user_id", "item_id", "rating"])
+    ratings.drop_duplicates(subset=["user_id"], inplace=True)
+    users_in_ratings = ratings["user_id"].values.tolist()
 
     user_id = 1
     all_used_user_ids = users_and_pws["user_id"].values.tolist()
 
-    while user_id in all_used_user_ids:
+    while True:
+        if user_id not in all_used_user_ids and user_id not in users_in_ratings:
+            return user_id
         user_id = user_id + 1
-
-    return user_id
 
 
 def get_new_coach_id():
@@ -172,3 +176,4 @@ def confirm_request_auth(coach_id, user_id):
     with open(coach_user_db_path_and_filename, "a+") as file:
         string_to_write = "\n" + str(coach_id) + "," + str(user_id)
         file.write(string_to_write)
+
