@@ -2,3 +2,5 @@ Envs/key.env
 __pycache__
 .idea
 RecipeRecommender/App/static/css/.DS_Store
+/venv/
+.DS_Store
