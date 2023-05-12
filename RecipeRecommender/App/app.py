@@ -209,8 +209,6 @@ def create_user():
     if 'user_id' in session:
         return redirect("/logout")
 
-    user_id = get_new_user_id()
-
     if request.method == 'POST':
         password_one = request.form['set_new_pw_first']
         password_two = request.form['set_new_pw_second']
@@ -218,10 +216,10 @@ def create_user():
             return render_template("error.html", error_text="Password can't be empty")
         if password_one != password_two:
             return render_template("error.html", error_text="Passwords don't match")
-        write_new_user_to_file(user_id, password_one)
-        return redirect("/login")
+        session["new_user_id"] = write_new_user_to_file(password_one)
+        return redirect("/success")
 
-    return render_template("create_user.html", user_id=user_id)
+    return render_template("create_user.html")
 
 
 @app.route("/create_coach", methods=['POST', 'GET'])
@@ -249,6 +247,27 @@ def create_coach():
         return redirect("/coach_login")
 
     return render_template("create_coach.html", coach_id=coach_id)
+
+
+@app.route("/success")
+def success():
+    """
+    Create the page for showing that a new account has successfully been created
+    """
+
+    if 'coach_id' in session:
+        return redirect("/coach_logout")
+
+    if 'user_id' in session:
+        return redirect("/logout")
+
+    if "new_user_id" in session:
+        return render_template("create_user_success.html", user_id=session["new_user_id"])
+
+    if "new_coach_id" in session:
+        return render_template("create_coach_success.html", coach_id=session["new_coach_id"])
+
+    return redirect("/coach_logout")
 
 
 @app.route("/remove_client", methods=['POST', 'GET'])

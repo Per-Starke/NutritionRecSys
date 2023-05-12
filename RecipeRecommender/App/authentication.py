@@ -139,17 +139,20 @@ def write_new_coach_to_file(coach_id, password):
         file.write(string_to_write)
 
 
-def write_new_user_to_file(user_id, password):
+def write_new_user_to_file(password):
     """
     Write a newly created user into the users.csv file
-    :param user_id: The id of the new user
     :param password: the password the user entered
+    :return: the user-id that has been chosen for the new user
     """
+
+    user_id = get_new_user_id()
 
     with open(users_path_and_filename, "a+") as file:
         string_to_write = "\n" + str(user_id) + "," + str(password)
         file.write(string_to_write)
 
+    return user_id
 
 def check_for_coaching_requests(user_id):
     """
