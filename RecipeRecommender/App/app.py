@@ -5,7 +5,7 @@ from flask import Flask, render_template, request, redirect, session
 from werkzeug.exceptions import BadRequestKeyError
 
 from authentication import check_user_login, check_coach_login, check_coach_can_view_user, \
-    get_new_user_id, write_new_user_to_file, get_new_coach_id, write_new_coach_to_file, check_for_coaching_requests, \
+    write_new_user_to_file, write_new_coach_to_file, check_for_coaching_requests, \
     confirm_request_auth
 from output import get_ratings_for_user, get_recipe_title_by_id, \
     get_calculated_ratings_for_user, write_recommendations, write_rating_to_file, get_recipe_to_rate
@@ -234,8 +234,6 @@ def create_coach():
     if 'user_id' in session:
         return redirect("/logout")
 
-    coach_id = get_new_coach_id()
-
     if request.method == 'POST':
         password_one = request.form['set_new_pw_first']
         password_two = request.form['set_new_pw_second']
@@ -243,10 +241,10 @@ def create_coach():
             return render_template("error.html", error_text="Password can't be empty")
         if password_one != password_two:
             return render_template("error.html", error_text="Passwords don't match")
-        write_new_coach_to_file(coach_id, password_one)
-        return redirect("/coach_login")
+        session["new_coach_id"] = write_new_coach_to_file(password_one)
+        return redirect("/success")
 
-    return render_template("create_coach.html", coach_id=coach_id)
+    return render_template("create_coach.html")
 
 
 @app.route("/success")
