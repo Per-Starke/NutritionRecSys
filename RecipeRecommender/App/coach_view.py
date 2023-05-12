@@ -47,8 +47,8 @@ def remove_client_by_id(coach_id, client_id, request=False):
     with open(filename, "w+") as file:
         file.write("coach_id,user_id")
         for index, row in coach_user_info_new.iterrows():
-            str_to_write = "\n" + str(row[0]) + "," + str(row[1])
-            file.write(str_to_write)
+            string_to_write = "\n{},{}".format(str(row[0]), str(row[1]))
+            file.write(string_to_write)
 
 
 def request_new_client(coach_id, client_id):
@@ -60,5 +60,5 @@ def request_new_client(coach_id, client_id):
     """
 
     with open(coach_user_requests_db_path_and_filename, "a+") as file:
-        str_to_write = "\n" + str(coach_id) + "," + str(client_id)
-        file.write(str_to_write)
+        string_to_write = "\n{},{}".format(coach_id, client_id)
+        file.write(string_to_write)

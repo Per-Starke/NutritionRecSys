@@ -27,9 +27,9 @@ def create_ratings(amount_of_users):
         for users_number in range(1, amount_of_users+1):
             ratings_number = 0
             while ratings_number < users_number:
-                str_to_write = str(users_number) + ", " + str(ids[randint(0, len(recipe_info)-1)]) + ", " + \
-                               str(randint(1, 5)) + "\n"
-                file.write(str_to_write)
+                string_to_write = "{},{},{}\n".format(str(users_number), str(ids[randint(0, len(recipe_info)-1)]),
+                                                      str(randint(1, 5)))
+                file.write(string_to_write)
                 ratings_number += 1
 
 
@@ -46,8 +46,8 @@ def delete_double_ratings():
 
     with open(ratings_path_and_filename, "w+") as file:
         for index, row in ratings.iterrows():
-            str_to_write = str(row[0]) + ", " + str(row[1]) + ", " + str(row[2]) + "\n"
-            file.write(str_to_write)
+            string_to_write = "{},{},{}\n".format(str(row[0]), str(row[1]), str(row[2]))
+            file.write(string_to_write)
 
 
 if __name__ == "__main__":

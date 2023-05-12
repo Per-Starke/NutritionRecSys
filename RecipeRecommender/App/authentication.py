@@ -137,7 +137,7 @@ def write_new_coach_to_file(password):
     coach_id = get_new_coach_id()
 
     with open(coaches_path_and_filename, "a+") as file:
-        string_to_write = "\n" + str(coach_id) + "," + str(password)
+        string_to_write = "\n{},{}".format(coach_id, password)
         file.write(string_to_write)
 
     return coach_id
@@ -153,7 +153,7 @@ def write_new_user_to_file(password):
     user_id = get_new_user_id()
 
     with open(users_path_and_filename, "a+") as file:
-        string_to_write = "\n" + str(user_id) + "," + str(password)
+        string_to_write = "\n{},{}".format(user_id, password)
         file.write(string_to_write)
 
     return user_id
@@ -182,6 +182,5 @@ def confirm_request_auth(coach_id, user_id):
     remove_client_by_id(coach_id, user_id, True)
 
     with open(coach_user_db_path_and_filename, "a+") as file:
-        string_to_write = "\n" + str(coach_id) + "," + str(user_id)
+        string_to_write = "\n{},{}".format(coach_id, user_id)
         file.write(string_to_write)
-
