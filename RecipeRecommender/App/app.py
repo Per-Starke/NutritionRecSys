@@ -4,6 +4,7 @@ import os
 from flask import Flask, render_template, request, redirect, session
 from werkzeug.exceptions import BadRequestKeyError
 
+from update_predictions import check_update_predicted_ratings
 from authentication import check_user_login, check_coach_login, check_coach_can_view_user, \
     write_new_user_to_file, write_new_coach_to_file, check_for_coaching_requests, \
     confirm_request_auth
@@ -348,33 +349,27 @@ def home():
                 return redirect("coach_logout")
 
         session['coach_views_user'] = True
+
     except BadRequestKeyError:
 
         # Logged in as coach, view coaches home page
         if 'coach_id' in session and not session['coach_views_user']:
-            session['prediction_needs_updating'] = False  # todo set to True
-            session["large_rank"] = False
 
             return render_template("home_coach.html", coach_id=session['coach_id'])
 
         # Logged in as user, view users home page
         if 'user_id' in session:
 
-            session['prediction_needs_updating'] = False  # todo set to True
-            session["large_rank"] = False
-
             # Logged in as user, a coach sent a request to this user
             coaching_requests = check_for_coaching_requests(session['user_id'])
             if coaching_requests:
                 return render_template("home_with_requests.html", user_id=session['user_id'],
-                                       coaching_requests=coaching_requests)  # todo create template
+                                       coaching_requests=coaching_requests)
 
             return render_template("home.html", user_id=session['user_id'])
 
-    # Logged in
+    # Logged in as coach, view user
     if 'coach_id' in session:
-        session['prediction_needs_updating'] = False  # todo set to True
-        session["large_rank"] = False
 
         return render_template("home.html", user_id=session['user_id'])
 
@@ -404,10 +399,8 @@ def recs_and_ratings():
     if 'user_id' not in session:
         return redirect("/logout")
 
-    if session['prediction_needs_updating']:
-        run_recommendation_algos()
-        session["large_rank"] = False
-        session['prediction_needs_updating'] = False
+    if check_update_predicted_ratings():
+        run_recommendation_algos(100)
 
     # Create data-structure for displaying given ratings
     given_ratings = get_ratings_for_user(session['user_id'])
@@ -467,7 +460,6 @@ def random():
         session['rating'] = request.form['get_rating']
         write_rating_to_file(session['user_id'], session['recipe_id'], session['rating'])
         delete_double_ratings()
-        # session['prediction_needs_updating'] = True todo
         return redirect("/random")
 
     session['recipe_id'] = get_recipe_to_rate(session['user_id'])
@@ -534,11 +526,8 @@ def get_recs_with_reqs():
     if 'user_id' not in session:
         return redirect("/logout")
 
-    if not session["large_rank"] or session['prediction_needs_updating']:
-        pass  # todo remove
-        # Run.output.run_recommendation_algos(rank_length=100) todo
-    session["large_rank"] = True
-    session['prediction_needs_updating'] = False
+    if check_update_predicted_ratings():
+        run_recommendation_algos(100)
 
     content_based_recommendations = find_top_3_matching_reqs(
         user_id=session["user_id"], algorithm="contentbased", proteins=session["proteins"], carbs=session["carbs"],
@@ -588,7 +577,6 @@ def recipe():
     if request.method == 'POST':
         session['rating'] = request.form['get_rating']
         write_rating_to_file(user_id, single_recipe_id, session['rating'])
-        # session['prediction_needs_updating'] = True todo
         delete_double_ratings()
 
     return render_template('recipe.html', recipe=recipe_info, user_id=session['user_id'])

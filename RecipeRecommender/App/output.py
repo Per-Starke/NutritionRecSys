@@ -5,6 +5,8 @@ Functions for outputting the recommendations and ratings
 import pandas as pd
 import os
 
+import update_predictions
+
 parent_dir = os.path.dirname(os.getcwd())
 col_names = ["User", "Item", "Feedback"]
 
@@ -143,11 +145,13 @@ def get_calculated_ratings_for_user(user_id, recommendations_list, ratings_to_ge
 
 def write_rating_to_file(user_id, recipe_id, rating):
     """
-    Writes the given rating into the ratings.csv file
+    Writes the given rating into the ratings.csv file and increment the new_ratings_counter
     :param user_id: the id of the user who rated the recipe
     :param recipe_id: the id of the recipe that got rated
     :param rating: the rating
     """
+
+    update_predictions.increment_new_ratings_counter()
 
     with open(ratings_path_and_filename, "a+") as file:
         if recipe_id:
