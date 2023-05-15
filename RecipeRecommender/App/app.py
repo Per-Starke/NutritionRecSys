@@ -400,7 +400,7 @@ def recs_and_ratings():
         return redirect("/logout")
 
     if check_update_predicted_ratings():
-        run_recommendation_algos(100)
+        run_recommendation_algos(500)
 
     # Create data-structure for displaying given ratings
     given_ratings = get_ratings_for_user(session['user_id'])
@@ -527,7 +527,7 @@ def get_recs_with_reqs():
         return redirect("/logout")
 
     if check_update_predicted_ratings():
-        run_recommendation_algos(100)
+        run_recommendation_algos(300)
 
     content_based_recommendations = find_top_3_matching_reqs(
         user_id=session["user_id"], algorithm="contentbased", proteins=session["proteins"], carbs=session["carbs"],

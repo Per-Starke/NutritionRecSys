@@ -25,7 +25,7 @@ def check_update_predicted_ratings():
 
     print(new_ratings_counter)
 
-    if new_ratings_counter >= 1:
+    if new_ratings_counter >= 10:
         new_ratings_counter = 0
         return True
 
