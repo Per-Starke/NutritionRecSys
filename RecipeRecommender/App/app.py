@@ -568,11 +568,9 @@ def recipe():
     single_recipe_id = request.args["id"]
     recipe_info_endpoint = "recipes/{0}/information".format(single_recipe_id)
     recipe_info = requests.request("GET", url + recipe_info_endpoint, headers=headers,
-                                   params={'includeNutrition': 'true'})
+                                   params={'includeNutrition': 'true'}).json()
 
     user_id = session['user_id']
-
-    return recipe_info.text
 
     if request.method == 'POST':
         session['rating'] = request.form['get_rating']
