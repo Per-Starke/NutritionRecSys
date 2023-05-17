@@ -9,8 +9,10 @@ from coach_view import get_users, remove_client_by_id
 
 parent_dir = os.path.dirname(os.getcwd())
 
-users_path_and_filename = parent_dir + "/NutritionRecSys/Data/User_data/users.csv"
-coaches_path_and_filename = parent_dir + "/NutritionRecSys/Data/User_data/coaches.csv"
+# users_path_and_filename = parent_dir + "/NutritionRecSys/Data/User_data/users.csv"
+users_path_and_filename = parent_dir + "/Data/User_data/users.csv"
+# coaches_path_and_filename = parent_dir + "/NutritionRecSys/Data/User_data/coaches.csv"
+coaches_path_and_filename = parent_dir + "/Data/User_data/coaches.csv"
 coach_user_db_path_and_filename = parent_dir + "/NutritionRecSys/Data/User_data/coach_users.csv"
 coach_user_requests_db_path_and_filename = parent_dir + "/NutritionRecSys/Data/User_data/coach_users_requests.csv"
 ratings_path_and_filename = parent_dir + "/NutritionRecSys/Data/ratings.csv"
@@ -184,3 +186,24 @@ def confirm_request_auth(coach_id, user_id):
     with open(coach_user_db_path_and_filename, "a+") as file:
         string_to_write = "\n{},{}".format(coach_id, user_id)
         file.write(string_to_write)
+
+
+def get_name(id_to_get, coach=False):
+    """
+    Get the name of a user
+    :param id_to_get: the id of the coach or user
+    :param coach: False (default) if name of user is wanted, True if name of coach is wanted
+    :return: the name of the coach or user, as str, False (bool) if none given
+    """
+
+    if not coach:
+        users = pd.read_csv(users_path_and_filename, index_col=False)
+        name = users[users["user_id"] == id_to_get]["name"].iloc[0]
+    else:
+        coaches = pd.read_csv(coaches_path_and_filename, index_col=False)
+        name = coaches[coaches["coach_id"] == id_to_get]["name"].iloc[0]
+
+    if isinstance(name, float):
+        return False
+    else:
+        return name

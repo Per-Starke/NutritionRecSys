@@ -1,5 +1,5 @@
-coach_id,password
-1,hallo
+coach_id,password,name
+1,hallo,Lynn
 2,test
 3,passwo*r!d6..?
 4,safePW_123!?Hz.1

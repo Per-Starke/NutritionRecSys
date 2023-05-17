@@ -1,6 +1,6 @@
-user_id,password
-1,1
-2,2
+user_id,password,name
+1,1,Per
+2,2,Susi
 3,3
 4,4
 5,5
