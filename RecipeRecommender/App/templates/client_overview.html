@@ -20,13 +20,17 @@
 
     <h1 class="body body-with-top-margin">
         <span class="main-header">
-            Here are the user-ids of your clients:
+            Here are your clients:
         </span>
     </h1>
 
     <ul class="body content">
         {% for user_id in users %}
-            <li><a href="/?user_id={{user_id}}"> {{user_id}} </a></li>
+            {% if not names[loop.index-1] %}
+            <li><a href="/?user_id={{user_id}}"> id: {{user_id}} </a></li>
+            {% else %}
+            <li><a href="/?user_id={{user_id}}"> id: {{user_id}} | name: {{names[loop.index-1]}} </a></li>
+            {% endif %}
         {% endfor %}
     </ul>
 

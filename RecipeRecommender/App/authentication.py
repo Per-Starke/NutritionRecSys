@@ -9,10 +9,8 @@ from coach_view import get_users, remove_client_by_id
 
 parent_dir = os.path.dirname(os.getcwd())
 
-# users_path_and_filename = parent_dir + "/NutritionRecSys/Data/User_data/users.csv"
-users_path_and_filename = parent_dir + "/Data/User_data/users.csv"
-# coaches_path_and_filename = parent_dir + "/NutritionRecSys/Data/User_data/coaches.csv"
-coaches_path_and_filename = parent_dir + "/Data/User_data/coaches.csv"
+users_path_and_filename = parent_dir + "/NutritionRecSys/Data/User_data/users.csv"
+coaches_path_and_filename = parent_dir + "/NutritionRecSys/Data/User_data/coaches.csv"
 coach_user_db_path_and_filename = parent_dir + "/NutritionRecSys/Data/User_data/coach_users.csv"
 coach_user_requests_db_path_and_filename = parent_dir + "/NutritionRecSys/Data/User_data/coach_users_requests.csv"
 ratings_path_and_filename = parent_dir + "/NutritionRecSys/Data/ratings.csv"

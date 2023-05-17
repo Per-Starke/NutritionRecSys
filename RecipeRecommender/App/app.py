@@ -7,7 +7,7 @@ from werkzeug.exceptions import BadRequestKeyError
 from update_predictions import check_update_predicted_ratings
 from authentication import check_user_login, check_coach_login, check_coach_can_view_user, \
     write_new_user_to_file, write_new_coach_to_file, check_for_coaching_requests, \
-    confirm_request_auth
+    confirm_request_auth, get_name
 from output import get_ratings_for_user, get_recipe_title_by_id, \
     get_calculated_ratings_for_user, write_recommendations, write_rating_to_file, get_recipe_to_rate
 from ratings import delete_double_ratings
@@ -386,8 +386,12 @@ def client_overview():
         return redirect("/coach_logout")
 
     users = get_users(session['coach_id'])
+    names = []
 
-    return render_template("client_overview.html", users=users, coach_id=session['coach_id'])
+    for user in users:
+        names.append(get_name(user))
+
+    return render_template("client_overview.html", users=users, names=names, coach_id=session['coach_id'])
 
 
 @app.route("/recs_and_ratings")

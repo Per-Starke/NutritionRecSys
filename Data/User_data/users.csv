@@ -1,7 +1,7 @@
 user_id,password,name
-1,1,Per
-2,2,Susi
-3,3
+1,1,Susi<3
+2,2,Per
+3,3,Testname
 4,4
 5,5
 6,6
