@@ -239,11 +239,12 @@ def create_coach():
     if request.method == 'POST':
         password_one = request.form['set_new_pw_first']
         password_two = request.form['set_new_pw_second']
+        name = request.form["set_name"]
         if password_one == "":
             return render_template("error.html", error_text="Password can't be empty")
         if password_one != password_two:
             return render_template("error.html", error_text="Passwords don't match")
-        session["new_coach_id"] = write_new_coach_to_file(password_one)
+        session["new_coach_id"] = write_new_coach_to_file(password_one, name)
         return redirect("/success")
 
     return render_template("create_coach.html")
