@@ -143,17 +143,21 @@ def write_new_coach_to_file(password):
     return coach_id
 
 
-def write_new_user_to_file(password):
+def write_new_user_to_file(password, name):
     """
     Write a newly created user into the users.csv file
     :param password: the password the user entered
+    :param name: the name the user entered (empty string if none given)
     :return: the user-id that has been chosen for the new user
     """
 
     user_id = get_new_user_id()
 
     with open(users_path_and_filename, "a+") as file:
-        string_to_write = "\n{},{}".format(user_id, password)
+        if name == "":
+            string_to_write = "\n{},{}".format(user_id, password)
+        else:
+            string_to_write = "\n{},{},{}".format(user_id, password, name)
         file.write(string_to_write)
 
     return user_id
