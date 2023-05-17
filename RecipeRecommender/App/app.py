@@ -363,8 +363,11 @@ def home():
             # Logged in as user, a coach sent a request to this user
             coaching_requests = check_for_coaching_requests(session['user_id'])
             if coaching_requests:
+                names = []
+                for coach_id in coaching_requests:
+                    names.append(get_name(coach_id, True))
                 return render_template("home_with_requests.html", user_id=session['user_id'],
-                                       coaching_requests=coaching_requests)
+                                       coaching_requests=coaching_requests, names=names)
 
             return render_template("home.html", user_id=session['user_id'])
 
