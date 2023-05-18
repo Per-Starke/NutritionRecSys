@@ -3,6 +3,7 @@ import requests
 import os
 from flask import Flask, render_template, request, redirect, session
 from werkzeug.exceptions import BadRequestKeyError
+from passlib.hash import sha256_crypt
 
 from update_predictions import check_update_predicted_ratings
 from authentication import check_user_login, check_coach_login, check_coach_can_view_user, \

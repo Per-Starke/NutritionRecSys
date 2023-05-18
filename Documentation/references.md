@@ -29,7 +29,7 @@ https://www.ra.ethz.ch/cdstore/www10/papers/pdf/p519.pdf
 
 https://github.com/mukulkant/Star-rating-using-pure-css 
 
-
+https://pythonprogramming.net/password-hashing-flask-tutorial/
 
 ### Images:
 
