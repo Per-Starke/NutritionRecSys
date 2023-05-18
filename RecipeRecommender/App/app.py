@@ -213,13 +213,13 @@ def create_user():
 
     if request.method == 'POST':
         password_one = request.form['set_new_pw_first']
-        password_two = request.form['set_new_pw_second']
+        password_two = sha256_crypt.hash(request.form['set_new_pw_second'])
         name = request.form["set_name"]
         if password_one == "":
             return render_template("error.html", error_text="Password can't be empty")
-        if password_one != password_two:
+        if not sha256_crypt.verify(password_one, password_two):
             return render_template("error.html", error_text="Passwords don't match")
-        session["new_user_id"] = write_new_user_to_file(password_one, name)
+        session["new_user_id"] = write_new_user_to_file(password_two, name)
         return redirect("/success")
 
     return render_template("create_user.html")
@@ -239,13 +239,13 @@ def create_coach():
 
     if request.method == 'POST':
         password_one = request.form['set_new_pw_first']
-        password_two = request.form['set_new_pw_second']
+        password_two = sha256_crypt.hash(request.form['set_new_pw_second'])
         name = request.form["set_name"]
         if password_one == "":
             return render_template("error.html", error_text="Password can't be empty")
-        if password_one != password_two:
+        if not sha256_crypt.verify(password_one, password_two):
             return render_template("error.html", error_text="Passwords don't match")
-        session["new_coach_id"] = write_new_coach_to_file(password_one, name)
+        session["new_coach_id"] = write_new_coach_to_file(password_two, name)
         return redirect("/success")
 
     return render_template("create_coach.html")

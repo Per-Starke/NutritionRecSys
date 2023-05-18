@@ -46,7 +46,7 @@
                     <li><a href="/decline_request?coach_id={{coach_id}}"> decline this request </a></li>
                 </ul>
             {% else %}
-                <li> Coach {{names[loop.index-1]}} (id: {{coach_id}}) sent you a coaching-request. </li>
+                <li> Coach {{names[loop.index-1]}} (Coach-id: {{coach_id}}) sent you a coaching-request. </li>
                 <ul>
                     <li><a href="/confirm_request?coach_id={{coach_id}}"> confirm this request </a></li>
                     <li><a href="/decline_request?coach_id={{coach_id}}"> decline this request </a></li>

@@ -4,6 +4,7 @@ Functions to ensure security, check login data, check user-visibilty for coaches
 
 import pandas as pd
 import os
+from passlib.hash import sha256_crypt
 
 from coach_view import get_users, remove_client_by_id
 
@@ -20,7 +21,7 @@ def check_user_login(user_id, password):
     """
     Check if the entered user_id exists and if the password is correct
     :param user_id: the user-id
-    :param password: the password
+    :param password: the salted has of the password
     :return: 1 if user-id is invalid, 2 if password is wrong, 3 if user-id exists and password is correct
     """
 
@@ -37,7 +38,7 @@ def check_user_login(user_id, password):
         current_id = all_valid_user_ids[counter]
         if int(user_id) == int(current_id):
             current_pw = all_valid_pws[counter]
-            if str(password) == str(current_pw):
+            if sha256_crypt.verify(str(password), str(current_pw)):
                 # Correct user-id and password combination
                 return 3
             else:
@@ -49,7 +50,7 @@ def check_coach_login(coach_id, password):
     """
     Check if the entered user_id exists and if the password is correct
     :param coach_id: the coach-id
-    :param password: the password
+    :param password: the salted has of the password
     :return: 1 if coach-id is invalid, 2 if password is wrong, 3 if coach-id exists and password is correct
     """
 
@@ -66,7 +67,7 @@ def check_coach_login(coach_id, password):
         current_id = all_valid_coach_ids[counter]
         if int(coach_id) == int(current_id):
             current_pw = all_valid_pws[counter]
-            if str(password) == str(current_pw):
+            if sha256_crypt.verify(str(password), str(current_pw)):
                 # Correct coach-id and password combination
                 return 3
             else:
@@ -130,7 +131,7 @@ def get_new_coach_id():
 def write_new_coach_to_file(password, name):
     """
     Write a newly created coach into the coaches.csv file
-    :param password: the password the coach entered
+    :param password: the salted has of the password the coach entered
     :param name: the name the coach entered (empty string if none given)
     :return: the coach-id that has been chosen for the new coach
     """
@@ -150,7 +151,7 @@ def write_new_coach_to_file(password, name):
 def write_new_user_to_file(password, name):
     """
     Write a newly created user into the users.csv file
-    :param password: the password the user entered
+    :param password: the salted has of the password the user entered
     :param name: the name the user entered (empty string if none given)
     :return: the user-id that has been chosen for the new user
     """
