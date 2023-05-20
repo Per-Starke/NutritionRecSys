@@ -1,6 +1,7 @@
 import datetime
 import requests
 import os
+import json
 from flask import Flask, render_template, request, redirect, session
 from werkzeug.exceptions import BadRequestKeyError
 from passlib.hash import sha256_crypt
@@ -357,7 +358,6 @@ def home():
 
         # Logged in as coach, view coaches home page
         if 'coach_id' in session and not session['coach_views_user']:
-
             return render_template("home_coach.html", coach_id=session['coach_id'])
 
         # Logged in as user, view users home page
@@ -376,7 +376,6 @@ def home():
 
     # Logged in as coach, view user
     if 'coach_id' in session:
-
         return render_template("home.html", user_id=session['user_id'])
 
     return redirect("/coach_logout")
@@ -570,17 +569,16 @@ def recipe():
     if 'user_id' not in session:
         return redirect("/logout")
 
-    rapid_api_key = os.getenv("RAPID_API_KEY")
-    url = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/"
-    headers = {
-        'x-rapidapi-host': "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
-        'x-rapidapi-key': rapid_api_key}
     single_recipe_id = request.args["id"]
-    recipe_info_endpoint = "recipes/{0}/information".format(single_recipe_id)
-    recipe_info = requests.request("GET", url + recipe_info_endpoint, headers=headers,
-                                   params={'includeNutrition': 'true'}).json()
 
     user_id = session['user_id']
+
+    detailed_recipe_infos_path_and_filename = os.path.dirname(os.getcwd()) + \
+                                              "/NutritionRecSys/Data/detailed_recipe_info.json"
+
+    with open(detailed_recipe_infos_path_and_filename) as file:
+        data = json.load(file)
+        recipe_info = data[single_recipe_id]
 
     if request.method == 'POST':
         session['rating'] = request.form['get_rating']
