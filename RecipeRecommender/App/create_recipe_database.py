@@ -296,6 +296,10 @@ def write_detailed_recipe_info():
 
 if __name__ == "__main__":
 
+    #######
+    # Create recipe database
+    #######
+
     # Initialize DB with search for 100 random recipes
     # create_final_recipe_database(mode="w+")
 
@@ -354,5 +358,10 @@ if __name__ == "__main__":
     # query13 = {"query": "healthy"}
     # create_final_recipe_database(query=query13)
 
+    #######
     # Write the detailed recipe info json file
-    write_detailed_recipe_info()
+    #######
+
+    # write_detailed_recipe_info()
+
+    pass
