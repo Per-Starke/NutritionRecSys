@@ -1,9 +1,10 @@
 """
-This file creates a recipe database csv file using the Spoonacular API
+This file creates the recipe database using the Spoonacular API
 """
 
 import requests
 import os
+import json
 from dotenv import load_dotenv, find_dotenv
 import pandas as pd
 
@@ -267,7 +268,41 @@ def create_final_recipe_database(mode="a+", query="random"):
     write_recipes_in_file_from_df(recipe_database)
 
 
+def write_detailed_recipe_info():
+    """
+    Write the detailed recipe information for creating recipe pages into the detailed_recipe_info.json file
+    for all recipes in the database
+    """
+
+    detailed_recipe_infos_path_and_filename = parent_dir + "/NutritionRecSys/Data/detailed_recipe_info.json"
+    recipe_database_path_and_filename = parent_dir + "/NutritionRecSys/Data/recipe_database.csv"
+
+    recipe_infos = {}
+
+    recipe_db = pd.read_csv(recipe_database_path_and_filename, index_col=False)
+    recipe_ids = recipe_db["ID"]
+
+    counter = 0
+
+    for single_recipe_id in recipe_ids:
+
+        if counter == 1:
+            break
+
+        counter = counter + 1
+
+        recipe_info_endpoint = "recipes/{0}/information".format(single_recipe_id)
+        recipe_info = requests.request("GET", url + recipe_info_endpoint, headers=headers,
+                                       params={'includeNutrition': 'true'}).json()
+
+        recipe_infos[single_recipe_id] = recipe_info
+
+    with open(detailed_recipe_infos_path_and_filename, "w+") as file:
+        json.dump(recipe_infos, file, indent=" ")
+
+
 if __name__ == "__main__":
+
     # Initialize DB with search for 100 random recipes
     # create_final_recipe_database(mode="w+")
 
@@ -275,53 +310,56 @@ if __name__ == "__main__":
     # create_final_recipe_database()
 
     # Query 1 to search for: High(er) protein pasta recipes
-    query1 = {"query": "pasta", "minProtein": "20"}
+    # query1 = {"query": "pasta", "minProtein": "20"}
     # create_final_recipe_database(query=query1)
 
     # Query 2 to search for: High(er) protein rice recipes
-    query2 = {"query": "rice", "minProtein": "20"}
+    # query2 = {"query": "rice", "minProtein": "20"}
     # create_final_recipe_database(query=query2)
 
     # Query 3 to search for: High(er) protein tofu recipes
-    query3 = {"query": "tofu", "minProtein": "20"}
+    # query3 = {"query": "tofu", "minProtein": "20"}
     # create_final_recipe_database(query=query3)
 
     # Query 4 to search for: very high protein tofu recipes
-    query4 = {"query": "tofu", "minProtein": "40"}
+    # query4 = {"query": "tofu", "minProtein": "40"}
     # create_final_recipe_database(query=query4)
 
     # Query 5 to search for: high(er) protein salad recipes
-    query5 = {"query": "salad", "minProtein": "20"}
+    # query5 = {"query": "salad", "minProtein": "20"}
     # create_final_recipe_database(query=query5)
 
     # Query 6 to search for: low fat & high(er) protein salad recipes
-    query6 = {"query": "salad", "minProtein": "20", "maxFat": "15"}
+    # query6 = {"query": "salad", "minProtein": "20", "maxFat": "15"}
     # create_final_recipe_database(query=query6)
 
     # Query 7 to search for: fruit recipes
-    query7 = {"query": "fruit"}
+    # query7 = {"query": "fruit"}
     # create_final_recipe_database(query=query7)
 
     # Query 8 to search for: low-carb pasta recipes
-    query8 = {"query": "pasta", "maxCarbs": "30"}
+    # query8 = {"query": "pasta", "maxCarbs": "30"}
     # create_final_recipe_database(query=query8)
 
     # Query 9 to search for: High(er) protein burger recipes
-    query9 = {"query": "burger", "minProtein": "20"}
+    # query9 = {"query": "burger", "minProtein": "20"}
     # create_final_recipe_database(query=query9)
 
     # Query 10 to search for: burger recipes
-    query10 = {"query": "burger"}
+    # query10 = {"query": "burger"}
     # create_final_recipe_database(query=query10)
 
     # Query 11 to search for: coffee recipes
-    query11 = {"query": "coffee"}
+    # query11 = {"query": "coffee"}
     # create_final_recipe_database(query=query11)
 
     # Query 12 to search for: protein recipes
-    query12 = {"query": "protein"}
+    # query12 = {"query": "protein"}
     # create_final_recipe_database(query=query12)
 
     # Query 13 to search for: healthy recipes
-    query13 = {"query": "healthy"}
+    # query13 = {"query": "healthy"}
     # create_final_recipe_database(query=query13)
+
+    # Write the detailed recipe info json file
+    write_detailed_recipe_info()
