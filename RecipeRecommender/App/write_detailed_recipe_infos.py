@@ -13,21 +13,21 @@ headers = {
     'x-rapidapi-host': "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
     'x-rapidapi-key': rapid_api_key}
 
+recipe_infos = {}
+
+
+recipe_db = pd.read_csv(recipe_database_path_and_filename, index_col=False)
+recipe_ids = recipe_db["ID"]
+
+for single_recipe_id in recipe_ids:
+
+    recipe_info_endpoint = "recipes/{0}/information".format(single_recipe_id)
+    recipe_info = requests.request("GET", url + recipe_info_endpoint, headers=headers,
+                                   params={'includeNutrition': 'true'}).json()
+
+    recipe_infos[single_recipe_id] = recipe_info
+
 with open(detailed_recipe_infos_path_and_filename, "w+") as file:
-    recipe_db = pd.read_csv(recipe_database_path_and_filename, index_col=False)
-    recipe_ids = recipe_db["ID"]
-
-    counter = 0
-    for single_recipe_id in recipe_ids:
-
-        counter = counter + 1
-        if counter >= 20:
-            break
-
-        recipe_info_endpoint = "recipes/{0}/information".format(single_recipe_id)
-        recipe_info = requests.request("GET", url + recipe_info_endpoint, headers=headers,
-                                       params={'includeNutrition': 'true'}).json()
-
-        json.dump(recipe_info, file)
+    json.dump(recipe_infos, file, indent=" ")
 
 
