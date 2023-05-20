@@ -282,14 +282,7 @@ def write_detailed_recipe_info():
     recipe_db = pd.read_csv(recipe_database_path_and_filename, index_col=False)
     recipe_ids = recipe_db["ID"]
 
-    counter = 0
-
     for single_recipe_id in recipe_ids:
-
-        if counter == 1:
-            break
-
-        counter = counter + 1
 
         recipe_info_endpoint = "recipes/{0}/information".format(single_recipe_id)
         recipe_info = requests.request("GET", url + recipe_info_endpoint, headers=headers,
