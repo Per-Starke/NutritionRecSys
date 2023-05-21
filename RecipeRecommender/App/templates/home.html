@@ -1,32 +1,28 @@
 {% extends 'base_with_nav.html' %}
-
 {% block head %}
-    <title> Recipe Recommender </title>
+<title> Recipe Recommender </title>
 {% endblock %}
-
 {% block body %}
-    <div class="header">
-        <h1 class="title">
-            <img class="in-title" src="{{url_for('static', filename='/images/vegan-icon.png')}}" width="50px" />
-            Recipe Recommender
-        </h1>
-        <h2 class="subtitle"> Get recipes suitable for your taste as well as your required macronutrients </h2>
-        <p class="image-label"> Photo credit:
-            <a class="image-label" rel="noopener noreferrer nofollow" target="_blank" href="https://unsplash.com/de/fotos/2IxTgsgFi-s">
-                Unsplash
-            </a>
-        </p>
-    </div>
-
-    <h2 class="body body-with-top-margin"> Find the perfect recipes for you</h2>
-    <p class="body content">
-        This recipe recommender gets to know your taste by analyzing ratings you provide
-        for recipes you already know, and with each new recipe you try and rate, you'll get even better recommendations.
-        <br>
-        <span> But that's not all there is!</span>
-        <br>
-        You can also provide macronutrient goals for a meal, and we'll recommend something that suits both
-        taste and macronutrients.
-    </p>
-
+<div class="header">
+<h1 class="title">
+<img class="in-title" src="{{url_for('static', filename='/images/vegan-icon.png')}}" width="50px" />
+Recipe Recommender
+</h1>
+<h2 class="subtitle"> Get recipes suitable for your taste as well as your required macronutrients </h2>
+<p class="image-label"> Photo credit:
+<a class="image-label" rel="noopener noreferrer nofollow" target="_blank" href="https://unsplash.com/de/fotos/2IxTgsgFi-s">
+Unsplash
+</a>
+</p>
+</div>
+<h2 class="body body-with-top-margin"> Find the perfect recipes for you</h2>
+<p class="body content">
+This recipe recommender gets to know your taste by analyzing ratings you provide
+for recipes you already know, and with each new recipe you try and rate, you'll get even better recommendations.
+<br>
+<span> But that's not all there is!</span>
+<br>
+You can also provide macronutrient goals for a meal, and we'll recommend something that suits both
+taste and macronutrients.
+</p>
 {% endblock %}

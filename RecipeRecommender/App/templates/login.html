@@ -1,49 +1,41 @@
 {% extends 'base.html' %}
-
 {% block head %}
-    <title> User login - Recipe Recommender </title>
+<title> User login - Recipe Recommender </title>
 {% endblock %}
-
 {% block body %}
-    <div class="header">
-        <h1 class="title">
-            <img class="in-title" src="{{url_for('static', filename='/images/vegan-icon.png')}}" width="50px" />
-            User login - Recipe Recommender
-        </h1>
-        <h2 class="subtitle"> Login with your user-id </h2>
-        <p class="image-label"> Photo credit:
-            <a class="image-label" rel="noopener noreferrer nofollow" target="_blank" href="https://unsplash.com/de/fotos/2IxTgsgFi-s">
-                Unsplash
-            </a>
-        </p>
-    </div>
-
-    <h1 class="center-heading">
-        <span class="main-header"> Login as user: </span>
-    </h1>
-    <div class="center">
-        <form class="body content" action="/login" method="POST">
-            <label for="set_id"> User-id: </label><br>
-            <input type="text" name="set_id" id="set_id"><br>
-            <label for="set_pw"> Password: </label><br>
-            <input type="password" name="set_pw" id="set_pw"><br>
-            <input type="submit" value="submit">
-        </form>
-    </div>
-
-    <hr class="content-sep">
-
-    <div class="center">
-        <button class="btn btn-primary">
-            <a class="button" href="/coach_login"> Login as coach instead </a>
-        </button>
-    </div>
-
-    <div class="center">
-        <button class="btn btn-primary bottom-button">
-            <a class="button" href="/create_user"> Create a new account </a>
-        </button>
-    </div>
-
-
+<div class="header">
+<h1 class="title">
+<img class="in-title" src="{{url_for('static', filename='/images/vegan-icon.png')}}" width="50px" />
+User login - Recipe Recommender
+</h1>
+<h2 class="subtitle"> Login with your user-id </h2>
+<p class="image-label"> Photo credit:
+<a class="image-label" rel="noopener noreferrer nofollow" target="_blank" href="https://unsplash.com/de/fotos/2IxTgsgFi-s">
+Unsplash
+</a>
+</p>
+</div>
+<h1 class="center-heading">
+<span class="main-header"> Login as user: </span>
+</h1>
+<div class="center">
+<form class="body content" action="/login" method="POST">
+<label for="set_id"> User-id: </label><br>
+<input type="text" name="set_id" id="set_id"><br>
+<label for="set_pw"> Password: </label><br>
+<input type="password" name="set_pw" id="set_pw"><br>
+<input type="submit" value="submit">
+</form>
+</div>
+<hr class="content-sep">
+<div class="center">
+<button class="btn btn-primary">
+<a class="button" href="/coach_login"> Login as coach instead </a>
+</button>
+</div>
+<div class="center">
+<button class="btn btn-primary bottom-button">
+<a class="button" href="/create_user"> Create a new account </a>
+</button>
+</div>
 {% endblock %}

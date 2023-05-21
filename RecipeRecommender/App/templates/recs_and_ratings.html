@@ -1,88 +1,82 @@
 {% extends 'base_with_nav.html' %}
-
 {% block head %}
-    <title> Recommendations & ratings - Recipe Recommender </title>
+<title> Recommendations & ratings - Recipe Recommender </title>
 {% endblock %}
-
 {% block body %}
-    <div class="header">
-        <h1 class="title">
-            <img class="in-title" src="{{url_for('static', filename='/images/vegan-icon.png')}}" width="50px" />
-            Recipe Recommender
-        </h1>
-        <h2 class="subtitle"> Get recommendations and view your rated recipes </h2>
-        <p class="image-label"> Photo credit:
-            <a class="image-label" rel="noopener noreferrer nofollow" target="_blank" href="https://unsplash.com/de/fotos/2IxTgsgFi-s">
-                Unsplash
-            </a>
-        </p>
-    </div>
-
-        <h1 class="body body-with-top-margin">
-            <span class="main-header"> Here are your recommended recipes:</span>
-        </h1>
-        {% for algo_name, dict_item in recipes_and_ratings.items() %}
-            <h2 class="body body-with-top-margin"> Using the {{algo_name}} algorithm:</h2>
-            <p class="body content">
-                <ol class="body content">
-                    {% for recipe_title, rating in dict_item.items() %}
-                        {% set current_ids = ids[algo_name] %}
-                        {% set current_id = current_ids[loop.index-1] %}
-                        <li><a rel="noopener noreferrer nofollow" target="_blank" href="/recipe?id={{current_id}}"> {{recipe_title}} </a></li>
-                    {% endfor %}
-                </ol>
-            </p>
-        {% endfor %}
-
-    <hr class="content-sep">
-
-    <h2 class="body body-with-top-margin"> Your rated recipes: </h2>
-        <div id="ratedRecipes">
-            {% for (recipe_id, recipe_title), rating in given_ratings.items() %}
-                {% set ratings_to_show = 10 %}
-                {% if loop.index > ratings_to_show %}
-                    {% set class_to_add = "more" %}
-                {% endif %}
-                <div class="body content {{class_to_add}}" id="ratedRecipe{{loop.index}}">
-                    <a rel="noopener noreferrer nofollow" target="_blank" href="/recipe?id={{recipe_id}}">
-                        {{recipe_title}}</a>
-                    <span class="on-one-line">
-                        {% if rating=="1" %}
-                            <i class="fa-solid fa-star fa-xs rating"></i>
-                        {% endif %}
-                        {% if rating=="2" %}
-                            <i class="fa-solid fa-star fa-xs rating"></i>
-                            <i class="fa-solid fa-star fa-xs rating"></i>
-                        {% endif %}
-                        {% if rating=="3" %}
-                            <i class="fa-solid fa-star fa-xs rating"></i>
-                            <i class="fa-solid fa-star fa-xs rating"></i>
-                            <i class="fa-solid fa-star fa-xs rating"></i>
-                        {% endif %}
-                        {% if rating=="4" %}
-                            <i class="fa-solid fa-star fa-xs rating"></i>
-                            <i class="fa-solid fa-star fa-xs rating"></i>
-                            <i class="fa-solid fa-star fa-xs rating"></i>
-                            <i class="fa-solid fa-star fa-xs rating"></i>
-                        {% endif %}
-                        {% if rating=="5" %}
-                            <i class="fa-solid fa-star fa-xs rating"></i>
-                            <i class="fa-solid fa-star fa-xs rating"></i>
-                            <i class="fa-solid fa-star fa-xs rating"></i>
-                            <i class="fa-solid fa-star fa-xs rating"></i>
-                            <i class="fa-solid fa-star fa-xs rating"></i>
-                        {% endif %}
-                        <br>
-                    </span>
-                </div>
-            {% endfor %}
-        </div>
-        {% if given_ratings.values() | length > 10 %}
-            <button class="btn btn-primary body bottom-button">
-                <a id="show-all-recipes" class="button" onclick="showMoreRecipes()"> Show all </a>
-            </button>
-        {% else %}
-            <br>
-        {% endif %}
-
+<div class="header">
+<h1 class="title">
+<img class="in-title" src="{{url_for('static', filename='/images/vegan-icon.png')}}" width="50px" />
+Recipe Recommender
+</h1>
+<h2 class="subtitle"> Get recommendations and view your rated recipes </h2>
+<p class="image-label"> Photo credit:
+<a class="image-label" rel="noopener noreferrer nofollow" target="_blank" href="https://unsplash.com/de/fotos/2IxTgsgFi-s">
+Unsplash
+</a>
+</p>
+</div>
+<h1 class="body body-with-top-margin">
+<span class="main-header"> Here are your recommended recipes:</span>
+</h1>
+{% for algo_name, dict_item in recipes_and_ratings.items() %}
+<h2 class="body body-with-top-margin"> Using the {{algo_name}} algorithm:</h2>
+<p class="body content">
+<ol class="body content">
+{% for recipe_title, rating in dict_item.items() %}
+{% set current_ids = ids[algo_name] %}
+{% set current_id = current_ids[loop.index-1] %}
+<li><a rel="noopener noreferrer nofollow" target="_blank" href="/recipe?id={{current_id}}"> {{recipe_title}} </a></li>
+{% endfor %}
+</ol>
+</p>
+{% endfor %}
+<hr class="content-sep">
+<h2 class="body body-with-top-margin"> Your rated recipes: </h2>
+<div id="ratedRecipes">
+{% for (recipe_id, recipe_title), rating in given_ratings.items() %}
+{% set ratings_to_show = 10 %}
+{% if loop.index > ratings_to_show %}
+{% set class_to_add = "more" %}
+{% endif %}
+<div class="body content {{class_to_add}}" id="ratedRecipe{{loop.index}}">
+<a rel="noopener noreferrer nofollow" target="_blank" href="/recipe?id={{recipe_id}}">
+{{recipe_title}}</a>
+<span class="on-one-line">
+{% if rating=="1" %}
+<i class="fa-solid fa-star fa-xs rating"></i>
+{% endif %}
+{% if rating=="2" %}
+<i class="fa-solid fa-star fa-xs rating"></i>
+<i class="fa-solid fa-star fa-xs rating"></i>
+{% endif %}
+{% if rating=="3" %}
+<i class="fa-solid fa-star fa-xs rating"></i>
+<i class="fa-solid fa-star fa-xs rating"></i>
+<i class="fa-solid fa-star fa-xs rating"></i>
+{% endif %}
+{% if rating=="4" %}
+<i class="fa-solid fa-star fa-xs rating"></i>
+<i class="fa-solid fa-star fa-xs rating"></i>
+<i class="fa-solid fa-star fa-xs rating"></i>
+<i class="fa-solid fa-star fa-xs rating"></i>
+{% endif %}
+{% if rating=="5" %}
+<i class="fa-solid fa-star fa-xs rating"></i>
+<i class="fa-solid fa-star fa-xs rating"></i>
+<i class="fa-solid fa-star fa-xs rating"></i>
+<i class="fa-solid fa-star fa-xs rating"></i>
+<i class="fa-solid fa-star fa-xs rating"></i>
+{% endif %}
+<br>
+</span>
+</div>
+{% endfor %}
+</div>
+{% if given_ratings.values() | length > 10 %}
+<button class="btn btn-primary body bottom-button">
+<a id="show-all-recipes" class="button" onclick="showMoreRecipes()"> Show all </a>
+</button>
+{% else %}
+<br>
+{% endif %}
 {% endblock %}

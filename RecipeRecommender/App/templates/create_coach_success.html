@@ -1,45 +1,35 @@
 {% extends 'base.html' %}
-
 {% block head %}
-    <title> Coach created - Recipe Recommender </title>
+<title> Coach created - Recipe Recommender </title>
 {% endblock %}
-
 {% block body %}
-    <div class="header">
-        <h1 class="title">
-            <img class="in-title" src="{{url_for('static', filename='/images/vegan-icon.png')}}" width="50px" />
-            Coach created - Recipe Recommender
-        </h1>
-        <h2 class="subtitle"> New coach account created </h2>
-        <p class="image-label"> Photo credit:
-            <a class="image-label" rel="noopener noreferrer nofollow" target="_blank" href="https://unsplash.com/de/fotos/2IxTgsgFi-s">
-                Unsplash
-            </a>
-        </p>
-    </div>
-
-    <h1 class="center-heading">
-        <span class="main-header"> You have successfully created a new coach account </span>
-    </h1>
-
-    <p class="body content center">
-        Your coach-id is {{coach_id}}.
-        This is required together with your password to log in to your account.
-        <br><br>
-        Welcome to the Recipe Recommender! We hope you enjoy using it.
-        <br>
-        Go ahead and add your clients.
-    </p>
-
-
-    <hr class="content-sep">
-
-
-    <div class="center">
-        <button class="btn btn-primary bottom-button">
-            <a class="button" href="/coach_login"> Login now </a>
-        </button>
-    </div>
-
-
+<div class="header">
+<h1 class="title">
+<img class="in-title" src="{{url_for('static', filename='/images/vegan-icon.png')}}" width="50px" />
+Coach created - Recipe Recommender
+</h1>
+<h2 class="subtitle"> New coach account created </h2>
+<p class="image-label"> Photo credit:
+<a class="image-label" rel="noopener noreferrer nofollow" target="_blank" href="https://unsplash.com/de/fotos/2IxTgsgFi-s">
+Unsplash
+</a>
+</p>
+</div>
+<h1 class="center-heading">
+<span class="main-header"> You have successfully created a new coach account </span>
+</h1>
+<p class="body content center">
+Your coach-id is {{coach_id}}.
+This is required together with your password to log in to your account.
+<br><br>
+Welcome to the Recipe Recommender! We hope you enjoy using it.
+<br>
+Go ahead and add your clients.
+</p>
+<hr class="content-sep">
+<div class="center">
+<button class="btn btn-primary bottom-button">
+<a class="button" href="/coach_login"> Login now </a>
+</button>
+</div>
 {% endblock %}

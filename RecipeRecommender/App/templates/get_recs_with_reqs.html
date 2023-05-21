@@ -1,94 +1,81 @@
 {% extends 'base_with_nav.html' %}
-
 {% block head %}
-    <title> Get matching recommendations - Recipe Recommender </title>
+<title> Get matching recommendations - Recipe Recommender </title>
 {% endblock %}
-
 {% block body %}
-    <div class="header">
-        <h1 class="title">
-            <img class="in-title" src="{{url_for('static', filename='/images/vegan-icon.png')}}" width="50px" />
-            Recipe Recommender
-        </h1>
-        <h2 class="subtitle"> Get your recommendations, matching your requirements </h2>
-        <p class="image-label"> Photo credit:
-            <a class="image-label" rel="noopener noreferrer nofollow" target="_blank" href="https://unsplash.com/de/fotos/2IxTgsgFi-s">
-                Unsplash
-            </a>
-        </p>
-    </div>
-
-    <h2 class="body body-with-top-margin"> Your requirements: </h2>
-    <p class="body content">
-        {% if proteins == "0" %}
-            Proteins: Open <br>
-        {% else %}
-            Proteins: {{proteins}}g <br>
-        {% endif %}
-
-        {% if carbs == "0" %}
-            Carbs: Open <br>
-        {% else %}
-            Carbs: {{carbs}}g <br>
-        {% endif %}
-
-        {% if fats == "0" %}
-            Fats: Open <br>
-        {% else %}
-            Fats: {{fats}}g <br>
-        {% endif %}
-
-        Mealtype: {{mealtype}}<br>
-    </p>
-
-
-    <hr class="content-sep">
-
-
-    <h1 class="body body-with-top-margin">
-        <span class="main-header">
-            Here are your recommended recipes, matching your required macronutrients within a {{range_percent}}% range:
-        </span>
-    </h1>
-
-    <h2 class="body body-with-top-margin"> Using the content-based algorithm:</h2>
-    <ol class="body content">
-        {% for recipe_id, title in cb_recs.items() %}
-            <li><a rel="noopener noreferrer nofollow" target="_blank" href="/recipe?id={{recipe_id}}"> {{title}} </a></li>
-        {% endfor %}
-    </ol>
-    {% if cb_recs.values()|length == 0 %}
-        <p class="body content error">
-            Sadly, no matching recommendations found. Please try again with other requirements.
-        </p>
-    {% elif cb_recs.values()|length < 2%}
-        <p class="body content error">
-            Sadly, only {{cb_recs.values()|length}} matching recommendation found with the content-based algorithm.
-        </p>
-    {% elif cb_recs.values()|length < 3%}
-        <p class="body content error">
-            Sadly, only {{cb_recs.values()|length}} matching recommendations found with the content-based algorithm.
-        </p>
-    {% endif %}
-
-    <h2 class="body body-with-top-margin"> Using the item-knn algorithm:</h2>
-    <ol class="body content">
-        {% for recipe_id, title in itemknn_recs.items() %}
-            <li><a rel="noopener noreferrer nofollow" target="_blank" href="/recipe?id={{recipe_id}}"> {{title}} </a></li>
-        {% endfor %}
-    </ol>
-    {% if itemknn_recs.values()|length == 0 %}
-        <p class="body content error">
-            Sadly, no matching recommendations found. Please try again with other requirements.
-        </p>
-    {% elif itemknn_recs.values()|length < 2%}
-        <p class="body content error">
-            Sadly, only {{itemknn_recs.values()|length}} matching recommendation found with the item-knn algorithm.
-        </p>
-    {% elif itemknn_recs.values()|length < 3%}
-        <p class="body content error">
-            Sadly, only {{itemknn_recs.values()|length}} matching recommendations found with the item-knn algorithm.
-        </p>
-    {% endif %}
-
+<div class="header">
+<h1 class="title">
+<img class="in-title" src="{{url_for('static', filename='/images/vegan-icon.png')}}" width="50px" />
+Recipe Recommender
+</h1>
+<h2 class="subtitle"> Get your recommendations, matching your requirements </h2>
+<p class="image-label"> Photo credit:
+<a class="image-label" rel="noopener noreferrer nofollow" target="_blank" href="https://unsplash.com/de/fotos/2IxTgsgFi-s">
+Unsplash
+</a>
+</p>
+</div>
+<h2 class="body body-with-top-margin"> Your requirements: </h2>
+<p class="body content">
+{% if proteins == "0" %}
+Proteins: Open <br>
+{% else %}
+Proteins: {{proteins}}g <br>
+{% endif %}
+{% if carbs == "0" %}
+Carbs: Open <br>
+{% else %}
+Carbs: {{carbs}}g <br>
+{% endif %}
+{% if fats == "0" %}
+Fats: Open <br>
+{% else %}
+Fats: {{fats}}g <br>
+{% endif %}
+Mealtype: {{mealtype}}<br>
+</p>
+<hr class="content-sep">
+<h1 class="body body-with-top-margin">
+<span class="main-header">
+Here are your recommended recipes, matching your required macronutrients within a {{range_percent}}% range:
+</span>
+</h1>
+<h2 class="body body-with-top-margin"> Using the content-based algorithm:</h2>
+<ol class="body content">
+{% for recipe_id, title in cb_recs.items() %}
+<li><a rel="noopener noreferrer nofollow" target="_blank" href="/recipe?id={{recipe_id}}"> {{title}} </a></li>
+{% endfor %}
+</ol>
+{% if cb_recs.values()|length == 0 %}
+<p class="body content error">
+Sadly, no matching recommendations found. Please try again with other requirements.
+</p>
+{% elif cb_recs.values()|length < 2%}
+<p class="body content error">
+Sadly, only {{cb_recs.values()|length}} matching recommendation found with the content-based algorithm.
+</p>
+{% elif cb_recs.values()|length < 3%}
+<p class="body content error">
+Sadly, only {{cb_recs.values()|length}} matching recommendations found with the content-based algorithm.
+</p>
+{% endif %}
+<h2 class="body body-with-top-margin"> Using the item-knn algorithm:</h2>
+<ol class="body content">
+{% for recipe_id, title in itemknn_recs.items() %}
+<li><a rel="noopener noreferrer nofollow" target="_blank" href="/recipe?id={{recipe_id}}"> {{title}} </a></li>
+{% endfor %}
+</ol>
+{% if itemknn_recs.values()|length == 0 %}
+<p class="body content error">
+Sadly, no matching recommendations found. Please try again with other requirements.
+</p>
+{% elif itemknn_recs.values()|length < 2%}
+<p class="body content error">
+Sadly, only {{itemknn_recs.values()|length}} matching recommendation found with the item-knn algorithm.
+</p>
+{% elif itemknn_recs.values()|length < 3%}
+<p class="body content error">
+Sadly, only {{itemknn_recs.values()|length}} matching recommendations found with the item-knn algorithm.
+</p>
+{% endif %}
 {% endblock %}

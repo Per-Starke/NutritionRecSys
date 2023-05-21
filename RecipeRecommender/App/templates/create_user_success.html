@@ -1,45 +1,35 @@
 {% extends 'base.html' %}
-
 {% block head %}
-    <title> User created - Recipe Recommender </title>
+<title> User created - Recipe Recommender </title>
 {% endblock %}
-
 {% block body %}
-    <div class="header">
-        <h1 class="title">
-            <img class="in-title" src="{{url_for('static', filename='/images/vegan-icon.png')}}" width="50px" />
-            User created - Recipe Recommender
-        </h1>
-        <h2 class="subtitle"> New user account created </h2>
-        <p class="image-label"> Photo credit:
-            <a class="image-label" rel="noopener noreferrer nofollow" target="_blank" href="https://unsplash.com/de/fotos/2IxTgsgFi-s">
-                Unsplash
-            </a>
-        </p>
-    </div>
-
-    <h1 class="center-heading">
-        <span class="main-header"> You have successfully created a new user account </span>
-    </h1>
-
-    <p class="body content center">
-        Your user-id is {{user_id}}.
-        This is required together with your password to log in to your account.
-        <br><br>
-        Welcome to the Recipe Recommender! We hope you enjoy using it.
-        <br>
-        Go ahead and rate some recipes, so we can get to know your taste and then find recommendations for you.
-    </p>
-
-
-    <hr class="content-sep">
-
-
-    <div class="center">
-        <button class="btn btn-primary bottom-button">
-            <a class="button" href="/login"> Login now </a>
-        </button>
-    </div>
-
-
+<div class="header">
+<h1 class="title">
+<img class="in-title" src="{{url_for('static', filename='/images/vegan-icon.png')}}" width="50px" />
+User created - Recipe Recommender
+</h1>
+<h2 class="subtitle"> New user account created </h2>
+<p class="image-label"> Photo credit:
+<a class="image-label" rel="noopener noreferrer nofollow" target="_blank" href="https://unsplash.com/de/fotos/2IxTgsgFi-s">
+Unsplash
+</a>
+</p>
+</div>
+<h1 class="center-heading">
+<span class="main-header"> You have successfully created a new user account </span>
+</h1>
+<p class="body content center">
+Your user-id is {{user_id}}.
+This is required together with your password to log in to your account.
+<br><br>
+Welcome to the Recipe Recommender! We hope you enjoy using it.
+<br>
+Go ahead and rate some recipes, so we can get to know your taste and then find recommendations for you.
+</p>
+<hr class="content-sep">
+<div class="center">
+<button class="btn btn-primary bottom-button">
+<a class="button" href="/login"> Login now </a>
+</button>
+</div>
 {% endblock %}

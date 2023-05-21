@@ -1,43 +1,33 @@
 {% extends 'base.html' %}
-
 {% block nav %}
-
-    <div class="nav main-nav" id="myTopnav">
-        <button class="btn btn-primary">
-            <a class="button" href="/"> Home </a>
-        </button>
-
-        <button class="btn btn-primary">
-            <a class="button" href="/recs_and_ratings"> Recommendations & ratings </a>
-        </button>
-
-        <button class="btn btn-primary">
-            <a class="button" href="/enter_reqs"> Enter requirements </a>
-        </button>
-
-        <button class="btn btn-primary">
-            <a class="button" href="/get_recs_with_reqs"> Matching recommendations </a>
-        </button>
-
-        <button class="btn btn-primary">
-            <a class="button" href="/random"> Get a random recipe </a>
-        </button>
-
-        <a class="icon" onclick="extendNav()">
-            <i class="fa fa-bars fa-xl"></i>
-        </a>
-
-    </div>
-
-    <div class="nav right">
-        <div class="user-box">
-            <button class="btn btn-user-id">
-                User-id: {{user_id}}
-            </button>
-            <button class="btn btn-logout">
-                <a class="button" href="/logout"> Logout </a>
-            </button>
-        </div>
-    </div>
-
+<div class="nav main-nav" id="myTopnav">
+<button class="btn btn-primary">
+<a class="button" href="/"> Home </a>
+</button>
+<button class="btn btn-primary">
+<a class="button" href="/recs_and_ratings"> Recommendations & ratings </a>
+</button>
+<button class="btn btn-primary">
+<a class="button" href="/enter_reqs"> Enter requirements </a>
+</button>
+<button class="btn btn-primary">
+<a class="button" href="/get_recs_with_reqs"> Matching recommendations </a>
+</button>
+<button class="btn btn-primary">
+<a class="button" href="/random"> Get a random recipe </a>
+</button>
+<a class="icon" onclick="extendNav()">
+<i class="fa fa-bars fa-xl"></i>
+</a>
+</div>
+<div class="nav right">
+<div class="user-box">
+<button class="btn btn-user-id">
+User-id: {{user_id}}
+</button>
+<button class="btn btn-logout">
+<a class="button" href="/logout"> Logout </a>
+</button>
+</div>
+</div>
 {% endblock %}

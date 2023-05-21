@@ -31,6 +31,9 @@ https://github.com/mukulkant/Star-rating-using-pure-css
 
 https://pythonprogramming.net/password-hashing-flask-tutorial/
 
+https://htmlcompressor.com/compressor/
+(61 to 83% compression ratio)
+
 ### Images:
 
 https://unsplash.com/de/fotos/2IxTgsgFi-s
