@@ -79,17 +79,16 @@ def get_ratings_for_user(user_id):
 
     ratings = pd.read_csv(ratings_path_and_filename, names=col_names)
 
-    ratings.sort_values(by="Item", inplace=True)
+    single_user_ratings = ratings.loc[ratings["User"] == int(user_id)]
+    single_user_ratings.sort_values(by="Item", inplace=True)
 
     return_dict = {}
 
-    for line in ratings.iterrows():
-        user = str(line[1][0])
+    for line in single_user_ratings.iterrows():
         recipe_id = line[1][1]
         rating = str(line[1][2])
 
-        if user == str(user_id):
-            return_dict[recipe_id] = rating
+        return_dict[recipe_id] = rating
 
     return return_dict
 
