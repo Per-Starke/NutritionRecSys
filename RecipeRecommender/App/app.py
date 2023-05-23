@@ -535,7 +535,7 @@ def get_recs_with_reqs():
         return redirect("/logout")
 
     if check_update_predicted_ratings():
-        run_recommendation_algos(300)
+        run_recommendation_algos(500)
 
     content_based_recommendations = find_top_3_matching_reqs(
         user_id=session["user_id"], algorithm="contentbased", proteins=session["proteins"], carbs=session["carbs"],
