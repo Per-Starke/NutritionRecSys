@@ -52,6 +52,7 @@ def login():
 
         return render_template("error.html", error_text="Unknown error")
 
+    session["kcal"] = "0"
     session["proteins"] = "0"
     session["carbs"] = "0"
     session["fats"] = "0"
@@ -96,6 +97,7 @@ def coach_login():
 
         return render_template("error.html", error_text="Unknown error")
 
+    session["kcal"] = "0"
     session["proteins"] = "0"
     session["carbs"] = "0"
     session["fats"] = "0"
@@ -122,6 +124,7 @@ def logout():
 
     if coach_logged_in:
         session['coach_id'] = coach_id
+        session["kcal"] = "0"
         session["proteins"] = "0"
         session["carbs"] = "0"
         session["fats"] = "0"
@@ -149,6 +152,7 @@ def reset_requirements():
     Not a shown page, redirect here to reset given requirements and redirect to the enter_reqs page
     """
 
+    session["kcal"] = "0"
     session["proteins"] = "0"
     session["carbs"] = "0"
     session["fats"] = "0"
@@ -491,6 +495,7 @@ def enter_reqs():
         return redirect("/logout")
 
     if request.method == 'POST':
+        session['kcal'] = request.form['set_kcal']
         session['proteins'] = request.form['set_proteins']
         session['carbs'] = request.form['set_carbs']
         session['fats'] = request.form['set_fats']
@@ -503,6 +508,8 @@ def enter_reqs():
         except ValueError:
             range_is_number = False
 
+        if session["kcal"] == "":
+            session["kcal"] = "0"
         if session["proteins"] == "":
             session["proteins"] = "0"
         if session["carbs"] == "":
@@ -510,8 +517,9 @@ def enter_reqs():
         if session["fats"] == "":
             session["fats"] = "0"
 
-        if (not session['proteins'].isdigit() or not session['carbs'].isdigit() or not session['fats'].isdigit()
-                or not range_is_number):
+        if (not session["kcal"].isdigit() or not session['proteins'].isdigit() or not session['carbs'].isdigit()
+                or not session['fats'].isdigit() or not range_is_number):
+            session.pop('kcal', None)
             session.pop('proteins', None)
             session.pop('carbs', None)
             session.pop('fats', None)
@@ -520,9 +528,9 @@ def enter_reqs():
                                    error_text="Invalid input for required macronutrients!")
         return redirect("/enter_reqs")
 
-    return render_template("enter_reqs.html", user_id=session['user_id'], proteins=session["proteins"],
-                           carbs=session["carbs"], fats=session["fats"], range=session["range"],
-                           mealtype=session["mealtype"])
+    return render_template("enter_reqs.html", user_id=session['user_id'], kcal=session["kcal"],
+                           proteins=session["proteins"], carbs=session["carbs"], fats=session["fats"],
+                           range=session["range"], mealtype=session["mealtype"])
 
 
 @app.route('/get_recs_with_reqs')
@@ -538,12 +546,12 @@ def get_recs_with_reqs():
         run_recommendation_algos(500)
 
     content_based_recommendations = find_top_3_matching_reqs(
-        user_id=session["user_id"], algorithm="contentbased", proteins=session["proteins"], carbs=session["carbs"],
-        fats=session["fats"], allowed_range=session["range"], mealtype=session["mealtype"])
+        user_id=session["user_id"], algorithm="contentbased", kcal=session["kcal"], proteins=session["proteins"],
+        carbs=session["carbs"], fats=session["fats"], allowed_range=session["range"], mealtype=session["mealtype"])
 
     itemknn_recommendations = find_top_3_matching_reqs(
-        user_id=session["user_id"], algorithm="itemknn", proteins=session["proteins"], carbs=session["carbs"],
-        fats=session["fats"], allowed_range=session["range"], mealtype=session["mealtype"])
+        user_id=session["user_id"], algorithm="itemknn", kcal=session["kcal"], proteins=session["proteins"],
+        carbs=session["carbs"], fats=session["fats"], allowed_range=session["range"], mealtype=session["mealtype"])
 
     cb_rec_dict = {}
     itemknn_rec_dict = {}
@@ -554,9 +562,10 @@ def get_recs_with_reqs():
     for recipe_id in itemknn_recommendations:
         itemknn_rec_dict[recipe_id] = get_recipe_title_by_id(recipe_id)
 
-    return render_template("get_recs_with_reqs.html", user_id=session['user_id'], proteins=session["proteins"],
-                           carbs=session["carbs"], fats=session["fats"], range_percent=float(session["range"])*100,
-                           mealtype=session["mealtype"], cb_recs=cb_rec_dict, itemknn_recs=itemknn_rec_dict)
+    return render_template("get_recs_with_reqs.html", user_id=session['user_id'], kcal=session["kcal"],
+                           proteins=session["proteins"], carbs=session["carbs"], fats=session["fats"],
+                           range_percent=float(session["range"])*100, mealtype=session["mealtype"], cb_recs=cb_rec_dict,
+                           itemknn_recs=itemknn_rec_dict)
 
 
 @app.route('/recipe', methods=['POST', 'GET'])

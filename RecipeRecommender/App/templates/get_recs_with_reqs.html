@@ -17,6 +17,11 @@ Unsplash
 </div>
 <h2 class="body body-with-top-margin"> Your requirements: </h2>
 <p class="body content">
+{% if kcal == "0" %}
+Kcal: Open <br>
+{% else %}
+Kcal: {{kcal}} <br>
+{% endif %}
 {% if proteins == "0" %}
 Proteins: Open <br>
 {% else %}

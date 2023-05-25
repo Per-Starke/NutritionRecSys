@@ -55,7 +55,9 @@ def get_macros_by_id(id_to_get):
     carbs = recipe_info[recipe_info["ID"] == id_to_get][" Carbs"].iloc[0][1:]
     fats = recipe_info[recipe_info["ID"] == id_to_get][" Fats"].iloc[0][1:]
 
-    return {"proteins": proteins, "carbs": carbs, "fats": fats}
+    kcal = str(float(proteins[:-1]) * 4.1 + float(carbs[:-1]) * 4.1 + float(fats[:-1]) * 9.3)
+
+    return {"proteins": proteins, "carbs": carbs, "fats": fats, "kcal": kcal}
 
 
 def get_mealtype_by_id(id_to_get):
