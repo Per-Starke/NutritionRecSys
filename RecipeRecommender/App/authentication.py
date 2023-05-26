@@ -17,11 +17,28 @@ coach_user_requests_db_path_and_filename = parent_dir + "/NutritionRecSys/Data/U
 ratings_path_and_filename = parent_dir + "/NutritionRecSys/Data/ratings.csv"
 
 
+def check_admin_login(username, password):
+    """
+    Check if an attempted admin-login is correct
+    :param username: The entered admin username
+    :param password: The entered admin password
+    :return: True if correct admin login information is given, False otherwise
+    """
+
+    username_correct = \
+        sha256_crypt.verify(username, '$5$rounds=535000$MqYHwL88RFHKmoc2$Qwpf8aqySWU4LLI3c7M9YS30YjLeoVOFC6CaWyVfA12')
+
+    password_correct = \
+        sha256_crypt.verify(password, '$5$rounds=535000$Mh52Wgv4zHVZSmrq$QxtwEuKxAYiyPK1LSurAi4dqZbAIkOproKd.rENErE0')
+
+    return username_correct and password_correct
+
+
 def check_user_login(user_id, password):
     """
     Check if the entered user_id exists and if the password is correct
     :param user_id: the user-id
-    :param password: the salted has of the password
+    :param password: the password
     :return: 1 if user-id is invalid, 2 if password is wrong, 3 if user-id exists and password is correct
     """
 
@@ -50,7 +67,7 @@ def check_coach_login(coach_id, password):
     """
     Check if the entered user_id exists and if the password is correct
     :param coach_id: the coach-id
-    :param password: the salted has of the password
+    :param password: the password
     :return: 1 if coach-id is invalid, 2 if password is wrong, 3 if coach-id exists and password is correct
     """
 
@@ -131,7 +148,7 @@ def get_new_coach_id():
 def write_new_coach_to_file(password, name):
     """
     Write a newly created coach into the coaches.csv file
-    :param password: the salted has of the password the coach entered
+    :param password: the salted hash of the password the coach entered
     :param name: the name the coach entered (empty string if none given)
     :return: the coach-id that has been chosen for the new coach
     """

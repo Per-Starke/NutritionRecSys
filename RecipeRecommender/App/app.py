@@ -8,7 +8,7 @@ from passlib.hash import sha256_crypt
 from update_predictions import check_update_predicted_ratings
 from authentication import check_user_login, check_coach_login, check_coach_can_view_user, \
     write_new_user_to_file, write_new_coach_to_file, check_for_coaching_requests, \
-    confirm_request_auth, get_name
+    confirm_request_auth, get_name, check_admin_login
 from output import get_ratings_for_user, get_recipe_title_by_id, \
     get_calculated_ratings_for_user, write_recommendations, write_rating_to_file, get_recipe_to_rate
 from ratings import delete_double_ratings
@@ -33,6 +33,10 @@ def login():
         session.permanent = True
         session['user_id'] = request.form['set_id']
         password = request.form['set_pw']
+
+        if check_admin_login(session["user_id"], password):
+            return "admin logged in"
+
         if not session['user_id'] or not session['user_id'].isdigit():
             session.pop('user_id', None)
             return render_template("error.html", error_text="this is no valid format for a user-id!")
