@@ -138,4 +138,5 @@ def calculate_similarities():
 
 
 if __name__ == "__main__":
-    calculate_similarities()
+    # calculate_similarities()
+    pass
