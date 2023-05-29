@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block head %}
+<title> Admin Data View - Recipe Recommender </title>
+{% endblock %}
+{% block body %}
+<h2> Coach-Users:</h2>
+{% for row in coach_users %}
+{{row}}<br>
+{% endfor %}
+<h2> Coach-Users Requests:</h2>
+{% for row in coach_users_requests %}
+{{row}}<br>
+{% endfor %}
+<h2> Coaches: </h2>
+{% for row in coaches %}
+{{row}}<br>
+{% endfor %}
+<h2> Users: </h2>
+{% for row in users %}
+{{row}}<br>
+{% endfor %}
+<h2> Ratings: </h2>
+{% for row in ratings %}
+{{row}}<br>
+{% endfor %}
+{% endblock %}

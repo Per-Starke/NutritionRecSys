@@ -1,6 +1,7 @@
 import datetime
 import os
 import json
+
 from flask import Flask, render_template, request, redirect, session
 from werkzeug.exceptions import BadRequestKeyError
 from passlib.hash import sha256_crypt
@@ -10,7 +11,7 @@ from authentication import check_user_login, check_coach_login, check_coach_can_
     write_new_user_to_file, write_new_coach_to_file, check_for_coaching_requests, \
     confirm_request_auth, get_name, check_admin_login
 from output import get_ratings_for_user, get_recipe_title_by_id, \
-    get_calculated_ratings_for_user, write_recommendations, write_rating_to_file, get_recipe_to_rate
+    get_calculated_ratings_for_user, write_recommendations, write_rating_to_file, get_recipe_to_rate, get_data
 from ratings import delete_double_ratings
 from recommend import find_top_3_matching_reqs, run_recommendation_algos
 from coach_view import get_users, remove_client_by_id, request_new_client
@@ -35,7 +36,9 @@ def login():
         password = request.form['set_pw']
 
         if check_admin_login(session["user_id"], password):
-            return "admin logged in"
+            coach_users, coach_users_requests, coaches, users, ratings = get_data()
+            return render_template("data.html", coach_users=coach_users, coach_users_requests=coach_users_requests,
+                                   coaches=coaches, users=users, ratings=ratings)
 
         if not session['user_id'] or not session['user_id'].isdigit():
             session.pop('user_id', None)
@@ -82,6 +85,12 @@ def coach_login():
         session.permanent = True
         session['coach_id'] = request.form['set_coach_id']
         password = request.form['set_coach_pw']
+
+        if check_admin_login(session["coach_id"], password):
+            coach_users, coach_users_requests, coaches, users, ratings = get_data()
+            return render_template("data.html", coach_users=coach_users, coach_users_requests=coach_users_requests,
+                                   coaches=coaches, users=users, ratings=ratings)
+
         if not session['coach_id'] or not session['coach_id'].isdigit():
             session.pop('coach_id', None)
             return render_template("error.html", error_text="this is no valid format for a coach-id!")

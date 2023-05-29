@@ -1,5 +1,5 @@
 """
-Functions for outputting the recommendations and ratings
+Functions for outputting the recommendations, ratings and data
 """
 
 import pandas as pd
@@ -176,3 +176,29 @@ def get_recipe_to_rate(user_id):
             return recipe_id
 
     return None
+
+
+def get_data():
+    """
+    Get the user and ratings data to display for admin
+    :return: a tuple of (coach_users, coach_users_requests, coaches, users, ratings) data, as iterrows
+    """
+
+    users_path_and_filename = parent_dir + "/NutritionRecSys/Data/User_data/users.csv"
+    coaches_path_and_filename = parent_dir + "/NutritionRecSys/Data/User_data/coaches.csv"
+    coach_users_path_and_filename = parent_dir + "/NutritionRecSys/Data/User_data/coach_users.csv"
+    coach_user_requests_db_path_and_filename = parent_dir + "/NutritionRecSys/Data/User_data/coach_users_requests.csv"
+
+    coach_users = pd.read_csv(coach_users_path_and_filename)
+    coach_users_requests = pd.read_csv(coach_user_requests_db_path_and_filename)
+    coaches = pd.read_csv(coaches_path_and_filename)
+    users = pd.read_csv(users_path_and_filename)
+    ratings = pd.read_csv(ratings_path_and_filename, names=col_names)
+
+    coach_users = coach_users.itertuples()
+    coach_users_requests = coach_users_requests.itertuples()
+    coaches = coaches.itertuples()
+    users = users.itertuples()
+    ratings = ratings.itertuples()
+
+    return coach_users, coach_users_requests, coaches, users, ratings
