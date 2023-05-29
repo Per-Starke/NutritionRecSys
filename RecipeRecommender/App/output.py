@@ -1,6 +1,7 @@
 """
 Functions for outputting the recommendations, ratings and data
 """
+import time
 
 import pandas as pd
 import os
@@ -152,13 +153,15 @@ def write_rating_to_file(user_id, recipe_id, rating):
     :param rating: the rating
     """
 
-    update_predictions.increment_new_ratings_counter()
-
-    with open(ratings_path_and_filename, "a+") as file:
-        if recipe_id:
-            str_to_write = str(user_id) + ", " + str(recipe_id) + ", " + str(rating) + "\n"
-            file.write(str_to_write)
-
+    try:
+        with open(ratings_path_and_filename, "a+") as file:
+            if recipe_id:
+                str_to_write = str(user_id) + ", " + str(recipe_id) + ", " + str(rating) + "\n"
+                file.write(str_to_write)
+        update_predictions.increment_new_ratings_counter()
+    except Exception:
+        time.sleep(1)
+        write_rating_to_file(user_id, recipe_id, rating)
 
 def get_recipe_to_rate(user_id):
     """

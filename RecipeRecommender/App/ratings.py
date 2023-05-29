@@ -1,6 +1,7 @@
 """
 Create a User-Item-Rating file with random ratings and provide a function to check for and delete duplicate ratings
 """
+import time
 
 import pandas as pd
 from random import randint
@@ -46,10 +47,14 @@ def delete_double_ratings():
     ratings_without_duplicates = ratings.drop_duplicates(subset=["user", "item"], keep="last")
 
     if not ratings.equals(ratings_without_duplicates):
-        with open(ratings_path_and_filename, "w+") as file:
-            for index, row in ratings_without_duplicates.iterrows():
-                string_to_write = "{},{},{}\n".format(str(row[0]), str(row[1]), str(row[2]))
-                file.write(string_to_write)
+        try:
+            with open(ratings_path_and_filename, "w+") as file:
+                for index, row in ratings_without_duplicates.iterrows():
+                    string_to_write = "{},{},{}\n".format(str(row[0]), str(row[1]), str(row[2]))
+                    file.write(string_to_write)
+        except Exception:
+            time.sleep(1)
+            delete_double_ratings()
 
 
 if __name__ == "__main__":

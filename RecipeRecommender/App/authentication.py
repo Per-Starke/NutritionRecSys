@@ -2,8 +2,9 @@
 Functions to ensure security, check login data, check user-visibilty for coaches and create new accounts
 """
 
-import pandas as pd
+import time
 import os
+import pandas as pd
 from passlib.hash import sha256_crypt
 
 from coach_view import get_users, remove_client_by_id
@@ -155,12 +156,16 @@ def write_new_coach_to_file(password, name):
 
     coach_id = get_new_coach_id()
 
-    with open(coaches_path_and_filename, "a+") as file:
-        if name == "":
-            string_to_write = "\n{},{}".format(coach_id, password)
-        else:
-            string_to_write = "\n{},{},{}".format(coach_id, password, name)
-        file.write(string_to_write)
+    try:
+        with open(coaches_path_and_filename, "a+") as file:
+            if name == "":
+                string_to_write = "\n{},{}".format(coach_id, password)
+            else:
+                string_to_write = "\n{},{},{}".format(coach_id, password, name)
+            file.write(string_to_write)
+    except Exception:
+        time.sleep(1)
+        write_new_coach_to_file(password, name)
 
     return coach_id
 
@@ -175,12 +180,16 @@ def write_new_user_to_file(password, name):
 
     user_id = get_new_user_id()
 
-    with open(users_path_and_filename, "a+") as file:
-        if name == "":
-            string_to_write = "\n{},{}".format(user_id, password)
-        else:
-            string_to_write = "\n{},{},{}".format(user_id, password, name)
-        file.write(string_to_write)
+    try:
+        with open(users_path_and_filename, "a+") as file:
+            if name == "":
+                string_to_write = "\n{},{}".format(user_id, password)
+            else:
+                string_to_write = "\n{},{},{}".format(user_id, password, name)
+            file.write(string_to_write)
+    except Exception:
+        time.sleep(1)
+        write_new_user_to_file(password, name)
 
     return user_id
 
@@ -205,11 +214,14 @@ def confirm_request_auth(coach_id, user_id):
     :param user_id: The id of the client
     """
 
-    remove_client_by_id(coach_id, user_id, True)
-
-    with open(coach_user_db_path_and_filename, "a+") as file:
-        string_to_write = "\n{},{}".format(coach_id, user_id)
-        file.write(string_to_write)
+    try:
+        with open(coach_user_db_path_and_filename, "a+") as file:
+            string_to_write = "\n{},{}".format(coach_id, user_id)
+            file.write(string_to_write)
+        remove_client_by_id(coach_id, user_id, request=True)
+    except Exception:
+        time.sleep(1)
+        confirm_request_auth(coach_id, user_id)
 
 
 def get_name(id_to_get, coach=False):

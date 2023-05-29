@@ -2,8 +2,9 @@
 Functions for the coach-view of the web-app
 """
 
-import pandas as pd
 import os
+import time
+import pandas as pd
 
 parent_dir = os.path.dirname(os.getcwd())
 
@@ -44,11 +45,15 @@ def remove_client_by_id(coach_id, client_id, request=False):
         coach_user_info.loc[coach_user_info['coach_id'] == int(coach_id)].loc[coach_user_info['user_id']
                                                                               == int(client_id)].index)
 
-    with open(filename, "w+") as file:
-        file.write("coach_id,user_id")
-        for index, row in coach_user_info_new.iterrows():
-            string_to_write = "\n{},{}".format(str(row[0]), str(row[1]))
-            file.write(string_to_write)
+    try:
+        with open(filename, "w+") as file:
+            file.write("coach_id,user_id")
+            for index, row in coach_user_info_new.iterrows():
+                string_to_write = "\n{},{}".format(str(row[0]), str(row[1]))
+                file.write(string_to_write)
+    except Exception:
+        time.sleep(1)
+        remove_client_by_id(coach_id, client_id, request)
 
 
 def request_new_client(coach_id, client_id):
@@ -59,6 +64,10 @@ def request_new_client(coach_id, client_id):
     :param client_id: The id of the client
     """
 
-    with open(coach_user_requests_db_path_and_filename, "a+") as file:
-        string_to_write = "\n{},{}".format(coach_id, client_id)
-        file.write(string_to_write)
+    try:
+        with open(coach_user_requests_db_path_and_filename, "a+") as file:
+            string_to_write = "\n{},{}".format(coach_id, client_id)
+            file.write(string_to_write)
+    except Exception:
+        time.sleep(1)
+        request_new_client(coach_id, client_id)

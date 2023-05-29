@@ -172,7 +172,8 @@ def find_top_3_matching_reqs(user_id, algorithm, kcal, proteins, carbs, fats, al
 
             # Case 1.4: Fats open, rest given
             elif protein_open == False and carbs_open == False and fats_open == True:
-                if min_protein <= float(recipe_proteins) <= max_protein and min_carbs <= float(recipe_carbs) <= max_carbs:
+                if min_protein <= float(recipe_proteins) <= max_protein and \
+                        min_carbs <= float(recipe_carbs) <= max_carbs:
                     return_list_macros.append(recipe_id)
 
             # Case 1.5: Proteins and carbs open, fats given
