@@ -105,6 +105,8 @@ def get_single_algo_ratings(recommendations, user_id, ratings_to_get):
     :return: A dict of the top-n recipes with the highest predicted ratings (with id:rating pairs) for a given user
     """
 
+    given_ratings = get_ratings_for_user(user_id)
+
     ratings_counter = 0
 
     return_dict = {}
@@ -114,7 +116,7 @@ def get_single_algo_ratings(recommendations, user_id, ratings_to_get):
         recipe_id = int(line[1][1])
         rating = str(line[1][2])
 
-        if user == str(user_id):
+        if user == str(user_id) and recipe_id not in given_ratings:
             ratings_counter += 1
             return_dict[recipe_id] = rating
 
