@@ -431,7 +431,7 @@ def recs_and_ratings():
     given_ratings = get_ratings_for_user(session['user_id'])
     given_ratings_with_titles = {}
     for current_recipe_id, rating in given_ratings.items():
-        given_ratings_with_titles[(current_recipe_id, get_recipe_title_by_id(current_recipe_id))] = rating
+        given_ratings_with_titles[(int(current_recipe_id), get_recipe_title_by_id(current_recipe_id))] = rating
     sorted_given_ratings_with_titles = \
         {k: v for k, v in sorted(given_ratings_with_titles.items(), key=lambda item: item[1], reverse=True)}
 
