@@ -304,12 +304,12 @@ def remove_client():
     if request.method == 'POST':
         id_one = request.form['enter_id_one']
         id_two = request.form['enter_id_two']
+        if id_one != id_two:
+            return render_template("error.html", error_text="Ids don't match")
         if not id_one.isdigit() or not id_two.isdigit():
             return render_template("error.html", error_text="That is not a valid id")
         if id_one == "":
             return render_template("error.html", error_text="Id can't be empty")
-        if id_one != id_two:
-            return render_template("error.html", error_text="Ids don't match")
         if int(id_one) not in get_users(session['coach_id']):
             return render_template("error.html", error_text="That is not one of your clients")
 
@@ -335,12 +335,12 @@ def add_client():
     if request.method == 'POST':
         id_one = request.form['enter_id_one']
         id_two = request.form['enter_id_two']
+        if id_one != id_two:
+            return render_template("error.html", error_text="Ids don't match")
         if not id_one.isdigit() or not id_two.isdigit():
             return render_template("error.html", error_text="That is not a valid id")
         if id_one == "":
             return render_template("error.html", error_text="Id can't be empty")
-        if id_one != id_two:
-            return render_template("error.html", error_text="Ids don't match")
         if int(id_one) in get_users(session['coach_id']):
             return render_template("error.html", error_text="That is already one of your clients")
 
