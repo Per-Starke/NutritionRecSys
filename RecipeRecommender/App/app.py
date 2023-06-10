@@ -12,7 +12,7 @@ from authentication import check_user_login, check_coach_login, check_coach_can_
     confirm_request_auth, get_name, check_admin_login, get_new_user_id
 from output import get_ratings_for_user, get_recipe_title_by_id, \
     get_calculated_ratings_for_user, write_recommendations, write_rating_to_file, get_recipe_to_rate, get_data
-from ratings import delete_double_ratings
+from ratings import delete_double_ratings, get_next_recipe_to_rate
 from recommend import find_top_3_matching_reqs, run_recommendation_algos
 from coach_view import get_users, remove_client_by_id, request_new_client
 
@@ -618,6 +618,17 @@ def get_initial_ratings_start():
     session.clear()
 
     session['temp_user_id'] = get_new_user_id()
+
+    return render_template("get_initial_ratings_start.html")
+
+
+@app.route('/get_initial_ratings_rate')
+def get_initial_ratings_rate():
+    """
+    Create the rate-page for getting initial ratings, before the software can actually be used, to solve cold-start problem
+    """
+
+    session["temp_recipe_id"] = get_next_recipe_to_rate()
 
     return render_template("get_initial_ratings_start.html")
 
