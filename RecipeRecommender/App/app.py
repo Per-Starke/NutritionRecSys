@@ -9,7 +9,7 @@ from passlib.hash import sha256_crypt
 from update_predictions import check_update_predicted_ratings
 from authentication import check_user_login, check_coach_login, check_coach_can_view_user, \
     write_new_user_to_file, write_new_coach_to_file, check_for_coaching_requests, \
-    confirm_request_auth, get_name, check_admin_login
+    confirm_request_auth, get_name, check_admin_login, get_new_user_id
 from output import get_ratings_for_user, get_recipe_title_by_id, \
     get_calculated_ratings_for_user, write_recommendations, write_rating_to_file, get_recipe_to_rate, get_data
 from ratings import delete_double_ratings
@@ -607,6 +607,19 @@ def recipe():
         delete_double_ratings()
 
     return render_template('recipe.html', recipe=recipe_info, user_id=session['user_id'])
+
+
+@app.route('/get_initial_ratings_start')
+def get_initial_ratings_start():
+    """
+    Create the starting-page for getting initial ratings, before the software can actually be used, to solve cold-start problem
+    """
+
+    session.clear()
+
+    session['temp_user_id'] = get_new_user_id()
+
+    return render_template("get_initial_ratings_start.html")
 
 
 if __name__ == "__main__":
