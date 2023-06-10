@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% block head %}
+<title> {{recipe['title']}} - Recipe Recommender </title>
+{% endblock %}
+{% block body %}
+<div class="header">
+<h1 class="title">
+<img class="in-title" src="{{url_for('static', filename='/images/vegan-icon.png')}}" width="50px" />
+Recipe Recommender
+</h1>
+<h2 class="subtitle"> {{recipe['title']}} </h2>
+<p class="image-label"> Photo credit:
+<a class="image-label" rel="noopener noreferrer nofollow" target="_blank" href="https://unsplash.com/de/fotos/2IxTgsgFi-s">
+Unsplash
+</a>
+</p>
+</div>
+<img class="body body-with-top-margin max300" src="{{recipe['image']}}">
+<hr class="content-sep">
+<h2 class="body body-with-top-margin"> Ingredients: </h2>
+<ul class="body content">
+{% for ingredient in recipe['extendedIngredients'] %}
+<li> {{ingredient['original']}} </li>
+{% endfor %}
+</ul>
+<hr class="content-sep">
+<h2 class="body body-with-top-margin"> Instructions: </h2>
+{% if recipe['analyzedInstructions'][0] %}
+<ul class="body content">
+{% set steps = recipe['analyzedInstructions'][0]['steps'] %}
+{% for step in steps %}
+<li> {{step['step']}} </li>
+{% endfor %}
+</ul>
+{% else %}
+<p class="body content"> None given </p>
+{% endif %}
+<hr class="content-sep">
+<h2 class="body body-with-top-margin"> More infos: </h2>
+<div style="overflow-x:auto">
+<table class="body content">
+<tr>
+<th>Servings</th>
+<th>Nutritional value / serving </th>
+<th>Preparation time</th>
+<th>Price / serving </th>
+</tr>
+<tr>
+<td>{{recipe['servings']}}</td>
+<td style="text-align:left">
+<ul>
+{% for nutrient in recipe['nutrition']['nutrients'] %}
+{% set name = nutrient['name'] %}
+{% if name == "Calories" or name == "Fat" or name == "Carbohydrates" or name == "Protein" %}
+<li> {{name}}: {{nutrient['amount']}}{{nutrient['unit']}} </li>
+{% elif name == "Saturated Fat" or name == "Sugar" %}
+<ul>
+<li> {{name}}: {{nutrient['amount']}}{{nutrient['unit']}} </li>
+</ul>
+{% endif %}
+{% endfor %}
+</ul>
+</td>
+<td>{{recipe['readyInMinutes']}} min </td>
+<td>{{recipe['pricePerServing']}} cents </td>
+</tr>
+</table>
+</div>
+<hr class="content-sep">
+<h2 class="body body-with-top-margin"> Rate this recipe: </h2>
+<form class="body" method="POST">
+<p> What would you rate this recipe, from 1 to 5? </p>
+<div class="rate">
+<input type="radio" id="star5" name="get_rating" value="5" />
+<label for="star5" title="text">5 stars</label>
+<input type="radio" id="star4" name="get_rating" value="4" />
+<label for="star4" title="text">4 stars</label>
+<input type="radio" id="star3" name="get_rating" value="3" />
+<label for="star3" title="text">3 stars</label>
+<input type="radio" id="star2" name="get_rating" value="2" />
+<label for="star2" title="text">2 stars</label>
+<input type="radio" id="star1" name="get_rating" value="1" />
+<label for="star1" title="text">1 star</label>
+</div> <br><br><br>
+<input type="submit" value="submit">
+</form> <br>
+{% endblock %}

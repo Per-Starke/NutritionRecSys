@@ -633,5 +633,33 @@ def get_initial_ratings_rate():
     return render_template("get_initial_ratings_start.html")
 
 
+@app.route('/get_initial_ratings_recipe', methods=['POST', 'GET'])
+def get_initial_ratings_recipe():
+    """
+    Create the page where single recipes are displayed, for getting initial ratings
+    """
+
+    if 'temp_user_id' not in session:
+        return redirect("/get_initial_ratings_start")
+
+    single_recipe_id = request.args["id"]
+
+    user_id = session['temp_user_id']
+
+    detailed_recipe_infos_path_and_filename = os.path.dirname(os.getcwd()) + \
+                                              "/NutritionRecSys/Data/detailed_recipe_info.json"
+
+    with open(detailed_recipe_infos_path_and_filename) as file:
+        data = json.load(file)
+        recipe_info = data[single_recipe_id]
+
+    if request.method == 'POST':
+        session['rating'] = request.form['get_rating']
+        write_rating_to_file(user_id, single_recipe_id, session['rating'])
+        delete_double_ratings()
+
+    return render_template('get_initial_ratings_recipe.html', recipe=recipe_info)
+
+
 if __name__ == "__main__":
     app.run(port=8000, debug=True)
