@@ -84,7 +84,7 @@ def get_next_recipe_to_rate():
     else:
         current_recipe_position = current_recipe_position + 1
 
-    return str(next_recipe_id)
+    return next_recipe_id
 
 
 if __name__ == "__main__":

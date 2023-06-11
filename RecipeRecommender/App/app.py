@@ -628,9 +628,14 @@ def get_initial_ratings_rate():
     Create the rate-page for getting initial ratings, before the software can actually be used, to solve cold-start problem
     """
 
-    session["temp_recipe_id"] = get_next_recipe_to_rate()
+    if 'temp_user_id' not in session:
+        return redirect("/get_initial_ratings_start")
 
-    return render_template("get_initial_ratings_start.html")
+    session["temp_recipe_id"] = get_next_recipe_to_rate()
+    session["recipe_title"] = get_recipe_title_by_id(session["temp_recipe_id"])
+
+    return render_template("get_initial_ratings_rate.html", recipe_id=session["temp_recipe_id"],
+                           recipe_title=session["recipe_title"])
 
 
 @app.route('/get_initial_ratings_recipe', methods=['POST', 'GET'])
