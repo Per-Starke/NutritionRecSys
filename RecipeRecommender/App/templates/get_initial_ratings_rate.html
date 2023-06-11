@@ -1,0 +1,46 @@
+{% extends 'base_with_nav.html' %}
+{% block head %}
+<title> Random recipes - Recipe Recommender </title>
+{% endblock %}
+{% block body %}
+<div class="header">
+<h2 class="title">
+<img class="in-title" src="{{url_for('static', filename='/images/vegan-icon.png')}}" width="50px" />
+Recipe Recommender
+</h2>
+<h2 class="subtitle"> Explore and rate random recipes </h2>
+<p class="image-label"> Photo credit:
+<a class="image-label" rel="noopener noreferrer nofollow" target="_blank" href="https://unsplash.com/de/fotos/2IxTgsgFi-s">
+Unsplash
+</a>
+</p>
+</div>
+<h1 class="body body-with-top-margin">
+<span class="main-header">
+Here is a random recipe you haven't rated yet:
+</span>
+</h1>
+{% if recipe_title != "No unrated recipe found!" %}
+<h3 class="body body-with-top-margin"><a rel="noopener noreferrer nofollow" target="_blank" href="/recipe?id={{recipe_id}}"> {{recipe_title}} </a> </h3>
+{% else %}
+<h3 class="body body-with-top-margin"> {{recipe_title}} </h3>
+{% endif %}
+{% if recipe_title != "No unrated recipe found!" %}
+<form class="body" action="/random#get_rating" method="POST">
+<p> What would you rate this recipe, from 1 to 5? </p>
+<div class="rate">
+<input type="radio" id="star5" name="get_rating" value="5" />
+<label for="star5" title="text">5 stars</label>
+<input type="radio" id="star4" name="get_rating" value="4" />
+<label for="star4" title="text">4 stars</label>
+<input type="radio" id="star3" name="get_rating" value="3" />
+<label for="star3" title="text">3 stars</label>
+<input type="radio" id="star2" name="get_rating" value="2" />
+<label for="star2" title="text">2 stars</label>
+<input type="radio" id="star1" name="get_rating" value="1" />
+<label for="star1" title="text">1 star</label>
+</div> <br><br><br>
+<input type="submit" value="submit">
+</form> <br>
+{% endif %}
+{% endblock %}
