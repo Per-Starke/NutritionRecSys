@@ -609,5 +609,15 @@ def recipe():
     return render_template('recipe.html', recipe=recipe_info, user_id=session['user_id'])
 
 
+@app.errorhandler(404)
+def error_404(error):
+    return render_template("error.html", error_text="The page you are looking for was not found."), 404
+
+
+@app.errorhandler(505)
+def error_505(error):
+    return render_template("error.html", error_text="There must be an error in the application :("), 500
+
+
 if __name__ == "__main__":
     app.run(port=8000, debug=True)
