@@ -21,6 +21,11 @@ app.secret_key = os.urandom(12)
 app.permanent_session_lifetime = datetime.timedelta(days=7)
 
 
+##########################################
+# Login pages
+##########################################
+
+
 @app.route("/login", methods=['POST', 'GET'])
 def login():
     """
@@ -121,6 +126,11 @@ def coach_login():
     return render_template("coach_login.html")
 
 
+##########################################
+# Unshown pages for redirecting and e.g. logging out
+##########################################
+
+
 @app.route("/logout")
 def logout():
     """
@@ -216,6 +226,11 @@ def confirm_request():
     return redirect("/")
 
 
+##########################################
+# Create account pages
+##########################################
+
+
 @app.route("/create_user", methods=['POST', 'GET'])
 def create_user():
     """
@@ -289,6 +304,11 @@ def success():
     return redirect("/coach_logout")
 
 
+##########################################
+# Client management pages for coach view
+##########################################
+
+
 @app.route("/remove_client", methods=['POST', 'GET'])
 def remove_client():
     """
@@ -349,6 +369,11 @@ def add_client():
         return redirect("client_overview")
 
     return render_template("add_client.html", coach_id=session['coach_id'])
+
+
+##########################################
+# The normal, visible pages
+##########################################
 
 
 @app.route("/", methods=['POST', 'GET'])
@@ -609,6 +634,11 @@ def recipe():
     return render_template('recipe.html', recipe=recipe_info, user_id=session['user_id'])
 
 
+##########################################
+# Get initial ratings pages
+##########################################
+
+
 @app.route('/get_initial_ratings_start')
 def get_initial_ratings_start():
     """
@@ -625,7 +655,7 @@ def get_initial_ratings_start():
 @app.route('/get_initial_ratings_rate')
 def get_initial_ratings_rate():
     """
-    Create the rate-page for getting initial ratings, before the software can actually be used, to solve cold-start problem
+    Create the rate-page for getting initial ratings
     """
 
     if 'temp_user_id' not in session:
@@ -666,6 +696,11 @@ def get_initial_ratings_recipe():
     return render_template('get_initial_ratings_recipe.html', recipe=recipe_info)
 
 
+##########################################
+# Errorhandling pages
+##########################################
+
+
 @app.errorhandler(404)
 def error_404(error):
     return render_template("error.html", error_text="The page you are looking for was not found."), 404
@@ -674,6 +709,11 @@ def error_404(error):
 @app.errorhandler(505)
 def error_505(error):
     return render_template("error.html", error_text="There must be an error in the application :("), 500
+
+
+##########################################
+# Main, run app
+##########################################
 
 
 if __name__ == "__main__":
