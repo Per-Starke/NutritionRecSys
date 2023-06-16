@@ -2,7 +2,7 @@
 Functions to (set when to) update predicted ratings
 """
 
-new_ratings_counter = 0  # global variable
+new_ratings_counter = 0  # global, over all sessions
 
 
 def increment_new_ratings_counter():

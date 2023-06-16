@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block head %}
+<title> Recipe Recommender </title>
+{% endblock %}
+{% block body %}
+<div class="header">
+<h1 class="title">
+<img class="in-title" src="{{url_for('static', filename='/images/vegan-icon.png')}}" width="50px" />
+Recipe Recommender
+</h1>
+<h2 class="subtitle"> Get recipes suitable for your taste as well as your required macronutrients </h2>
+<p class="image-label"> Photo credit:
+<a class="image-label" rel="noopener noreferrer nofollow" target="_blank" href="https://unsplash.com/de/fotos/2IxTgsgFi-s">
+Unsplash
+</a>
+</p>
+</div>
+<h1 class="body body-with-top-margin">
+<span class="main-header">
+Here is a recipe to rate:
+</span>
+</h1>
+<p class="body">
+<button class="btn btn-primary"><a class="button" href="/get_initial_ratings_recipe?id={{recipe_id}}"> {{recipe_title}} </a></button>
+</p>
+{% endblock %}

@@ -9,16 +9,21 @@ from passlib.hash import sha256_crypt
 from update_predictions import check_update_predicted_ratings
 from authentication import check_user_login, check_coach_login, check_coach_can_view_user, \
     write_new_user_to_file, write_new_coach_to_file, check_for_coaching_requests, \
-    confirm_request_auth, get_name, check_admin_login
+    confirm_request_auth, get_name, check_admin_login, get_new_user_id
 from output import get_ratings_for_user, get_recipe_title_by_id, \
     get_calculated_ratings_for_user, write_recommendations, write_rating_to_file, get_recipe_to_rate, get_data
-from ratings import delete_double_ratings
+from ratings import delete_double_ratings, get_next_recipe_to_rate, increment_current_recipe_position
 from recommend import find_top_3_matching_reqs, run_recommendation_algos
 from coach_view import get_users, remove_client_by_id, request_new_client
 
 app = Flask(__name__)
 app.secret_key = os.urandom(12)
 app.permanent_session_lifetime = datetime.timedelta(days=7)
+
+
+##########################################
+# Login pages
+##########################################
 
 
 @app.route("/login", methods=['POST', 'GET'])
@@ -121,6 +126,11 @@ def coach_login():
     return render_template("coach_login.html")
 
 
+##########################################
+# Unshown pages for redirecting and e.g. logging out
+##########################################
+
+
 @app.route("/logout")
 def logout():
     """
@@ -216,6 +226,11 @@ def confirm_request():
     return redirect("/")
 
 
+##########################################
+# Create account pages
+##########################################
+
+
 @app.route("/create_user", methods=['POST', 'GET'])
 def create_user():
     """
@@ -289,6 +304,11 @@ def success():
     return redirect("/coach_logout")
 
 
+##########################################
+# Client management pages for coach view
+##########################################
+
+
 @app.route("/remove_client", methods=['POST', 'GET'])
 def remove_client():
     """
@@ -349,6 +369,11 @@ def add_client():
         return redirect("client_overview")
 
     return render_template("add_client.html", coach_id=session['coach_id'])
+
+
+##########################################
+# The normal, visible pages
+##########################################
 
 
 @app.route("/", methods=['POST', 'GET'])
@@ -609,6 +634,74 @@ def recipe():
     return render_template('recipe.html', recipe=recipe_info, user_id=session['user_id'])
 
 
+##########################################
+# Get initial ratings pages
+##########################################
+
+
+@app.route('/get_initial_ratings_start')
+def get_initial_ratings_start():
+    """
+    Create the starting-page for getting initial ratings, before the software can actually be used, to solve cold-start problem
+    """
+
+    session.clear()
+
+    session['temp_user_id'] = get_new_user_id()
+
+    return render_template("get_initial_ratings_start.html", user_id=session['temp_user_id'])
+
+
+@app.route('/get_initial_ratings_rate')
+def get_initial_ratings_rate():
+    """
+    Create the rate-page for getting initial ratings
+    """
+
+    if 'temp_user_id' not in session:
+        return redirect("/get_initial_ratings_start")
+
+    session["temp_recipe_id"] = get_next_recipe_to_rate()
+    session["recipe_title"] = get_recipe_title_by_id(session["temp_recipe_id"])
+
+    return render_template("get_initial_ratings_rate.html", recipe_id=session["temp_recipe_id"],
+                           recipe_title=session["recipe_title"])
+
+
+@app.route('/get_initial_ratings_recipe', methods=['POST', 'GET'])
+def get_initial_ratings_recipe():
+    """
+    Create the page where single recipes are displayed, for getting initial ratings
+    """
+
+    if 'temp_user_id' not in session:
+        return redirect("/get_initial_ratings_start")
+
+    single_recipe_id = request.args["id"]
+
+    user_id = session['temp_user_id']
+
+    detailed_recipe_infos_path_and_filename = os.path.dirname(os.getcwd()) + \
+                                              "/NutritionRecSys/Data/detailed_recipe_info.json"
+
+    with open(detailed_recipe_infos_path_and_filename) as file:
+        data = json.load(file)
+        recipe_info = data[single_recipe_id]
+
+    if request.method == 'POST':
+        session['rating'] = request.form['get_rating']
+        write_rating_to_file(user_id, single_recipe_id, session['rating'])
+        increment_current_recipe_position()
+        delete_double_ratings()
+
+    return render_template('get_initial_ratings_recipe.html', recipe=recipe_info)
+
+
+##########################################
+# Errorhandling pages
+##########################################
+
+
 @app.errorhandler(404)
 def error_404(error):
     return render_template("error.html", error_text="The page you are looking for was not found."), 404
@@ -617,6 +710,11 @@ def error_404(error):
 @app.errorhandler(505)
 def error_505(error):
     return render_template("error.html", error_text="There must be an error in the application :("), 500
+
+
+##########################################
+# Main, run app
+##########################################
 
 
 if __name__ == "__main__":
