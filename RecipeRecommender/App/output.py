@@ -93,7 +93,31 @@ def get_ratings_for_user(user_id):
 
         return_dict[recipe_id] = rating
 
+    print(len(return_dict.keys()))
+
     return return_dict
+
+
+def get_amount_of_ratings_for_user(user_id):
+    """
+    Get the amount of ratings a user gave
+    :param user_id: the id of the user, as int
+    :return: the amount of ratings, as int
+    """
+
+    ratings_for_user = get_ratings_for_user(user_id)
+
+    return len(ratings_for_user.keys())
+
+
+def user_gave_enough_ratings(user_id):
+    """
+    Get if the user already rated enough (10+) recipes to use the software
+    :param user_id: the id of the user, as int
+    :return: True if the user rated 10 or more recipes, False otherwise
+    """
+
+    return get_amount_of_ratings_for_user(user_id) >= 10
 
 
 def get_single_algo_ratings(recommendations, user_id, ratings_to_get):

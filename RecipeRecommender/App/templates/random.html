@@ -20,6 +20,11 @@ Unsplash
 Here is a random recipe you haven't rated yet:
 </span>
 </h1>
+{% if message != None %}
+<h2 class="body body-with-top-margin" style="color:red">
+{{message}}
+</h2>
+{% endif %}
 {% if recipe_title != "No unrated recipe found!" %}
 <h3 class="body body-with-top-margin"><a rel="noopener noreferrer nofollow" target="_blank" href="/recipe?id={{recipe_id}}"> {{recipe_title}} </a> </h3>
 {% else %}

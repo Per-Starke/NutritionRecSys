@@ -11,7 +11,8 @@ from authentication import check_user_login, check_coach_login, check_coach_can_
     write_new_user_to_file, write_new_coach_to_file, check_for_coaching_requests, \
     confirm_request_auth, get_name, check_admin_login, get_new_user_id
 from output import get_ratings_for_user, get_recipe_title_by_id, \
-    get_calculated_ratings_for_user, write_recommendations, write_rating_to_file, get_recipe_to_rate, get_data
+    get_calculated_ratings_for_user, write_recommendations, write_rating_to_file, get_recipe_to_rate, get_data, \
+    user_gave_enough_ratings, get_amount_of_ratings_for_user
 from ratings import delete_double_ratings, get_next_recipe_to_rate, increment_current_recipe_position
 from recommend import find_top_3_matching_reqs, run_recommendation_algos
 from coach_view import get_users, remove_client_by_id, request_new_client
@@ -449,6 +450,9 @@ def recs_and_ratings():
     if 'user_id' not in session:
         return redirect("/logout")
 
+    if not user_gave_enough_ratings(session['user_id']):
+        return redirect("/random")
+
     if check_update_predicted_ratings():
         run_recommendation_algos(500)
 
@@ -519,8 +523,15 @@ def random():
     else:
         session['recipe_title'] = "No unrated recipe found!"
 
+    if not user_gave_enough_ratings(session['user_id']):
+        message = "You did not rate enough recipes to use this software, please rate at least {} recipes more.".format(
+            10 - get_amount_of_ratings_for_user(session['user_id'])
+        )
+    else:
+        message = None
+
     return render_template("random.html", user_id=session['user_id'], recipe_title=session['recipe_title'],
-                           recipe_id=session['recipe_id'])
+                           recipe_id=session['recipe_id'], message=message)
 
 
 @app.route('/enter_reqs', methods=['POST', 'GET'])
@@ -531,6 +542,9 @@ def enter_reqs():
 
     if 'user_id' not in session:
         return redirect("/logout")
+
+    if not user_gave_enough_ratings(session['user_id']):
+        return redirect("/random")
 
     if request.method == 'POST':
         session['kcal'] = request.form['set_kcal']
@@ -579,6 +593,9 @@ def get_recs_with_reqs():
 
     if 'user_id' not in session:
         return redirect("/logout")
+
+    if not user_gave_enough_ratings(session['user_id']):
+        return redirect("/random")
 
     if check_update_predicted_ratings():
         run_recommendation_algos(500)
