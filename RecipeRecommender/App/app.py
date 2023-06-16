@@ -649,7 +649,7 @@ def get_initial_ratings_start():
 
     session['temp_user_id'] = get_new_user_id()
 
-    return render_template("get_initial_ratings_start.html")
+    return render_template("get_initial_ratings_start.html", user_id=session['temp_user_id'])
 
 
 @app.route('/get_initial_ratings_rate')
