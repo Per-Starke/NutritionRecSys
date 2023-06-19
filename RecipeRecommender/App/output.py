@@ -182,12 +182,35 @@ def write_rating_to_file(user_id, recipe_id, rating):
     try:
         with open(ratings_path_and_filename, "a+") as file:
             if recipe_id:
-                str_to_write = str(user_id) + ", " + str(recipe_id) + ", " + str(rating) + "\n"
+                str_to_write = "{},{},{}\n".format(str(user_id), str(recipe_id), str(rating))
                 file.write(str_to_write)
         update_predictions.increment_new_ratings_counter()
     except Exception:
         time.sleep(1)
         write_rating_to_file(user_id, recipe_id, rating)
+
+
+def write_rating_to_rq_file(user_id, recipe_id, rating, algo):
+    """
+    Writes the given ratings into the ratings_rq.csv file, with the additional info which algorithm
+    recommended this recipe
+    :param user_id: the id of the user who rated the recipe
+    :param recipe_id: the id of the recipe that got rated
+    :param rating: the rating
+    :param algo: the algorithm that recommended this recipe
+    """
+
+    ratings_rq_path_and_filename = parent_dir + "/NutritionRecSys/Data/ratings_rq.csv"
+
+    try:
+        with open(ratings_rq_path_and_filename, "a+") as file:
+            if recipe_id:
+                str_to_write = "{},{},{},{}\n".format(str(user_id), str(recipe_id), str(rating), algo)
+                file.write(str_to_write)
+    except Exception:
+        time.sleep(1)
+        write_rating_to_file(user_id, recipe_id, rating)
+
 
 def get_recipe_to_rate(user_id):
     """
