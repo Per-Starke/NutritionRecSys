@@ -93,8 +93,6 @@ def get_ratings_for_user(user_id):
 
         return_dict[recipe_id] = rating
 
-    print(len(return_dict.keys()))
-
     return return_dict
 
 
