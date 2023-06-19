@@ -648,6 +648,12 @@ def recipe():
         write_rating_to_file(user_id, single_recipe_id, session['rating'])
         delete_double_ratings()
 
+        try:
+            algo = request.args["algo"]
+            write_rating_to_rq_file(user_id, single_recipe_id, session['rating'], algo)
+        except BadRequestKeyError:
+            pass
+
     return render_template('recipe.html', recipe=recipe_info, user_id=session['user_id'])
 
 

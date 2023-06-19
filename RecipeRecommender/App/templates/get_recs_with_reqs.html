@@ -48,7 +48,7 @@ Here are your recommended recipes, matching your required macronutrients within 
 <h2 class="body body-with-top-margin"> Using the content-based algorithm:</h2>
 <ol class="body content">
 {% for recipe_id, title in cb_recs.items() %}
-<li><a rel="noopener noreferrer nofollow" target="_blank" href="/recipe?id={{recipe_id}}"> {{title}} </a></li>
+<li><a rel="noopener noreferrer nofollow" target="_blank" href="/recipe?id={{recipe_id}}&algo=content-based"> {{title}} </a></li>
 {% endfor %}
 </ol>
 {% if cb_recs.values()|length == 0 %}
@@ -67,7 +67,7 @@ Sadly, only {{cb_recs.values()|length}} matching recommendations found with the 
 <h2 class="body body-with-top-margin"> Using the item-knn algorithm:</h2>
 <ol class="body content">
 {% for recipe_id, title in itemknn_recs.items() %}
-<li><a rel="noopener noreferrer nofollow" target="_blank" href="/recipe?id={{recipe_id}}"> {{title}} </a></li>
+<li><a rel="noopener noreferrer nofollow" target="_blank" href="/recipe?id={{recipe_id}}&algo=item-knn"> {{title}} </a></li>
 {% endfor %}
 </ol>
 {% if itemknn_recs.values()|length == 0 %}
