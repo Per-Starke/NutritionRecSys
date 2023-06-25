@@ -716,6 +716,7 @@ def get_initial_ratings_recipe():
         write_rating_to_file(user_id, single_recipe_id, session['rating'])
         increment_current_recipe_position()
         delete_double_ratings()
+        return redirect("/get_initial_ratings_rate")
 
     return render_template('get_initial_ratings_recipe.html', recipe=recipe_info)
 
