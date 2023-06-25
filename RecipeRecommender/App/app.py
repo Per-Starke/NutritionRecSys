@@ -731,7 +731,7 @@ def error_404(error):
     return render_template("error.html", error_text="The page you are looking for was not found."), 404
 
 
-@app.errorhandler(505)
+@app.errorhandler(500)
 def error_505(error):
     return render_template("error.html", error_text="There must be an error in the application :("), 500
 
