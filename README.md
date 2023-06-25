@@ -1,5 +1,6 @@
 # NutritionRecSys
-The repo for the software for my bachelor-thesis about a recommender system for use by nutrition coaches, recommending recipes with fitting macronutrients and suitable for the taste of the customer.
+The repo for the software for my bachelor-thesis about a recommender system for use by nutrition coaches, recommending recipes with fitting macronutrients and suitable for the taste of the customer.  
+It can also be used by the customer itself, with or without a coach.  
 
 ## Tools
 This software is a web-app, build using [Python](https://www.python.org/), [Flask](https://flask.palletsprojects.com/en/2.3.x/), the [Spoonacular API](https://spoonacular.com/food-api) and a Python framework for recommendation systems called [CaseRecommender](https://github.com/caserec/CaseRecommender)
