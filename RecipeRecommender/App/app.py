@@ -524,9 +524,14 @@ def random():
         session['recipe_title'] = "No unrated recipe found!"
 
     if not user_gave_enough_ratings(session['user_id']):
-        message = "You did not rate enough recipes to use this software, please rate at least {} recipes more.".format(
-            10 - get_amount_of_ratings_for_user(session['user_id'])
-        )
+        recipes_left_to_rate = 10 - get_amount_of_ratings_for_user(session['user_id'])
+        if recipes_left_to_rate != 1:
+            message = "You did not rate enough recipes to use this software, please rate at least {} recipes more."\
+                .format(recipes_left_to_rate)
+        else:
+            message = "You did not rate enough recipes to use this software, please rate at least {} recipe more."\
+                .format(recipes_left_to_rate)
+            
     else:
         message = None
 
