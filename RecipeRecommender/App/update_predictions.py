@@ -2,7 +2,14 @@
 Functions to (set when to) update predicted ratings
 """
 
-new_ratings_counter = 0  # global, over all sessions
+import pandas as pd
+import os
+
+parent_dir = os.path.dirname(os.getcwd())
+
+new_ratings_counter_path_and_filename = parent_dir + "/NutritionRecSys/Data/Variables/new_ratings_counter.csv"
+new_ratings_counter_df = pd.read_csv(new_ratings_counter_path_and_filename, index_col=False)
+new_ratings_counter = new_ratings_counter_df["Value"][0]
 
 
 def increment_new_ratings_counter():
@@ -12,6 +19,10 @@ def increment_new_ratings_counter():
 
     global new_ratings_counter
     new_ratings_counter = new_ratings_counter + 1
+
+    print(new_ratings_counter)
+    with open(new_ratings_counter_path_and_filename, "w+") as file:
+        file.write("Value\n{}".format(new_ratings_counter))
 
 
 def check_update_predicted_ratings():
@@ -25,6 +36,8 @@ def check_update_predicted_ratings():
 
     if new_ratings_counter >= 10:
         new_ratings_counter = 0
+        with open(new_ratings_counter_path_and_filename, "w+") as file:
+            file.write("Value\n{}".format(new_ratings_counter))
         return True
 
     return False

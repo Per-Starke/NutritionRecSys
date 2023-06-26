@@ -1,6 +1,7 @@
 """
 Provide functions regarding ratings
 """
+
 import time
 
 import pandas as pd
@@ -9,7 +10,9 @@ import os
 
 parent_dir = os.path.dirname(os.getcwd())
 
-current_recipe_position = 0  # global variable, over all sessions
+current_recipe_position_path_and_filename = parent_dir + "/NutritionRecSys/Data/Variables/current_recipe_position.csv"
+current_recipe_position_df = pd.read_csv(current_recipe_position_path_and_filename, index_col=False)
+current_recipe_position = current_recipe_position_df["Value"][0]
 
 recipe_database_path_and_filename = parent_dir + "/NutritionRecSys/Data/recipe_database.csv"
 recipe_info = pd.read_csv(recipe_database_path_and_filename, index_col=False)
@@ -90,6 +93,9 @@ def increment_current_recipe_position():
         current_recipe_position = 0
     else:
         current_recipe_position = current_recipe_position + 1
+
+    with open(current_recipe_position_path_and_filename, "w+") as file:
+        file.write("Value\n{}".format(current_recipe_position))
 
 
 if __name__ == "__main__":
