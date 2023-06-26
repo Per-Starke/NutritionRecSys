@@ -20,7 +20,6 @@ def increment_new_ratings_counter():
     global new_ratings_counter
     new_ratings_counter = new_ratings_counter + 1
 
-    print(new_ratings_counter)
     with open(new_ratings_counter_path_and_filename, "w+") as file:
         file.write("Value\n{}".format(new_ratings_counter))
 
