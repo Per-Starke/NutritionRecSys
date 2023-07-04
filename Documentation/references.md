@@ -34,6 +34,8 @@ https://pythonprogramming.net/password-hashing-flask-tutorial/
 https://htmlcompressor.com/compressor/
 (61 to 83% compression ratio)
 
+https://chat.openai.com/share/2c834950-f48f-4d68-a546-a4dd6a457698
+
 ### Images:
 
 https://unsplash.com/de/fotos/2IxTgsgFi-s
