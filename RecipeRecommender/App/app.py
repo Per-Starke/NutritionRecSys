@@ -13,7 +13,8 @@ from authentication import check_user_login, check_coach_login, check_coach_can_
 from output import get_ratings_for_user, get_recipe_title_by_id, \
     get_calculated_ratings_for_user, write_recommendations, write_rating_to_file, get_recipe_to_rate, get_data, \
     user_gave_enough_ratings, get_amount_of_ratings_for_user, write_rating_to_rq_file
-from ratings import delete_double_ratings, get_next_recipe_to_rate, increment_current_recipe_position
+from ratings import delete_double_ratings, get_next_recipe_to_rate, increment_current_recipe_position, \
+    convert_ratingsfile_to_int
 from recommend import find_top_3_matching_reqs, run_recommendation_algos
 from coach_view import get_users, remove_client_by_id, request_new_client
 
@@ -225,6 +226,17 @@ def confirm_request():
     confirm_request_auth(coach_id, session['user_id'])
 
     return redirect("/")
+
+
+@app.route("/call_convert_ratingsfile_to_int")
+def call_convert_ratingsfile_to_int():
+    """
+    Not a shown page, call the convert_ratingsfile_to_int function from ratings.py, then redirect to logout.
+    """
+
+    convert_ratingsfile_to_int()
+
+    return redirect("/coach_logout")
 
 
 ##########################################

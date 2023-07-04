@@ -180,7 +180,7 @@ def write_rating_to_file(user_id, recipe_id, rating):
     try:
         with open(ratings_path_and_filename, "a+") as file:
             if recipe_id:
-                str_to_write = "{},{},{}\n".format(str(user_id), str(recipe_id), str(rating))
+                str_to_write = "{},{},{}\n".format(str(int(user_id)), str(int(recipe_id)), str(int(rating)))
                 file.write(str_to_write)
         update_predictions.increment_new_ratings_counter()
     except Exception:

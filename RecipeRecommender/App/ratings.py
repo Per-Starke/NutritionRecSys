@@ -18,6 +18,29 @@ recipe_database_path_and_filename = parent_dir + "/NutritionRecSys/Data/recipe_d
 recipe_info = pd.read_csv(recipe_database_path_and_filename, index_col=False)
 all_recipe_ids = recipe_info["ID"].tolist()
 
+ratings_path_and_filename = parent_dir + "/NutritionRecSys/Data/ratings.csv"
+names = ["user", "item", "rating"]
+
+
+def convert_ratingsfile_to_int():
+    """
+    Convert all values in the ratings.csv file to int, so CaseRec can work with the file.
+    Drop NaNs.
+    """
+
+    ratings = pd.read_csv(ratings_path_and_filename, index_col=False, names=names)
+
+    ratings = ratings.dropna().astype("int")
+
+    try:
+        with open(ratings_path_and_filename, "w+") as file:
+            for index, row in ratings.iterrows():
+                string_to_write = "{},{},{}\n".format(str(row[0]), str(row[1]), str(row[2]))
+                file.write(string_to_write)
+    except Exception:
+        time.sleep(1)
+        delete_double_ratings()
+
 
 def delete_double_ratings():
     """
@@ -25,9 +48,9 @@ def delete_double_ratings():
     Write the corrected ratings in the file, if differences exist.
     """
 
-    ratings_path_and_filename = parent_dir + "/NutritionRecSys/Data/ratings.csv"
-    names = ["user", "item", "rating"]
     ratings = pd.read_csv(ratings_path_and_filename, index_col=False, names=names)
+
+    ratings = ratings.dropna().astype("int")
 
     ratings_without_duplicates = ratings.drop_duplicates(subset=["user", "item"], keep="last")
 
