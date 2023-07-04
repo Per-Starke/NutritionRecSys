@@ -19,28 +19,6 @@ recipe_info = pd.read_csv(recipe_database_path_and_filename, index_col=False)
 all_recipe_ids = recipe_info["ID"].tolist()
 
 
-def create_ratings(amount_of_users):
-    """
-    Create random ratings from 1-5 for a given amount of users for recipes in the database.
-    User 1 gives 1 rating, user 2 gives 2, and so on.
-    Write into /Data/ratings.csv.
-    *** This was used for test purposes, and not in real production ***
-    :param amount_of_users: the amount of users, as int
-    """
-
-    ids = recipe_info["ID"]
-
-    ratings_path_and_filename = parent_dir + "/NutritionRecSys/Data/ratings.csv"
-    with open(ratings_path_and_filename, "w+") as file:
-        for users_number in range(1, amount_of_users+1):
-            ratings_number = 0
-            while ratings_number < users_number:
-                string_to_write = "{},{},{}\n".format(str(users_number), str(ids[randint(0, len(recipe_info)-1)]),
-                                                      str(randint(1, 5)))
-                file.write(string_to_write)
-                ratings_number += 1
-
-
 def delete_double_ratings():
     """
     Checks the ratings.csv file and if a user rated a single recipe more than once, only keep the latest rating.
@@ -96,9 +74,3 @@ def increment_current_recipe_position():
 
     with open(current_recipe_position_path_and_filename, "w+") as file:
         file.write("Value\n{}".format(current_recipe_position))
-
-
-if __name__ == "__main__":
-    # create_ratings(1000)
-    # delete_double_ratings()
-    pass
