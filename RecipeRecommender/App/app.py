@@ -1,6 +1,7 @@
 import datetime
 import os
 import json
+import threading
 
 from flask import Flask, render_template, request, redirect, session
 from werkzeug.exceptions import BadRequestKeyError
@@ -466,7 +467,7 @@ def recs_and_ratings():
         return redirect("/random")
 
     if check_update_predicted_ratings():
-        run_recommendation_algos(500)
+        threading.Thread(target=lambda: run_recommendation_algos(500)).start()
 
     # Create data-structure for displaying given ratings
     given_ratings = get_ratings_for_user(session['user_id'])
@@ -615,7 +616,7 @@ def get_recs_with_reqs():
         return redirect("/random")
 
     if check_update_predicted_ratings():
-        run_recommendation_algos(500)
+        threading.Thread(target=lambda: run_recommendation_algos(500)).start()
 
     content_based_recommendations = find_top_3_matching_reqs(
         user_id=session["user_id"], algorithm="contentbased", kcal=session["kcal"], proteins=session["proteins"],
