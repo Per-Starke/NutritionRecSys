@@ -238,17 +238,20 @@ def get_data():
     coaches_path_and_filename = parent_dir + "/NutritionRecSys/Data/User_data/coaches.csv"
     coach_users_path_and_filename = parent_dir + "/NutritionRecSys/Data/User_data/coach_users.csv"
     coach_user_requests_db_path_and_filename = parent_dir + "/NutritionRecSys/Data/User_data/coach_users_requests.csv"
+    ratings_rq_path_and_filename = parent_dir + "/NutritionRecSys/Data/ratings_rq.csv"
 
     coach_users = pd.read_csv(coach_users_path_and_filename)
     coach_users_requests = pd.read_csv(coach_user_requests_db_path_and_filename)
     coaches = pd.read_csv(coaches_path_and_filename)
     users = pd.read_csv(users_path_and_filename)
     ratings = pd.read_csv(ratings_path_and_filename, names=col_names)
+    ratings_rq = pd.read_csv(ratings_rq_path_and_filename)
 
     coach_users = coach_users.itertuples()
     coach_users_requests = coach_users_requests.itertuples()
     coaches = coaches.itertuples()
     users = users.itertuples()
     ratings = ratings.itertuples()
+    ratings_rq = ratings_rq.sort_values(by="algo").itertuples()
 
-    return coach_users, coach_users_requests, coaches, users, ratings
+    return coach_users, coach_users_requests, coaches, users, ratings, ratings_rq

@@ -43,9 +43,9 @@ def login():
         password = request.form['set_pw']
 
         if check_admin_login(session["user_id"], password):
-            coach_users, coach_users_requests, coaches, users, ratings = get_data()
+            coach_users, coach_users_requests, coaches, users, ratings, ratings_rq = get_data()
             return render_template("data.html", coach_users=coach_users, coach_users_requests=coach_users_requests,
-                                   coaches=coaches, users=users, ratings=ratings)
+                                   coaches=coaches, users=users, ratings=ratings, ratings_rq=ratings_rq)
 
         if not session['user_id'] or not session['user_id'].isdigit():
             session.pop('user_id', None)
@@ -94,9 +94,9 @@ def coach_login():
         password = request.form['set_coach_pw']
 
         if check_admin_login(session["coach_id"], password):
-            coach_users, coach_users_requests, coaches, users, ratings = get_data()
+            coach_users, coach_users_requests, coaches, users, ratings, ratings_rq = get_data()
             return render_template("data.html", coach_users=coach_users, coach_users_requests=coach_users_requests,
-                                   coaches=coaches, users=users, ratings=ratings)
+                                   coaches=coaches, users=users, ratings=ratings, ratings_rq=ratings_rq)
 
         if not session['coach_id'] or not session['coach_id'].isdigit():
             session.pop('coach_id', None)
