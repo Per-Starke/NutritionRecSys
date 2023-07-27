@@ -509,9 +509,13 @@ def recs_and_ratings():
     except KeyError:
         pass
 
+    message = None
+    if recipes_and_ratings["item-knn"] == {} and recipes_and_ratings["content-based"] == {}:
+        message = "Recommendations are calculated, wait a few seconds, then reload the page!"
+
     return render_template("recs_and_ratings.html", user_id=session['user_id'],
                            given_ratings=sorted_given_ratings_with_titles,
-                           recipes_and_ratings=recipes_and_ratings, ids=ids)
+                           recipes_and_ratings=recipes_and_ratings, ids=ids, message=message)
 
 
 @app.route("/random", methods=['POST', 'GET'])

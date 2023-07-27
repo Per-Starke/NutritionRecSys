@@ -18,6 +18,9 @@ Unsplash
 <h1 class="body body-with-top-margin">
 <span class="main-header"> Here are your recommended recipes:</span>
 </h1>
+{% if message != None%}
+<h3 class="body body-with-top-margin error"> {{message}} </h3>
+{% endif %}
 {% for algo_name, dict_item in recipes_and_ratings.items() %}
 <h2 class="body body-with-top-margin"> Using the {{algo_name}} algorithm:</h2>
 <p class="body content">
