@@ -34,8 +34,8 @@ That's why every button currently will redirect you to this page, showing you a 
 Click on the recipe title, which will open the recipe page in a new tab. You can now either really cook this recipe
 if you want, or carefully look at the image, ingredients, preparation instructions and macronutrients.   
 Then, please give a rating of 1-5 stars to this recipe, and submit.  
-You can close the tab, reload this page, and you'll see a new recipe as well as the updated amount of recipes you 
-still need to rate.  
+Close the tab with the recipe page, reload this page, and you'll see a new recipe as well as the updated amount of 
+recipes you still need to rate.  
 Once you are done with rating 10 recipes, you are ready to get personalized recipe recommendations.  
 
 
@@ -54,16 +54,16 @@ At the top of the page, you see your recommened recipes.
 Currently, recommendations are being calculated, so we wait a few seconds and then reload the page.  
 We have 2 recommendation algorithms, and each of these algorithms presents you 3 recipes that should match your taste,
 which you see here.  
-You can click on each recipe to see more information and to give a rating after you have actually tried the recipe.  
+You can click on each recipe to see more information and to give a rating after you have actually tried the recipe. 
 
 The third navigation button leads you to the enter requirements page.  
 Here, you can enter the macronutrients and meal-type that you want your recommended recipes to have.  
 Here, you say what amount of kilocalories you want, here the grams of proteins, carbs and fats.  
 In these fields, you can enter a value, but you can also leave it open.  
 Allowed range means what percentage the macronutrients are allowed to differ from your entered value.  
-Having a value in this field is obligatory, you can either leave the 0.2 that's in there by default, or replace it with
+Having a value in this field is obligatory, you can either just leave the 0.2 that's in there by default, or replace it with
 any other value, any value will work but only values between 0 and 1 really make sense. 
-For example, if you enter 1000kcal and have an allowed range of 0.2, that means you will get recommendations that
+For example, if you enter 1000 kilocalories and have an allowed range of 0.2, that means you will get recommendations that
 have 1000 kilocalories plus/minus 20%, that means 800-1200 kilocalories, and similar with proteins, carbs and fats.  
 0.2 is in most cases a good value for this, as it allows to get recommendations close to you required macronutrients,
 while being flexible enough to actually find matching recipes.  
@@ -92,3 +92,22 @@ recommendations page, you then find the recipe recommendations that match these 
 So, recommendations that just match your taste, and recommendations that match both taste and your requirements.
 
 That's it, feel free to contact me at this email adress if you have any questions!
+
+
+## For coaches:
+
+If you are a coach, just create a coach account, similar to how a user account is created, and log in as coach 
+with your id and password. 
+Click on the client overview navivation button to get to this page.  
+Currently, there are no clients yet, so let's add a new client.  
+Click on the add new client button, and enter the id your client.  
+You will get back to the client overview page, and see that nothing has changed yet.  
+That is because your client has not yet accepted your coaching request. 
+Once he or she accepted, you can see the ID and name of your client right here. 
+You can now add more clients, or remove a client by clicking the remove client button and entering the ID of the 
+client you want to remove.  
+We will not do that now, but go back to the client overview page.  
+If you click on a client, you are logged in as that client and can do everything the client can do for him or herself,
+so you can see recommendations and given ratings, enter nutrient and mealtype requirements, see
+recommendations matching these requirements, and also rate recipes in the name of the client.  
+To go back, click logout, and you are back at your coach account and can see your client overview again.  
