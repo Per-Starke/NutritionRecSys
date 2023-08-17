@@ -3,7 +3,7 @@
 ## Welcome & Introduction
 
 Welcome to the Recipe Recommender. 
-It's an online software tool that makes personalized recipe recommendations that match your taste.  
+It's an online software tool that provides personalized recipe recommendations that match your taste.  
 It does that by analyzing ratings you provide for recipes.  
 You can furthermore specify meal types and macronutrients you are looking for, and you'll get recommendations suiting 
 your requirements.  
@@ -36,7 +36,7 @@ if you want, or carefully look at the image, ingredients, preparation instructio
 Then, please give a rating of 1-5 stars to this recipe, and submit.  
 Close the tab with the recipe page, reload this page, and you'll see a new recipe as well as the updated amount of 
 recipes you still need to rate.  
-Once you are done with rating 10 recipes, you are ready to get personalized recipe recommendations.  
+Once you are done with rating 10 recipes, you are ready to get your personalized recipe recommendations.  
 
 
 ## Explanation of the different pages
@@ -100,7 +100,7 @@ If you are a coach, just create a coach account, similar to how a user account i
 with your id and password. 
 Click on the client overview navivation button to get to this page.  
 Currently, there are no clients yet, so let's add a new client.  
-Click on the add new client button, and enter the id your client.  
+Click on the add new client button, and enter the id of your client.  
 You will get back to the client overview page, and see that nothing has changed yet.  
 That is because your client has not yet accepted your coaching request. 
 Once he or she accepted, you can see the ID and name of your client right here. 
