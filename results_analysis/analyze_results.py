@@ -4,14 +4,11 @@ import pandas as pd
 # Read the whole ratings_rq file into a DataFrame
 ratings_rq = pd.read_csv("ratings_rq_to_analyze.csv")
 
-# Drop all rows until index 32 because these were already existing prior to starting the study due to testing reasons
-ratings_rq = ratings_rq.drop(ratings_rq[ratings_rq.index <= 32].index)
+# Print the DataFrame sorted by algorithm
+print(ratings_rq.sort_values(by="algo"))
 
-# Sort by user_id
-# ratings_rq = ratings_rq.sort_values(by='user_id')
-
-# Print the resulting DataFrame
-print(ratings_rq)
+# Count the number of ratings
+print("\nnumber of ratings:", len(ratings_rq.index))
 
 # Count the number of user ids
 unique_user_count = ratings_rq['user_id'].nunique()
