@@ -1,6 +1,6 @@
 user_id,recipe_id,rating,algo
 143,663559,4,content-based
-143,663559,4,content-based
+143,660395,4,content-based
 143,924013,5,item-knn
 140,660231,4,content-based
 140,774863,5,item-knn
